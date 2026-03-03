@@ -174,13 +174,13 @@ export const FlowCanvas: React.FC<FlowCanvasProps> = ({
                 onConnect={onConnect}
                 onEdgeUpdate={onEdgeUpdate}
                 onSelectionChange={onSelectionChange}
-                onNodeDragStart={(event, node, nodes) => {
+                onNodeDragStart={(event, node) => {
                     startInteractionLowDetail();
-                    onNodeDragStart(event, node, nodes);
+                    onNodeDragStart(event, node);
                 }}
                 onNodeDrag={onNodeDrag}
-                onNodeDragStop={(event, node, nodes) => {
-                    onNodeDragStop(event, node, nodes);
+                onNodeDragStop={(event, node) => {
+                    onNodeDragStop(event, node);
                     endInteractionLowDetail();
                 }}
                 onMoveStart={startInteractionLowDetail}
