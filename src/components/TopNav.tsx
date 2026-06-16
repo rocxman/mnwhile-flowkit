@@ -27,12 +27,15 @@ interface TopNavProps {
     // Actions
     onExportPNG: (format?: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
     onCopyImage: (format?: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
+    onUploadImageToCloud: (format?: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
     onExportSVG: () => void;
     onCopySVG: () => void;
+    onUploadSVGToCloud: () => void;
     onExportPDF: () => void;
     onExportCinematic: (request: CinematicExportRequest) => void;
     onExportJSON: () => void;
     onCopyJSON: () => void;
+    onUploadJSONToCloud: () => void;
     onExportMermaid: () => void;
     onDownloadMermaid: () => void;
     onDownloadPlantUML: () => void;
@@ -70,12 +73,15 @@ export function TopNav({
     onReorderPage,
     onExportPNG,
     onCopyImage,
+    onUploadImageToCloud,
     onExportSVG,
     onCopySVG,
+    onUploadSVGToCloud,
     onExportPDF,
     onExportCinematic,
     onExportJSON,
     onCopyJSON,
+    onUploadJSONToCloud,
     onExportMermaid,
     onDownloadMermaid,
     onDownloadPlantUML,
@@ -151,12 +157,15 @@ export function TopNav({
                     onPlay={onPlay}
                     onExportPNG={onExportPNG}
                     onCopyImage={onCopyImage}
+                    onUploadImageToCloud={onUploadImageToCloud}
                     onExportSVG={onExportSVG}
                     onCopySVG={onCopySVG}
+                    onUploadSVGToCloud={onUploadSVGToCloud}
                     onExportPDF={onExportPDF}
                     onExportCinematic={onExportCinematic}
                     onExportJSON={onExportJSON}
                     onCopyJSON={onCopyJSON}
+                    onUploadJSONToCloud={onUploadJSONToCloud}
                     onExportMermaid={onExportMermaid}
                     onDownloadMermaid={onDownloadMermaid}
                     onDownloadPlantUML={onDownloadPlantUML}

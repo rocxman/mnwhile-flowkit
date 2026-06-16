@@ -66,12 +66,15 @@ export interface FlowEditorChromeProps {
     onReorderPage: (draggedPageId: string, targetPageId: string) => void;
     onExportPNG: (format?: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
     onCopyImage: (format?: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
+    onUploadImageToCloud: (format?: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
     onExportSVG: () => void;
     onCopySVG: () => void;
+    onUploadSVGToCloud: () => void;
     onExportPDF: () => void;
     onExportCinematic: (request: CinematicExportRequest) => void;
     onExportJSON: () => void;
     onCopyJSON: () => void;
+    onUploadJSONToCloud: () => void;
     onExportMermaid: () => void;
     onDownloadMermaid: () => void;
     onDownloadPlantUML: () => void;
@@ -170,12 +173,15 @@ export function FlowEditorChrome({
     onReorderPage: topNav.onReorderPage,
     onExportPNG: topNav.onExportPNG,
     onCopyImage: topNav.onCopyImage,
+    onUploadImageToCloud: topNav.onUploadImageToCloud,
     onExportSVG: topNav.onExportSVG,
     onCopySVG: topNav.onCopySVG,
+    onUploadSVGToCloud: topNav.onUploadSVGToCloud,
     onExportPDF: topNav.onExportPDF,
     onExportCinematic: topNav.onExportCinematic,
     onExportJSON: topNav.onExportJSON,
     onCopyJSON: topNav.onCopyJSON,
+    onUploadJSONToCloud: topNav.onUploadJSONToCloud,
     onExportMermaid: topNav.onExportMermaid,
     onDownloadMermaid: topNav.onDownloadMermaid,
     onDownloadPlantUML: topNav.onDownloadPlantUML,

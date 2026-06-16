@@ -151,12 +151,14 @@ export interface UseFlowEditorChromeParams {
     handleReorderPage: (draggedPageId: string, targetPageId: string) => void;
     handleExport: (format?: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
     handleCopyImage: (format?: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
+    handleUploadToCloud: (format?: 'png' | 'jpeg' | 'svg', options?: { transparentBackground?: boolean }) => void;
     handleSvgExport: () => void;
     handleCopySvg: () => void;
     handlePdfExport: () => void;
     handleCinematicExport: (request: CinematicExportRequest) => void;
     handleExportJSON: () => void;
     handleCopyJSON: () => void;
+    handleUploadJSONToCloud: () => void;
     handleExportMermaid: () => void;
     handleDownloadMermaid: () => void;
     handleDownloadPlantUML: () => void;
@@ -315,6 +317,8 @@ export function useFlowEditorController({
     const chrome = useFlowEditorChromeProps({
         ...chromeParams,
         handleExportJSON: shell.handleExportJSON,
+        handleUploadToCloud: chromeParams.handleUploadToCloud,
+        handleUploadJSONToCloud: chromeParams.handleUploadJSONToCloud,
         currentStepIndex: panelParams.studio.playback.currentStepIndex,
         toggleStudioPanel,
         editorMode: shell.editorMode,

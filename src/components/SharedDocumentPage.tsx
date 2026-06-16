@@ -4,6 +4,8 @@ import { ReactFlowProvider } from '@/lib/reactflowCompat';
 import { cloudStorage } from '@/lib/cloud-storage';
 import type { CloudDocument } from '@/lib/cloud-storage';
 import { FlowEditor } from '@/components/FlowEditor';
+import { useFlowStore } from '@/store';
+import { cloudDocumentToFlowDocument } from '@/services/storage/cloudSyncService';
 
 export function SharedDocumentPage(): React.JSX.Element {
   const { shareToken } = useParams<{ shareToken: string }>();
@@ -26,6 +28,28 @@ export function SharedDocumentPage(): React.JSX.Element {
           return;
         }
         setDocument(doc);
+        if (doc) {
+          const flowDoc = cloudDocumentToFlowDocument(doc);
+          if (flowDoc) {
+            useFlowStore.setState((state) => ({
+              documents: [...state.documents.filter((d) => d.id !== flowDoc.id), flowDoc],
+              activeDocumentId: flowDoc.id,
+              tabs: flowDoc.pages.map((p) => ({
+                id: p.id,
+                name: p.name,
+                diagramType: p.diagramType,
+                updatedAt: p.updatedAt,
+                nodes: p.nodes,
+                edges: p.edges,
+                playback: p.playback,
+                history: p.history,
+              })),
+              activeTabId: flowDoc.activePageId,
+              nodes: flowDoc.pages.find((p) => p.id === flowDoc.activePageId)?.nodes ?? [],
+              edges: flowDoc.pages.find((p) => p.id === flowDoc.activePageId)?.edges ?? [],
+            }));
+          }
+        }
         setLoading(false);
       })
       .catch((err: unknown) => {

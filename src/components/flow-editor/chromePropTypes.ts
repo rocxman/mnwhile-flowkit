@@ -11,12 +11,14 @@ export interface BuildTopNavParams {
   handleReorderPage: (draggedPageId: string, targetPageId: string) => void;
   handleExport: (format?: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
   handleCopyImage: (format?: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
+  handleUploadToCloud: (format?: 'png' | 'jpeg' | 'svg', options?: { transparentBackground?: boolean }) => void;
   handleSvgExport: () => void;
   handleCopySvg: () => void;
   handlePdfExport: () => void;
   handleCinematicExport: (request: CinematicExportRequest) => void;
   handleExportJSON: () => void;
   handleCopyJSON: () => void;
+  handleUploadJSONToCloud: () => void;
   handleExportMermaid: () => void;
   handleDownloadMermaid: () => void;
   handleDownloadPlantUML: () => void;
