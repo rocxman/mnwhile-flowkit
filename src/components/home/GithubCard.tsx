@@ -2,7 +2,7 @@ import React from 'react';
 import { Github, Star } from 'lucide-react';
 import { useGithubStars } from '@/hooks/useGithubStars';
 
-const GITHUB_REPOSITORY_URL = 'https://github.com/Vrun-design/mnwhile-flowkit';
+const GITHUB_REPOSITORY_URL = 'https://github.com/rocxman/mnwhile-flowkit';
 
 const cardClassName = [
   'group relative flex h-[36px] w-full items-center justify-between rounded-[8px]',

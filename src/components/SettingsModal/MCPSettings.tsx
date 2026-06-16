@@ -351,7 +351,7 @@ export function MCPSettings({ variant = 'panel' }: MCPSettingsProps = {}): React
           {t('mcpSettings.footerNote', 'Need to debug a connection or build a custom client?')}
         </p>
         <a
-          href="https://github.com/Vrun-design/mnwhile-flowkit/tree/main/mcp-server#readme"
+          href="https://github.com/rocxman/mnwhile-flowkit/tree/main/mcp-server#readme"
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-1 text-[12px] font-semibold text-[var(--brand-primary)] hover:underline"

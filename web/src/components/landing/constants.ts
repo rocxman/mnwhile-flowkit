@@ -1,9 +1,9 @@
 export const APP_URL = 'https://app.mnwhile-flowkit.com';
 export const DOCS_URL = 'https://docs.mnwhile-flowkit.com';
 export const ROADMAP_URL = 'https://docs.mnwhile-flowkit.com/roadmap';
-export const GITHUB_REPO_URL = 'https://github.com/Vrun-design/mnwhile-flowkit';
-export const GITHUB_REPO_API_URL = 'https://api.github.com/repos/Vrun-design/mnwhile-flowkit';
-export const GITHUB_REPO_SLUG = 'Vrun-design/mnwhile-flowkit';
+export const GITHUB_REPO_URL = 'https://github.com/rocxman/mnwhile-flowkit';
+export const GITHUB_REPO_API_URL = 'https://api.github.com/repos/rocxman/mnwhile-flowkit';
+export const GITHUB_REPO_SLUG = 'rocxman/mnwhile-flowkit';
 
 export const NAV_LINKS = [
   { name: 'Features', href: '#architecture' },
