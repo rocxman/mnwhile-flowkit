@@ -187,64 +187,41 @@
     "duplicateNode": "ノードを複製"
   },
   "landing": {
-    "nav": {
-      "features": "機能",
-      "figma": "Figma",
-      "useCases": "使用例",
-      "pricing": "料金",
-      "viewGithub": "GitHubで見る"
-    },
-    "hero": {
-      "title": "美しいフローチャートを、",
-      "subtitle": "開発者のために",
-      "description": "コードまたはキャンバスで素晴らしい図を作成します。",
-      "livePreview": "ライブプレビュー",
-      "publicBeta": "v1.0 パブリックベータ",
-      "description1": "図作成エンジン",
-      "description2": "それは",
-      "description3": "あなたのように思考します。",
-      "description4": "100%無料のオープンソース開発者向け図作成ツール。",
-      "forkOnGithub": "GitHubでFork",
-      "licence": "MITライセンス",
-      "localFirst": "ローカルファースト",
-      "noAuth": "ログイン不要",
-      "thinks": "思考する",
-      "draws": "描画する",
-      "builds": "構築する",
-      "ships": "出荷する"
-    },
-    "problem": {
-      "title": "直面する問題",
-      "description": "従来の図作成ツールは複雑すぎるか、制限が多すぎます。"
-    },
-    "solution": {
-      "title": "解決策",
-      "description": "MNWHILE FlowKitは両方の長所を組み合わせています。"
-    },
-    "demo": {
-      "title": "スケッチは簡単に。",
-      "subtitle": "本番環境への準備は万全。",
-      "description": "アイデアをすばやくスケッチ。本番対応の図としてエクスポート。"
-    },
-    "useCases": {
-      "title": "使用例"
-    },
-    "pricing": {
-      "title": "料金",
-      "free": "永久無料",
-      "openSource": "オープンソース"
-    },
-    "testimonials": {
-      "title": "ユーザーの声"
+    "badge": "Liquid glass · Local-first AI diagramming",
+    "heroTitle": "Visualize Your Ideas",
+    "heroSubtitle": "in liquid glass.",
+    "heroDescription": "Free, local-first AI diagramming for builders. Generate flows with natural language, sync across devices, and ship production-ready architecture — without leaving your browser.",
+    "login": "Login",
+    "getStarted": "Get Started",
+    "openWorkspace": "Open Workspace",
+    "viewSource": "View on GitHub",
+    "features": {
+      "kicker": "Built for builders",
+      "title": "Everything you need, glassed up.",
+      "subtitle": "An opinionated stack of capabilities wrapped in one workspace.",
+      "ai": {
+        "title": "AI Generation",
+        "description": "Generate architecture diagrams from a single prompt. Powered by Claude, Grok, and local models."
+      },
+      "sync": {
+        "title": "Cloud Sync",
+        "description": "Autosave to IndexedDB, sync across devices via Supabase, and export to R2-backed public URLs."
+      },
+      "share": {
+        "title": "Instant Sharing",
+        "description": "Toggle a link, share with teammates, or make it public — all secured with row-level access."
+      }
     },
     "cta": {
-      "title": "始める準備はできましたか？",
-      "subtitle": "数秒で最初のフローチャートを作成します。",
-      "button": "アプリを起動"
+      "kicker": "Ready to build",
+      "title": "Ship your next diagram in minutes.",
+      "description": "No sign-up wall. No credit card. Just a workspace that works."
     },
+    "startForFree": "Start for Free",
     "footer": {
-      "rights": "無断複写・転載を禁じます。",
-      "madeWith": "MNWHILE FlowKitチームによって❤️を込めて作られました"
+      "copy": "© {{year}} MNWHILE FlowKit. Crafted in liquid glass.",
+      "docs": "Docs",
+      "contact": "Contact"
     }
   },
   "home": {

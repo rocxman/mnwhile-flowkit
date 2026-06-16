@@ -187,64 +187,41 @@
     "duplicateNode": "Dupliquer le nœud"
   },
   "landing": {
-    "nav": {
-      "features": "Fonctionnalités",
-      "figma": "Figma",
-      "useCases": "Cas d'usage",
-      "pricing": "Tarifs",
-      "viewGithub": "Voir sur GitHub"
-    },
-    "hero": {
-      "title": "De beaux diagrammes,",
-      "subtitle": "Conçus pour les développeurs",
-      "description": "Créez des diagrammes avec du code ou un canvas.",
-      "livePreview": "Aperçu en direct",
-      "publicBeta": "v1.0 Bêta publique",
-      "description1": "Le moteur de diagrammes",
-      "description2": "qui",
-      "description3": "pense comme vous.",
-      "description4": "Outil de diagrammes 100% gratuit et open source.",
-      "forkOnGithub": "Forker sur GitHub",
-      "licence": "Licence MIT",
-      "localFirst": "Local d'abord",
-      "noAuth": "Sans authentification",
-      "thinks": "pense",
-      "draws": "dessine",
-      "builds": "construit",
-      "ships": "livre"
-    },
-    "problem": {
-      "title": "Le problème",
-      "description": "Les outils de diagrammes traditionnels sont trop complexes ou trop limités."
-    },
-    "solution": {
-      "title": "La solution",
-      "description": "MNWHILE FlowKit combine le meilleur des deux mondes."
-    },
-    "demo": {
-      "title": "Simple pour esquisser.",
-      "subtitle": "Prêt pour la production.",
-      "description": "Esquissez vos idées rapidement. Exportez-les prêtes pour la production."
-    },
-    "useCases": {
-      "title": "Cas d'usage"
-    },
-    "pricing": {
-      "title": "Tarifs",
-      "free": "Gratuit pour toujours",
-      "openSource": "Open Source"
-    },
-    "testimonials": {
-      "title": "Ce que les gens disent"
+    "badge": "Liquid glass · Local-first AI diagramming",
+    "heroTitle": "Visualize Your Ideas",
+    "heroSubtitle": "in liquid glass.",
+    "heroDescription": "Free, local-first AI diagramming for builders. Generate flows with natural language, sync across devices, and ship production-ready architecture — without leaving your browser.",
+    "login": "Login",
+    "getStarted": "Get Started",
+    "openWorkspace": "Open Workspace",
+    "viewSource": "View on GitHub",
+    "features": {
+      "kicker": "Built for builders",
+      "title": "Everything you need, glassed up.",
+      "subtitle": "An opinionated stack of capabilities wrapped in one workspace.",
+      "ai": {
+        "title": "AI Generation",
+        "description": "Generate architecture diagrams from a single prompt. Powered by Claude, Grok, and local models."
+      },
+      "sync": {
+        "title": "Cloud Sync",
+        "description": "Autosave to IndexedDB, sync across devices via Supabase, and export to R2-backed public URLs."
+      },
+      "share": {
+        "title": "Instant Sharing",
+        "description": "Toggle a link, share with teammates, or make it public — all secured with row-level access."
+      }
     },
     "cta": {
-      "title": "Prêt à commencer ?",
-      "subtitle": "Créez votre premier diagramme en quelques secondes.",
-      "button": "Lancer l'application"
+      "kicker": "Ready to build",
+      "title": "Ship your next diagram in minutes.",
+      "description": "No sign-up wall. No credit card. Just a workspace that works."
     },
+    "startForFree": "Start for Free",
     "footer": {
-      "rights": "Tous droits réservés.",
-      "madeWith": "Fait avec ❤️ par l'équipe MNWHILE FlowKit"
+      "copy": "© {{year}} MNWHILE FlowKit. Crafted in liquid glass.",
+      "docs": "Docs",
+      "contact": "Contact"
     }
   },
   "home": {

@@ -187,64 +187,41 @@
     "duplicateNode": "复制节点"
   },
   "landing": {
-    "nav": {
-      "features": "功能",
-      "figma": "Figma",
-      "useCases": "应用场景",
-      "pricing": "价格",
-      "viewGithub": "在 GitHub 上查看"
-    },
-    "hero": {
-      "title": "精美的流程图，",
-      "subtitle": "为开发者打造",
-      "description": "使用代码或画布创建令人惊叹的图表。导出为任何格式。开源且永久免费。",
-      "livePreview": "实时预览",
-      "publicBeta": "v1.0 公测版",
-      "description1": "图表引擎",
-      "description2": "让它",
-      "description3": "像你一样思考。",
-      "description4": "100% 免费的开源开发者绘图工具。编写代码或拖拽 — 无论哪种方式都能获得精美结果。",
-      "forkOnGithub": "在 GitHub 上 Fork",
-      "licence": "MIT 开源协议",
-      "localFirst": "本地优先",
-      "noAuth": "无需登录",
-      "thinks": "思考",
-      "draws": "绘制",
-      "builds": "构建",
-      "ships": "发布"
-    },
-    "problem": {
-      "title": "面临的问题",
-      "description": "传统的绘图工具要么太复杂，要么太受限。"
-    },
-    "solution": {
-      "title": "解决方案",
-      "description": "MNWHILE FlowKit 结合了两者的优点。"
-    },
-    "demo": {
-      "title": "轻松绘制草图。",
-      "subtitle": "随时投入生产。",
-      "description": "快速勾勒创意。导出生产可用图表。"
-    },
-    "useCases": {
-      "title": "应用场景"
-    },
-    "pricing": {
-      "title": "价格",
-      "free": "永久免费",
-      "openSource": "开源"
-    },
-    "testimonials": {
-      "title": "用户评价"
+    "badge": "Liquid glass · Local-first AI diagramming",
+    "heroTitle": "Visualize Your Ideas",
+    "heroSubtitle": "in liquid glass.",
+    "heroDescription": "Free, local-first AI diagramming for builders. Generate flows with natural language, sync across devices, and ship production-ready architecture — without leaving your browser.",
+    "login": "Login",
+    "getStarted": "Get Started",
+    "openWorkspace": "Open Workspace",
+    "viewSource": "View on GitHub",
+    "features": {
+      "kicker": "Built for builders",
+      "title": "Everything you need, glassed up.",
+      "subtitle": "An opinionated stack of capabilities wrapped in one workspace.",
+      "ai": {
+        "title": "AI Generation",
+        "description": "Generate architecture diagrams from a single prompt. Powered by Claude, Grok, and local models."
+      },
+      "sync": {
+        "title": "Cloud Sync",
+        "description": "Autosave to IndexedDB, sync across devices via Supabase, and export to R2-backed public URLs."
+      },
+      "share": {
+        "title": "Instant Sharing",
+        "description": "Toggle a link, share with teammates, or make it public — all secured with row-level access."
+      }
     },
     "cta": {
-      "title": "准备好开始了吗？",
-      "subtitle": "在几秒钟内创建你的第一个流程图。",
-      "button": "启动应用"
+      "kicker": "Ready to build",
+      "title": "Ship your next diagram in minutes.",
+      "description": "No sign-up wall. No credit card. Just a workspace that works."
     },
+    "startForFree": "Start for Free",
     "footer": {
-      "rights": "保留所有权利。",
-      "madeWith": "由 MNWHILE FlowKit 团队用心制作 ❤️"
+      "copy": "© {{year}} MNWHILE FlowKit. Crafted in liquid glass.",
+      "docs": "Docs",
+      "contact": "Contact"
     }
   },
   "home": {

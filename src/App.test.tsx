@@ -3,6 +3,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { useFlowStore } from './store';
 
+let currentAuthUser: { id: string; email: string } | null = { id: 'test-user', email: 'test@example.com' };
+
 vi.mock('./components/HomePage', () => ({
   HomePage: ({
     onLaunch,
@@ -41,7 +43,7 @@ vi.mock('@/components/app/DocsSiteRedirect', () => ({
 
 vi.mock('@/contexts/AuthContext', () => ({
   useAuth: () => ({
-    user: { id: 'test-user', email: 'test@example.com' },
+    user: currentAuthUser,
     loading: false,
     signIn: vi.fn(),
     signUp: vi.fn(),
@@ -65,7 +67,30 @@ function resetEmptyWorkspace(): void {
 describe('App routing', () => {
   beforeEach(() => {
     localStorage.clear();
+    currentAuthUser = { id: 'test-user', email: 'test@example.com' };
     resetEmptyWorkspace();
+  });
+
+  it('renders the public landing page at the root route', async () => {
+    window.history.pushState({}, '', '/#/');
+
+    render(<App />);
+
+    expect(await screen.findByRole('heading', { name: /visualize your ideas/i })).toBeTruthy();
+    expect(screen.queryByTestId('home-page')).toBeNull();
+  });
+
+  it('navigates from landing login button to auth for signed-out users', async () => {
+    currentAuthUser = null;
+    window.history.pushState({}, '', '/#/');
+
+    render(<App />);
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Login' }));
+
+    await waitFor(() => {
+      expect(window.location.hash).toBe('#/auth');
+    });
   });
 
   it('redirects /canvas to home when no active document exists', async () => {

@@ -20,6 +20,7 @@ import { RouteLoadingFallback } from '@/components/app/RouteLoadingFallback';
 import { MobileWorkspaceGate } from '@/components/app/MobileWorkspaceGate';
 import { CinematicExportProvider } from '@/context/CinematicExportContext';
 import { AuthPage } from '@/components/AuthPage';
+import { LandingPage } from '@/components/landing/LandingPage';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { SharedDocumentPage } from '@/components/SharedDocumentPage';
 import { OfflineBanner } from '@/components/OfflineBanner';
@@ -217,7 +218,7 @@ function App(): React.JSX.Element {
       <Router>
         <OfflineBanner />
         <Routes>
-          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/share/:shareToken" element={<SharedDocumentPage />} />
           <Route

@@ -207,64 +207,41 @@
     "clearCanvasConfirm": "Tuvali temizlemek istediğinizden emin misiniz?"
   },
   "landing": {
-    "nav": {
-      "features": "Özellikler",
-      "figma": "Figma",
-      "useCases": "Kullanım Alanları",
-      "pricing": "Fiyatlandırma",
-      "viewGithub": "GitHub'da İncele"
-    },
-    "hero": {
-      "title": "Güzel Akış Şemaları,",
-      "subtitle": "Geliştiriciler İçin Yapıldı",
-      "description": "Kod veya tuval ile çarpıcı akış şemaları oluşturun. İstediğiniz formata aktarın. Açık kaynak ve sonsuza kadar ücretsiz.",
-      "livePreview": "Canlı Önizleme",
-      "publicBeta": "v1.0 Genel Beta",
-      "description1": "Diyagram motoru",
-      "description2": "Sizin gibi",
-      "description3": "",
-      "description4": "Geliştiriciler için %100 ücretsiz ve açık kaynaklı diyagram aracı. Kod yazın ya da sürükle-bırak yapın — her iki yöntemde de etkileyici sonuçlar.",
-      "forkOnGithub": "GitHub'da Forklayın",
-      "licence": "MIT Lisanslı",
-      "localFirst": "Yerel Öncelikli",
-      "noAuth": "Hesap Gerektirmez",
-      "thinks": "düşünen",
-      "draws": "çizen",
-      "builds": "inşa eden",
-      "ships": "sunan"
-    },
-    "problem": {
-      "title": "Problem",
-      "description": "Geleneksel akış şeması araçları ya çok karmaşık ya da çok sınırlı."
-    },
-    "solution": {
-      "title": "Çözüm",
-      "description": "MNWHILE FlowKit her iki dünyanın en iyisini bir araya getirir."
-    },
-    "demo": {
-      "title": "Eskiz için sade.",
-      "subtitle": "Üretime hazır.",
-      "description": "Fikirlerinizi hızlıca çizin. Üretime hazır biçimde dışa aktarın."
-    },
-    "useCases": {
-      "title": "Kullanım Alanları"
-    },
-    "pricing": {
-      "title": "Fiyatlandırma",
-      "free": "Sonsuza Kadar Ücretsiz",
-      "openSource": "Açık Kaynak"
-    },
-    "testimonials": {
-      "title": "Kullanıcılar Ne Diyor"
+    "badge": "Liquid glass · Local-first AI diagramming",
+    "heroTitle": "Visualize Your Ideas",
+    "heroSubtitle": "in liquid glass.",
+    "heroDescription": "Free, local-first AI diagramming for builders. Generate flows with natural language, sync across devices, and ship production-ready architecture — without leaving your browser.",
+    "login": "Login",
+    "getStarted": "Get Started",
+    "openWorkspace": "Open Workspace",
+    "viewSource": "View on GitHub",
+    "features": {
+      "kicker": "Built for builders",
+      "title": "Everything you need, glassed up.",
+      "subtitle": "An opinionated stack of capabilities wrapped in one workspace.",
+      "ai": {
+        "title": "AI Generation",
+        "description": "Generate architecture diagrams from a single prompt. Powered by Claude, Grok, and local models."
+      },
+      "sync": {
+        "title": "Cloud Sync",
+        "description": "Autosave to IndexedDB, sync across devices via Supabase, and export to R2-backed public URLs."
+      },
+      "share": {
+        "title": "Instant Sharing",
+        "description": "Toggle a link, share with teammates, or make it public — all secured with row-level access."
+      }
     },
     "cta": {
-      "title": "Başlamaya Hazır mısınız?",
-      "subtitle": "İlk akış şemanızı saniyeler içinde oluşturun.",
-      "button": "Uygulamayı Aç"
+      "kicker": "Ready to build",
+      "title": "Ship your next diagram in minutes.",
+      "description": "No sign-up wall. No credit card. Just a workspace that works."
     },
+    "startForFree": "Start for Free",
     "footer": {
-      "rights": "Tüm hakları saklıdır.",
-      "madeWith": "MNWHILE FlowKit Ekibi tarafından ❤️ ile yapıldı"
+      "copy": "© {{year}} MNWHILE FlowKit. Crafted in liquid glass.",
+      "docs": "Docs",
+      "contact": "Contact"
     }
   },
   "home": {
