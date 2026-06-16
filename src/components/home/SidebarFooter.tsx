@@ -1,8 +1,10 @@
 import React from 'react';
-import { Moon, Sun, ChevronUp, Check } from 'lucide-react';
+import { Moon, Sun, ChevronUp, Check, LogIn, User as UserIcon, LogOut } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/context/ThemeContext';
 import { useVisualSettingsActions } from '@/store/viewHooks';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const LANGUAGES = [
     { code: 'en', name: 'English', nativeName: 'English', flag: '/flags/us.svg' },
@@ -18,6 +20,8 @@ export function SidebarFooter(): React.ReactElement {
     const { i18n } = useTranslation();
     const { resolvedTheme, setTheme } = useTheme();
     const { setViewSettings } = useVisualSettingsActions();
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
     const [langOpen, setLangOpen] = React.useState(false);
 
     const currentLang = LANGUAGES.find((l) => l.code === i18n.language) ?? LANGUAGES[0];
@@ -30,6 +34,29 @@ export function SidebarFooter(): React.ReactElement {
 
     return (
         <div className="border-t border-[var(--color-brand-border)] px-3 py-3">
+            <div className="mb-2 flex items-center gap-1.5">
+                <button
+                    type="button"
+                    onClick={() => navigate('/auth')}
+                    className="flex min-w-0 flex-1 items-center gap-2 rounded-lg px-2 py-1.5 text-[var(--brand-text-muted)] transition-all hover:bg-[var(--brand-background)] hover:text-[var(--brand-text)]"
+                    title={user?.email ?? 'Login to cloud workspace'}
+                >
+                    {user ? <UserIcon className="h-4 w-4 shrink-0" /> : <LogIn className="h-4 w-4 shrink-0" />}
+                    <span className="truncate text-left text-[11px] font-medium">
+                        {user?.email ?? 'Login'}
+                    </span>
+                </button>
+                {user ? (
+                    <button
+                        type="button"
+                        onClick={() => void logout()}
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[var(--brand-text-muted)] transition-all hover:bg-[var(--brand-background)] hover:text-[var(--brand-text)]"
+                        title="Logout"
+                    >
+                        <LogOut className="h-4 w-4" />
+                    </button>
+                ) : null}
+            </div>
             <div className="flex items-center gap-1.5">
                 {/* Language button — flag + name + chevron, fully clickable */}
                 <div className="relative flex-1">
