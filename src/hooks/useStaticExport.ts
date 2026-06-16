@@ -2,7 +2,8 @@ import { useCallback } from 'react';
 import { createLogger } from '@/lib/logger';
 import { toPng, toJpeg, toSvg } from 'html-to-image';
 import { buildExportFileName } from '@/lib/exportFileName';
-import { copyDataUrlToClipboard, createExportOptions } from './flow-export/exportCapture';
+import { uploadExportToR2 } from '@/lib/r2-export';
+import { copyDataUrlToClipboard, createExportOptions, dataUrlToBlob } from './flow-export/exportCapture';
 import { resolveFlowExportViewport } from './flowExportViewport';
 import type { FlowNode } from '@/lib/types';
 
@@ -127,6 +128,48 @@ export const useStaticExport = (
     }, 300);
   }, [nodes, reactFlowWrapper, addToast, exportBaseName]);
 
+  const handleUploadToCloud = useCallback(
+    (format: 'png' | 'jpeg' | 'svg' = 'png', exportOptions?: StaticImageExportOptions) => {
+      const { viewport: flowViewport, message } = resolveFlowExportViewport(reactFlowWrapper.current);
+      if (!flowViewport) {
+        addToast(message ?? 'The canvas viewport could not be found.', 'error');
+        return;
+      }
+
+      reactFlowWrapper.current.classList.add('exporting');
+      addToast(`Preparing ${format.toUpperCase()} cloud upload…`, 'info');
+
+      setTimeout(() => {
+        const { options } = createExportOptions(nodes, format === 'svg' ? 'png' : format, {
+          transparentBackground: exportOptions?.transparentBackground,
+        });
+        const exportPromise =
+          format === 'svg'
+            ? toSvg(flowViewport, { ...options, backgroundColor: null })
+            : format === 'png'
+              ? toPng(flowViewport, options)
+              : toJpeg(flowViewport, options);
+
+        exportPromise
+          .then(async (dataUrl) => {
+            const blob = dataUrlToBlob(dataUrl);
+            const ext = format === 'svg' ? 'svg' : format === 'jpeg' ? 'jpg' : 'png';
+            const fileName = buildExportFileName(exportBaseName, ext);
+            const result = await uploadExportToR2(blob, fileName);
+            addToast(`Uploaded to cloud: ${result.url}`, 'success');
+          })
+          .catch((err) => {
+            logger.error('Cloud upload failed.', { error: err, format });
+            addToast('Failed to upload to cloud. Please try again.', 'error');
+          })
+          .finally(() => {
+            reactFlowWrapper.current?.classList.remove('exporting');
+          });
+      }, 300);
+    },
+    [nodes, reactFlowWrapper, addToast, exportBaseName]
+  );
+
   const handleCopySvg = useCallback(() => {
     const { viewport: flowViewport, message } = resolveFlowExportViewport(reactFlowWrapper.current);
     if (!flowViewport) {
@@ -155,5 +198,5 @@ export const useStaticExport = (
     }, 300);
   }, [nodes, reactFlowWrapper, addToast]);
 
-  return { handleExport, handleCopyImage, handleSvgExport, handleCopySvg };
+  return { handleExport, handleCopyImage, handleSvgExport, handleCopySvg, handleUploadToCloud };
 };

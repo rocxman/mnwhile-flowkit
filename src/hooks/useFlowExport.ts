@@ -11,6 +11,7 @@ import { resolveFlowExportViewport } from './flowExportViewport';
 import { notifyOperationOutcome } from '@/services/operationFeedback';
 import { createPdfFromJpeg } from '@/services/export/pdfDocument';
 import { buildExportFileName } from '@/lib/exportFileName';
+import { uploadExportToR2 } from '@/lib/r2-export';
 import { createDownload, createExportOptions } from './flow-export/exportCapture';
 import {
   buildDiagramDocumentJson,
@@ -49,7 +50,7 @@ export const useFlowExport = (
   const activeTab = tabs.find((tab) => tab.id === activeTabId);
   const exportBaseName = activeTab?.name;
 
-  const { handleExport, handleCopyImage, handleSvgExport, handleCopySvg } = useStaticExport(
+  const { handleExport, handleCopyImage, handleSvgExport, handleCopySvg, handleUploadToCloud } = useStaticExport(
     nodes,
     reactFlowWrapper,
     addToast,
@@ -135,6 +136,26 @@ export const useFlowExport = (
     }
   }, [nodes, edges, viewSettings.exportSerializationMode, activeTab, addToast]);
 
+  const handleUploadJSONToCloud = useCallback(async () => {
+    addToast('Preparing JSON cloud upload…', 'info');
+    const documentJson = buildDiagramDocumentJson({
+      nodes,
+      edges,
+      exportSerializationMode: viewSettings.exportSerializationMode,
+      activeTab,
+    });
+    const blob = new Blob([documentJson], { type: 'application/json' });
+    const fileName = buildExportFileName(exportBaseName, 'json');
+
+    try {
+      const result = await uploadExportToR2(blob, fileName);
+      addToast(`Uploaded to cloud: ${result.url}`, 'success');
+    } catch (error) {
+      logger.error('JSON cloud upload failed.', { error });
+      addToast('Failed to upload JSON to cloud. Please try again.', 'error');
+    }
+  }, [nodes, edges, viewSettings.exportSerializationMode, activeTab, addToast, exportBaseName]);
+
   // --- JSON Import ---
   const handleImportJSON = useCallback(() => {
     fileInputRef.current?.click();
@@ -191,8 +212,10 @@ export const useFlowExport = (
     handleCopySvg,
     handlePdfExport,
     handleCinematicExport,
+    handleUploadToCloud,
     handleExportJSON,
     handleCopyJSON,
+    handleUploadJSONToCloud,
     handleImportJSON,
     onFileImport,
     importRecoveryState,

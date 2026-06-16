@@ -144,7 +144,7 @@ async function copyBlobToClipboard(blob: Blob): Promise<void> {
   await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
 }
 
-function dataUrlToBlob(dataUrl: string): Blob {
+export function dataUrlToBlob(dataUrl: string): Blob {
   const [header, body] = dataUrl.split(',', 2);
   if (!header || body === undefined) {
     throw new Error('Invalid exported image data.');

@@ -20,12 +20,15 @@ const LazyExportMenuPanel = lazy(async () => {
 interface ExportMenuProps {
   onExportPNG: (format: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
   onCopyImage: (format: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
+  onUploadImageToCloud: (format: 'png' | 'jpeg', options?: { transparentBackground?: boolean }) => void;
   onExportSVG: () => void;
   onCopySVG: () => void;
+  onUploadSVGToCloud: () => void;
   onExportPDF: () => void;
   onExportCinematic: (request: CinematicExportRequest) => void;
   onExportJSON: () => void;
   onCopyJSON: () => void;
+  onUploadJSONToCloud: () => void;
   onExportMermaid: () => void;
   onDownloadMermaid: () => void;
   onDownloadPlantUML: () => void;
@@ -43,12 +46,15 @@ interface ExportMenuProps {
 export const ExportMenu: React.FC<ExportMenuProps> = ({
   onExportPNG,
   onCopyImage,
+  onUploadImageToCloud,
   onExportSVG,
   onCopySVG,
+  onUploadSVGToCloud,
   onExportPDF,
   onExportCinematic,
   onExportJSON,
   onCopyJSON,
+  onUploadJSONToCloud,
   onExportMermaid,
   onDownloadMermaid,
   onDownloadPlantUML,
@@ -88,13 +94,16 @@ export const ExportMenu: React.FC<ExportMenuProps> = ({
   } = useExportMenu({
     onExportPNG,
     onCopyImage,
+    onUploadImageToCloud,
     onExportSVG,
     onCopySVG,
+    onUploadSVGToCloud,
     onExportPDF,
     onExportCinematic,
     getCinematicExportRequest: () => cinematicExportRequest,
     onExportJSON,
     onCopyJSON,
+    onUploadJSONToCloud,
     onExportMermaid,
     onDownloadMermaid,
     onDownloadPlantUML,

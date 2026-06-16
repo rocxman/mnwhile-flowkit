@@ -9,8 +9,8 @@ export async function uploadExportToR2(
   blob: Blob,
   filename: string
 ): Promise<ExportUploadResult> {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error('Not authenticated');
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.access_token) throw new Error('Not authenticated');
 
   const arrayBuffer = await blob.arrayBuffer();
   const bytes = new Uint8Array(arrayBuffer);
@@ -22,7 +22,10 @@ export async function uploadExportToR2(
 
   const response = await fetch('/api/upload-export', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${session.access_token}`,
+    },
     body: JSON.stringify({
       filename,
       contentType: blob.type,

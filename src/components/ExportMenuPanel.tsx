@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import type { ComponentType } from 'react';
-import { Copy, Download, Figma, FileCode, FileJson, FileText, Film, GitBranch, Image } from 'lucide-react';
+import { Cloud, Copy, Download, Figma, FileCode, FileJson, FileText, Film, GitBranch, Image } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import {
   type CinematicExportResolution,
@@ -20,7 +20,7 @@ interface ExportMenuPanelProps {
 }
 
 type ExportCategoryKey = 'image' | 'video' | 'code';
-type ExportActionKey = 'download' | 'copy';
+type ExportActionKey = 'download' | 'copy' | 'cloud';
 
 interface ExportSelectionOptions {
   transparentBackground?: boolean;
@@ -85,6 +85,10 @@ function getActionIcon(actionKey: ExportActionKey): React.ReactElement {
     return <Download className="h-4 w-4" />;
   }
 
+  if (actionKey === 'cloud') {
+    return <Cloud className="h-4 w-4" />;
+  }
+
   return <Copy className="h-4 w-4" />;
 }
 
@@ -94,6 +98,10 @@ function getActionLabel(
 ): string {
   if (action === 'download') {
     return t('export.actionDownload', 'Download');
+  }
+
+  if (action === 'cloud') {
+    return t('export.actionCloud', 'Cloud');
   }
 
   return t('export.actionCopy', 'Copy');
@@ -119,21 +127,21 @@ export function ExportMenuPanel({
             label: 'PNG',
             hint: t('export.hintWhiteBg4K', 'White Background (4K)'),
             Icon: Image,
-            actions: ['download', 'copy'],
+            actions: ['download', 'copy', 'cloud'],
           },
           {
             key: 'jpeg',
             label: 'JPG',
             hint: t('export.hintWhiteBg4K', 'White Background (4K)'),
             Icon: Image,
-            actions: ['download', 'copy'],
+            actions: ['download', 'copy', 'cloud'],
           },
           {
             key: 'svg',
             label: 'SVG',
             hint: t('export.hintSvgScalable', 'Scalable vector file'),
             Icon: Image,
-            actions: ['download', 'copy'],
+            actions: ['download', 'copy', 'cloud'],
           },
           {
             key: 'pdf',
@@ -166,7 +174,7 @@ export function ExportMenuPanel({
             label: t('export.jsonLabel', 'JSON File'),
             hint: t('export.hintDownload', 'Download'),
             Icon: FileJson,
-            actions: ['download', 'copy'],
+            actions: ['download', 'copy', 'cloud'],
           },
           {
             key: 'mermaid',

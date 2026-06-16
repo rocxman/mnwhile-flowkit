@@ -8,13 +8,16 @@ import { useToast } from './ui/ToastContext';
 interface UseExportMenuParams {
   onExportPNG: (format: 'png' | 'jpeg', options?: ExportImageActionOptions) => void;
   onCopyImage: (format: 'png' | 'jpeg', options?: ExportImageActionOptions) => void;
+  onUploadImageToCloud: (format: 'png' | 'jpeg', options?: ExportImageActionOptions) => void;
   onExportSVG: () => void;
   onCopySVG: () => void;
+  onUploadSVGToCloud: () => void;
   onExportPDF: () => void;
   onExportCinematic: (request: CinematicExportRequest) => void;
   getCinematicExportRequest: () => CinematicExportRequest;
   onExportJSON: () => void;
   onCopyJSON: () => void;
+  onUploadJSONToCloud: () => void;
   onExportMermaid: () => void;
   onDownloadMermaid: () => void;
   onDownloadPlantUML: () => void;
@@ -24,9 +27,9 @@ interface UseExportMenuParams {
   onDownloadFigma: () => void;
 }
 
-type ExportActionKey = 'download' | 'copy';
+type ExportActionKey = 'download' | 'copy' | 'cloud';
 type ExportActionHandler = () => void | Promise<void>;
-type ExportActionHandlers = Record<ExportActionKey, ExportActionHandler>;
+type ExportActionHandlers = Partial<Record<ExportActionKey, ExportActionHandler>>;
 
 interface ExportImageActionOptions {
   transparentBackground?: boolean;
@@ -56,13 +59,16 @@ function isInsideMenu(menuRef: RefObject<HTMLDivElement>, target: EventTarget | 
 export function useExportMenu({
   onExportPNG,
   onCopyImage,
+  onUploadImageToCloud,
   onExportSVG,
   onCopySVG,
+  onUploadSVGToCloud,
   onExportPDF,
   onExportCinematic,
   getCinematicExportRequest,
   onExportJSON,
   onCopyJSON,
+  onUploadJSONToCloud,
   onExportMermaid,
   onDownloadMermaid,
   onDownloadPlantUML,
@@ -124,18 +130,20 @@ export function useExportMenu({
       png: {
         download: () => onExportPNG('png', options),
         copy: () => onCopyImage('png', options),
+        cloud: () => onUploadImageToCloud('png', options),
       },
       jpeg: {
         download: () => onExportPNG('jpeg', options),
         copy: () => onCopyImage('jpeg', options),
+        cloud: () => onUploadImageToCloud('jpeg', options),
       },
-      svg: { download: onExportSVG, copy: onCopySVG },
+      svg: { download: onExportSVG, copy: onCopySVG, cloud: onUploadSVGToCloud },
       pdf: { download: onExportPDF, copy: onExportPDF },
       'cinematic-video': {
         download: () => onExportCinematic(getCinematicExportRequest()),
         copy: () => onExportCinematic(getCinematicExportRequest()),
       },
-      json: { download: onExportJSON, copy: onCopyJSON },
+      json: { download: onExportJSON, copy: onCopyJSON, cloud: onUploadJSONToCloud },
       openflow: { download: onDownloadOpenFlowDSL, copy: onExportOpenFlowDSL },
       mermaid: { download: onDownloadMermaid, copy: onExportMermaid },
       plantuml: { download: onDownloadPlantUML, copy: onDownloadPlantUML },
