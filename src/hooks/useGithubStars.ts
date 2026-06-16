@@ -4,6 +4,7 @@ const GITHUB_REPO_API_URL = 'https://api.github.com/repos/rocxman/mnwhile-flowki
 
 let cachedStars: number | null = null;
 let starsRequest: Promise<number | null> | null = null;
+let fetchFailed = false;
 
 function getStargazerCount(data: unknown): number | null {
   if (
@@ -23,13 +24,26 @@ function fetchGithubStars(): Promise<number | null> {
     return Promise.resolve(cachedStars);
   }
 
+  if (fetchFailed) {
+    return Promise.resolve(null);
+  }
+
   if (starsRequest !== null) {
     return starsRequest;
   }
 
   starsRequest = fetch(GITHUB_REPO_API_URL)
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        fetchFailed = true;
+        return null;
+      }
+      return response.json();
+    })
     .then((data) => {
+      if (data === null) {
+        return null;
+      }
       const nextStars = getStargazerCount(data);
       if (nextStars === null) {
         return null;
@@ -38,7 +52,10 @@ function fetchGithubStars(): Promise<number | null> {
       cachedStars = nextStars;
       return cachedStars;
     })
-    .catch(() => null)
+    .catch(() => {
+      fetchFailed = true;
+      return null;
+    })
     .finally(() => {
       starsRequest = null;
     });
