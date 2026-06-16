@@ -29,6 +29,8 @@ export function AuthPage(): React.JSX.Element {
 
     if (mode === 'signup') {
       setMessage('Akun dibuat. Cek email jika Supabase meminta konfirmasi.');
+      setMode('signin');
+      setPassword('');
       return;
     }
 
