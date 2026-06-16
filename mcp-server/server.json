@@ -1,16 +1,16 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.Vrun-design/openflowkit-mcp",
-  "description": "Local-first OpenFlowKit diagramming tools for Claude, Cursor, Windsurf & other MCP clients.",
+  "name": "io.github.Vrun-design/mnwhile-flowkit-mcp",
+  "description": "Local-first MNWHILE FlowKit diagramming tools for Claude, Cursor, Windsurf & other MCP clients.",
   "repository": {
-    "url": "https://github.com/Vrun-design/openflowkit",
+    "url": "https://github.com/Vrun-design/mnwhile-flowkit",
     "source": "github"
   },
   "version": "0.1.2",
   "packages": [
     {
       "registryType": "npm",
-      "identifier": "@vrun-design/openflowkit-mcp",
+      "identifier": "@vrun-design/mnwhile-flowkit-mcp",
       "version": "0.1.2",
       "transport": {
         "type": "stdio"

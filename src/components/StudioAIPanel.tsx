@@ -103,14 +103,14 @@ function getPrimaryComposerClassName(isInputEmpty: boolean, isBeveled: boolean):
 
 function getGenerationModeButtonClassName(isActive: boolean): string {
   if (isActive) {
-    return 'bg-[var(--brand-surface)] text-orange-600 border border-orange-200 shadow-sm';
+    return 'bg-[var(--brand-surface)] text-lime-600 border border-lime-200 shadow-sm';
   }
 
   return 'text-[var(--brand-secondary)] hover:bg-[var(--brand-surface)]/50 hover:text-[var(--brand-text)] border border-transparent';
 }
 
 function getInfoIconClassName(isActive: boolean): string {
-  return `h-3.5 w-3.5 focus:outline-none ${isActive ? 'text-orange-400' : 'text-[var(--brand-secondary)]'}`;
+  return `h-3.5 w-3.5 focus:outline-none ${isActive ? 'text-lime-400' : 'text-[var(--brand-secondary)]'}`;
 }
 
 export function StudioAIPanel({

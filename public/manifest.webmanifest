@@ -1,6 +1,6 @@
 {
-  "name": "OpenFlowKit",
-  "short_name": "OpenFlowKit",
+  "name": "MNWHILE FlowKit",
+  "short_name": "MNWHILE FlowKit",
   "description": "Local-first diagramming for developers and technical builders.",
   "start_url": "/index.html#/home",
   "display": "standalone",
@@ -8,7 +8,7 @@
   "theme_color": "#2563eb",
   "icons": [
     {
-      "src": "/Logo_openflowkit.svg",
+      "src": "/Logo_mnwhile.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"

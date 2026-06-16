@@ -57,21 +57,21 @@ export function HomeSidebar({
       icon: <Book className="w-4 h-4" />,
       label: t('nav.documentation', 'Documentation'),
       testId: 'sidebar-docs',
-      to: 'https://docs.openflowkit.com',
+      to: 'https://docs.mnwhile-flowkit.com',
     },
   ];
 
   return (
     <aside className="sticky top-0 z-20 flex w-full flex-col border-b border-[var(--color-brand-border)] bg-[var(--brand-surface)] md:fixed md:inset-y-0 md:left-0 md:w-64 md:border-b-0 md:border-r">
-      <div className="flex h-14 items-center gap-3 border-b border-[var(--color-brand-border)] px-4">
-        <OpenFlowLogo className="h-8 w-8 shrink-0" />
+      <div className="flex h-14 items-center gap-2.5 border-b border-[var(--color-brand-border)] px-3.5">
+        <OpenFlowLogo className="h-6 w-6 shrink-0" />
 
-        <span className="truncate text-base font-semibold tracking-tight text-[var(--brand-text)]">
+        <span className="min-w-0 flex-1 truncate text-sm font-semibold tracking-tight text-[var(--brand-text)]">
           {localizedAppName}
         </span>
 
-        <div className="flex items-center justify-center rounded-[5px] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_20%)] bg-[color-mix(in_srgb,var(--brand-surface),transparent_50%)] px-[5px] py-[3px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] dark:shadow-[inset_0_1px_2px_rgba(0,0,0,0.25)]">
-          <span className="text-[9.5px] font-mono font-bold uppercase leading-none tracking-[0.02em] text-[color-mix(in_srgb,var(--brand-secondary),var(--brand-text))]">
+        <div className="flex shrink-0 items-center justify-center rounded-[5px] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_20%)] bg-[color-mix(in_srgb,var(--brand-surface),transparent_50%)] px-[5px] py-[2.5px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] dark:shadow-[inset_0_1px_2px_rgba(0,0,0,0.25)]">
+          <span className="text-[8.5px] font-mono font-bold uppercase leading-none tracking-[0.02em] text-[color-mix(in_srgb,var(--brand-secondary),var(--brand-text))]">
             v1.0
           </span>
         </div>

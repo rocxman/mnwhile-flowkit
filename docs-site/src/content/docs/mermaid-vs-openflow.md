@@ -1,10 +1,10 @@
 ---
 draft: false
 title: Mermaid vs OpenFlow
-description: Decide whether Mermaid or OpenFlow DSL is the better text representation for your OpenFlowKit workflow.
+description: Decide whether Mermaid or OpenFlow DSL is the better text representation for your MNWHILE FlowKit workflow.
 ---
 
-Mermaid and OpenFlow DSL solve adjacent but different problems in OpenFlowKit.
+Mermaid and OpenFlow DSL solve adjacent but different problems in MNWHILE FlowKit.
 
 ## Choose Mermaid when
 
@@ -14,10 +14,10 @@ Mermaid and OpenFlow DSL solve adjacent but different problems in OpenFlowKit.
 
 ## Choose OpenFlow DSL when
 
-- the diagram is primarily maintained inside OpenFlowKit
+- the diagram is primarily maintained inside MNWHILE FlowKit
 - you want a format closer to the native graph model
 - you want fewer compatibility constraints during editing
-- you want a better target for OpenFlowKit-specific AI and Studio workflows
+- you want a better target for MNWHILE FlowKit-specific AI and Studio workflows
 
 ## The real difference
 

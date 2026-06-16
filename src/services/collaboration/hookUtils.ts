@@ -5,7 +5,7 @@ import { parseLocalCollaborationIdentityJson } from './schemas';
 
 const COLLABORATION_CURSOR_PUBLISH_DISTANCE = 6;
 const LOCAL_COLLABORATION_IDENTITY_STORAGE_KEY = APP_COLLABORATION_KEYS.identity;
-const LOCAL_COLLABORATION_COLORS = ['#2563eb', '#db2777', '#059669', '#7c3aed', '#ea580c', '#0f766e'];
+const LOCAL_COLLABORATION_COLORS = ['#2563eb', '#db2777', '#059669', '#7c3aed', '#84cc16', '#0f766e'];
 const LOCAL_COLLABORATION_ROOM_SECRET_STORAGE_PREFIX = APP_COLLABORATION_KEYS.roomSecretPrefix;
 
 interface LocalCollaborationIdentity {

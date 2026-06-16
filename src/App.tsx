@@ -19,6 +19,8 @@ import { DocsSiteRedirect } from '@/components/app/DocsSiteRedirect';
 import { RouteLoadingFallback } from '@/components/app/RouteLoadingFallback';
 import { MobileWorkspaceGate } from '@/components/app/MobileWorkspaceGate';
 import { CinematicExportProvider } from '@/context/CinematicExportContext';
+import { AuthPage } from '@/components/AuthPage';
+import { SharedDocumentPage } from '@/components/SharedDocumentPage';
 
 import { useFlowStore } from './store';
 import { useEditorPageActions } from '@/store/editorPageHooks';
@@ -213,6 +215,8 @@ function App(): React.JSX.Element {
       <Router>
         <Routes>
           <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/share/:shareToken" element={<SharedDocumentPage />} />
           <Route
             path="/view"
             element={

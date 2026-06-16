@@ -1,10 +1,10 @@
 ---
 draft: false
 title: Choose an Export Format
-description: Düzenleme, dokümantasyon, ortak çalışma, gömme veya tasarım aracı aktarımı için doğru OpenFlowKit dışa aktarma formatını seçin.
+description: Düzenleme, dokümantasyon, ortak çalışma, gömme veya tasarım aracı aktarımı için doğru MNWHILE FlowKit dışa aktarma formatını seçin.
 ---
 
-OpenFlowKit hem görsel hem de düzenlenebilir teslim formatlarını destekler. En doğru seçim bir sonraki adıma göre belirlenir.
+MNWHILE FlowKit hem görsel hem de düzenlenebilir teslim formatlarını destekler. En doğru seçim bir sonraki adıma göre belirlenir.
 
 ## Hızlı rehber
 

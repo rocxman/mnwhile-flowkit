@@ -5,6 +5,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { RouteLoadingFallback } from './components/app/RouteLoadingFallback';
 import { ToastProvider } from './components/ui/ToastContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { AuthProvider } from './contexts/AuthContext';
 import {
   captureAppOpened,
   captureSessionStarted,
@@ -73,11 +74,13 @@ function BootstrapApp(): React.ReactElement {
 root.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <ThemeProvider>
-        <ToastProvider>
-          <BootstrapApp />
-        </ToastProvider>
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider>
+          <ToastProvider>
+            <BootstrapApp />
+          </ToastProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </ErrorBoundary>
   </React.StrictMode>
 );

@@ -46,11 +46,11 @@ describe('onboarding events', () => {
 
   it('ignores malformed persisted onboarding payloads', () => {
     localStorage.setItem(
-      'openflowkit_onboarding_events',
+      'mnwhile-flowkit_onboarding_events',
       JSON.stringify([{ name: 'not-real', at: 123, first: 'yes' }])
     );
     localStorage.setItem(
-      'openflowkit_onboarding_event_firsts',
+      'mnwhile-flowkit_onboarding_event_firsts',
       JSON.stringify({ welcome_prompt_selected: 'yes' })
     );
 

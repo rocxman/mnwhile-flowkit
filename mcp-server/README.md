@@ -1,18 +1,18 @@
 <div align="center">
 
-# OpenFlowKit MCP Server
+# MNWHILE FlowKit MCP Server
 
 **Give Claude Desktop, Cursor, Windsurf, or any MCP client first-class diagramming tools.**
 
-[![npm](https://img.shields.io/npm/v/@vrun-design/openflowkit-mcp?style=flat-square&color=f97316)](https://www.npmjs.com/package/@vrun-design/openflowkit-mcp)
-[![MIT License](https://img.shields.io/badge/License-MIT-f97316.svg?style=flat-square)](https://github.com/Vrun-design/openflowkit/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/@vrun-design/mnwhile-flowkit-mcp?style=flat-square&color=f97316)](https://www.npmjs.com/package/@vrun-design/mnwhile-flowkit-mcp)
+[![MIT License](https://img.shields.io/badge/License-MIT-f97316.svg?style=flat-square)](https://github.com/Vrun-design/mnwhile-flowkit/blob/main/LICENSE)
 [![Node 18+](https://img.shields.io/badge/Node-18%2B-339933.svg?style=flat-square)](https://nodejs.org/)
 
 </div>
 
 ---
 
-OpenFlowKit MCP is **local-first by design** — it runs on your machine over stdio with no API key and no cloud round-trip, and its tools return deterministic output. Your MCP client already has an LLM; this server just gives it diagram-specific tools.
+MNWHILE FlowKit MCP is **local-first by design** — it runs on your machine over stdio with no API key and no cloud round-trip, and its tools return deterministic output. Your MCP client already has an LLM; this server just gives it diagram-specific tools.
 
 Instead, it gives the agent diagram-specific powers:
 
@@ -21,13 +21,13 @@ Instead, it gives the agent diagram-specific powers:
 - analyze local codebases
 - find exact cloud and developer icon slugs
 - validate agent-authored DSL
-- create shareable OpenFlowKit viewer URLs
+- create shareable MNWHILE FlowKit viewer URLs
 
 No API keys, no telemetry, no account, no server-side storage.
 
 ```
 You:    Create a checkout flow with a promo-code branch
-Claude: reads openflowkit://docs/dsl-cheatsheet
+Claude: reads mnwhile-flowkit://docs/dsl-cheatsheet
         writes OpenFlow DSL itself
         calls validate_openflow_dsl
         fixes any issues
@@ -41,11 +41,11 @@ Claude: reads openflowkit://docs/dsl-cheatsheet
 
 ```bash
 # No install required; npx fetches the latest published version
-npx -y @vrun-design/openflowkit-mcp
+npx -y @vrun-design/mnwhile-flowkit-mcp
 
 # Or install globally
-npm install -g @vrun-design/openflowkit-mcp
-openflowkit-mcp
+npm install -g @vrun-design/mnwhile-flowkit-mcp
+mnwhile-flowkit-mcp
 ```
 
 Requires **Node 18+**.
@@ -62,22 +62,22 @@ Edit your Claude Desktop config:
 ```json
 {
   "mcpServers": {
-    "openflowkit": {
+    "mnwhile-flowkit": {
       "command": "npx",
-      "args": ["-y", "@vrun-design/openflowkit-mcp"]
+      "args": ["-y", "@vrun-design/mnwhile-flowkit-mcp"]
     }
   }
 }
 ```
 
-Restart Claude Desktop. You should see **openflowkit** in the tool picker.
+Restart Claude Desktop. You should see **mnwhile-flowkit** in the tool picker.
 
 ### Cursor / Windsurf / other MCP clients
 
 Point the client at the same command:
 
 - command: `npx`
-- args: `["-y", "@vrun-design/openflowkit-mcp"]`
+- args: `["-y", "@vrun-design/mnwhile-flowkit-mcp"]`
 
 The server speaks the standard MCP stdio protocol. Client UIs differ, but the command shape is the same.
 
@@ -90,7 +90,7 @@ All tools run locally and require no provider key.
 | Tool | What it does |
 |---|---|
 | `validate_openflow_dsl` | Lint OpenFlow DSL with structured diagnostics |
-| `create_viewer_url` | Encode OpenFlow DSL into a shareable OpenFlowKit viewer URL |
+| `create_viewer_url` | Encode OpenFlow DSL into a shareable MNWHILE FlowKit viewer URL |
 | `analyze_codebase` | Detect platforms, services, top-level structure, and language mix from a local repo |
 | `find_icon` | Fuzzy-search 1,600+ AWS, Azure, GCP, CNCF, and developer icons |
 | `list_starter_templates` | Browse built-in starter templates |
@@ -106,11 +106,11 @@ Agents can read these directly:
 
 | URI | Description |
 |---|---|
-| `openflowkit://docs/dsl-cheatsheet` | OpenFlow DSL syntax reference |
-| `openflowkit://templates` | Starter template catalog |
-| `openflowkit://templates/{name}` | DSL for a named starter template |
-| `openflowkit://icons` | Full icon catalog |
-| `openflowkit://icons/{provider}` | Icon catalog for one provider pack |
+| `mnwhile-flowkit://docs/dsl-cheatsheet` | OpenFlow DSL syntax reference |
+| `mnwhile-flowkit://templates` | Starter template catalog |
+| `mnwhile-flowkit://templates/{name}` | DSL for a named starter template |
+| `mnwhile-flowkit://icons` | Full icon catalog |
+| `mnwhile-flowkit://icons/{provider}` | Icon catalog for one provider pack |
 
 Provider packs are `aws`, `azure`, `gcp`, `cncf`, and `developer`.
 
@@ -131,13 +131,13 @@ Clients can surface three prompt templates:
 Ask your MCP client:
 
 ```text
-Using the openflowkit MCP server: read openflowkit://docs/dsl-cheatsheet, then write an OpenFlow DSL flowchart for checkout with cart, shipping, promo-code decision, payment, Stripe webhook, and confirmation. Call validate_openflow_dsl, fix any issues, then call create_viewer_url. Return the final DSL and viewer URL.
+Using the mnwhile-flowkit MCP server: read mnwhile-flowkit://docs/dsl-cheatsheet, then write an OpenFlow DSL flowchart for checkout with cart, shipping, promo-code decision, payment, Stripe webhook, and confirmation. Call validate_openflow_dsl, fix any issues, then call create_viewer_url. Return the final DSL and viewer URL.
 ```
 
 For architecture diagrams:
 
 ```text
-Using openflowkit: call analyze_codebase on /path/to/project, read openflowkit://docs/dsl-cheatsheet, use find_icon for exact architecture icons, write OpenFlow DSL, validate it, then create a viewer URL.
+Using mnwhile-flowkit: call analyze_codebase on /path/to/project, read mnwhile-flowkit://docs/dsl-cheatsheet, use find_icon for exact architecture icons, write OpenFlow DSL, validate it, then create a viewer URL.
 ```
 
 ---
@@ -146,14 +146,14 @@ Using openflowkit: call analyze_codebase on /path/to/project, read openflowkit:/
 
 - **No telemetry.** The server never phones home.
 - **No provider keys.** The MCP client model authors diagrams directly.
-- **No OpenFlowKit account.** Viewer URLs encode the DSL locally in the URL hash.
+- **No MNWHILE FlowKit account.** Viewer URLs encode the DSL locally in the URL hash.
 - **Local filesystem access only when requested.** Codebase analysis only reads the path passed to `analyze_codebase`.
 
 ---
 
 ## Development
 
-This package lives in the [openflowkit monorepo](https://github.com/Vrun-design/openflowkit).
+This package lives in the [mnwhile-flowkit monorepo](https://github.com/Vrun-design/mnwhile-flowkit).
 
 ```bash
 # From the repo root

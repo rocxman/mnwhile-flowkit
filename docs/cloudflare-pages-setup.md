@@ -5,11 +5,11 @@ same repo but uses a different **build command** and **output directory**.
 
 ---
 
-## Project 1: App (`app.openflowkit.com`)
+## Project 1: App (`app.mnwhile-flowkit.com`)
 
 | Setting | Value |
 |---|---|
-| Repository | `Vrun-design/openflowkit` |
+| Repository | `Vrun-design/mnwhile-flowkit` |
 | Production branch | `main` |
 | Build command | `npm run build` |
 | Build output directory | `dist` |
@@ -21,11 +21,11 @@ Add `VITE_OPENAI_BASE_URL` etc. if you wire AI proxy later.
 
 ---
 
-## Project 2: Docs (`docs.openflowkit.com`)
+## Project 2: Docs (`docs.mnwhile-flowkit.com`)
 
 | Setting | Value |
 |---|---|
-| Repository | `Vrun-design/openflowkit` |
+| Repository | `Vrun-design/mnwhile-flowkit` |
 | Production branch | `main` |
 | Build command | `npm run build --workspace=docs-site` |
 | Build output directory | `docs-site/dist` |
@@ -34,11 +34,11 @@ Add `VITE_OPENAI_BASE_URL` etc. if you wire AI proxy later.
 
 ---
 
-## Project 3: Landing (`openflowkit.com` / `www.openflowkit.com`)
+## Project 3: Landing (`mnwhile-flowkit.com` / `www.mnwhile-flowkit.com`)
 
 | Setting | Value |
 |---|---|
-| Repository | `Vrun-design/openflowkit` |
+| Repository | `Vrun-design/mnwhile-flowkit` |
 | Production branch | `main` |
 | Build command | `npm run build --workspace=web` |
 | Build output directory | `web/dist` |
@@ -51,9 +51,9 @@ Add `VITE_OPENAI_BASE_URL` etc. if you wire AI proxy later.
 
 After each project is created:
 
-1. **App**: Pages project settings → Custom domains → add `app.openflowkit.com`
-2. **Docs**: add `docs.openflowkit.com`
-3. **Landing**: add `openflowkit.com` and `www.openflowkit.com`
+1. **App**: Pages project settings → Custom domains → add `app.mnwhile-flowkit.com`
+2. **Docs**: add `docs.mnwhile-flowkit.com`
+3. **Landing**: add `mnwhile-flowkit.com` and `www.mnwhile-flowkit.com`
 
 Cloudflare handles SSL automatically for all domains on the same account.
 

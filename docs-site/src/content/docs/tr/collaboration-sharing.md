@@ -1,10 +1,10 @@
 ---
 draft: false
 title: Collaboration & Sharing
-description: Oda bağlantıları paylaşın, local-only fallback davranışını anlayın ve OpenFlowKit ortak çalışma akışlarını doğru kullanın.
+description: Oda bağlantıları paylaşın, local-only fallback davranışını anlayın ve MNWHILE FlowKit ortak çalışma akışlarını doğru kullanın.
 ---
 
-OpenFlowKit, varsayılan local-first davranışı korurken paylaşım bağlantıları ve ortak çalışma odası akışlarını destekler.
+MNWHILE FlowKit, varsayılan local-first davranışı korurken paylaşım bağlantıları ve ortak çalışma odası akışlarını destekler.
 
 ## Paylaşım akışında neler bulunur?
 

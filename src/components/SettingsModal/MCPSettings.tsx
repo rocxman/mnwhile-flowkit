@@ -22,7 +22,7 @@ const CLIENTS: ClientOption[] = [
     id: 'cursor',
     label: 'Cursor',
     configPath: '~/.cursor/mcp.json',
-    hint: 'Settings → MCP → enable openflowkit after saving.',
+    hint: 'Settings → MCP → enable mnwhile-flowkit after saving.',
   },
   {
     id: 'windsurf',
@@ -42,7 +42,7 @@ const TOOL_GROUPS: ToolGroup[] = [
     label: 'Author',
     tools: [
       { name: 'validate_openflow_dsl', desc: 'Lint and validate agent-authored DSL' },
-      { name: 'create_viewer_url', desc: 'Turn DSL into a shareable OpenFlowKit link' },
+      { name: 'create_viewer_url', desc: 'Turn DSL into a shareable MNWHILE FlowKit link' },
     ],
   },
   {
@@ -67,9 +67,9 @@ function buildConfig(): string {
   return JSON.stringify(
     {
       mcpServers: {
-        openflowkit: {
+        'mnwhile-flowkit': {
           command: 'npx',
-          args: ['-y', '@vrun-design/openflowkit-mcp'],
+          args: ['-y', '@vrun-design/mnwhile-flowkit-mcp'],
         },
       },
     },
@@ -179,7 +179,7 @@ interface MCPSettingsProps {
 export function MCPSettings({ variant = 'panel' }: MCPSettingsProps = {}): React.ReactElement {
   const { t } = useTranslation();
   const [client, setClient] = useState<ClientId>('claude');
-  const installCmd = 'npx -y @vrun-design/openflowkit-mcp';
+  const installCmd = 'npx -y @vrun-design/mnwhile-flowkit-mcp';
   const config = buildConfig();
   const activeClient = CLIENTS.find((c) => c.id === client) ?? CLIENTS[0];
 
@@ -196,7 +196,7 @@ export function MCPSettings({ variant = 'panel' }: MCPSettingsProps = {}): React
           <p className="mt-2 max-w-prose text-[13px] leading-relaxed text-[var(--brand-secondary)]">
             {t(
               'mcpSettings.intro',
-              'Add the OpenFlowKit MCP server to Claude Desktop, Cursor, Windsurf, or any MCP client. Your assistant uses its own model to author diagrams, while OpenFlowKit supplies local validation, templates, icon lookup, codebase analysis, and viewer links.',
+              'Add the MNWHILE FlowKit MCP server to Claude Desktop, Cursor, Windsurf, or any MCP client. Your assistant uses its own model to author diagrams, while MNWHILE FlowKit supplies local validation, templates, icon lookup, codebase analysis, and viewer links.',
             )}
           </p>
         </header>
@@ -319,7 +319,7 @@ export function MCPSettings({ variant = 'panel' }: MCPSettingsProps = {}): React
                 </span>
               </div>
               <CodeSurface
-                code={`Add an MCP server called "openflowkit" to ${activeClient.configPath}. Use this entry exactly:\n\n${config}\n\nAfter saving, tell me to restart ${activeClient.label}.`}
+                code={`Add an MCP server called "mnwhile-flowkit" to ${activeClient.configPath}. Use this entry exactly:\n\n${config}\n\nAfter saving, tell me to restart ${activeClient.label}.`}
                 ariaLabel={t('mcpSettings.copyInstallPrompt', 'Copy install prompt')}
                 caption="prompt"
                 wrap
@@ -336,7 +336,7 @@ export function MCPSettings({ variant = 'panel' }: MCPSettingsProps = {}): React
                 </span>
               </div>
               <CodeSurface
-                code={`Using the openflowkit MCP server: read openflowkit://docs/dsl-cheatsheet, then write an OpenFlow DSL flowchart for a checkout flow (cart → shipping → payment → apply promo code branch → confirm). Call validate_openflow_dsl on your output, fix any errors, then call create_viewer_url. Show me the final DSL and viewer URL.`}
+                code={`Using the mnwhile-flowkit MCP server: read mnwhile-flowkit://docs/dsl-cheatsheet, then write an OpenFlow DSL flowchart for a checkout flow (cart → shipping → payment → apply promo code branch → confirm). Call validate_openflow_dsl on your output, fix any errors, then call create_viewer_url. Show me the final DSL and viewer URL.`}
                 ariaLabel={t('mcpSettings.copyTestPrompt', 'Copy test prompt')}
                 caption="prompt"
                 wrap
@@ -351,7 +351,7 @@ export function MCPSettings({ variant = 'panel' }: MCPSettingsProps = {}): React
           {t('mcpSettings.footerNote', 'Need to debug a connection or build a custom client?')}
         </p>
         <a
-          href="https://github.com/Vrun-design/openflowkit/tree/main/mcp-server#readme"
+          href="https://github.com/Vrun-design/mnwhile-flowkit/tree/main/mcp-server#readme"
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-1 text-[12px] font-semibold text-[var(--brand-primary)] hover:underline"

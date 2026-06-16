@@ -3,24 +3,24 @@ import starlight from '@astrojs/starlight';
 import { toStarlightSidebar } from '../src/docs/publicDocsCatalog.js';
 
 export default defineConfig({
-  site: 'https://docs.openflowkit.com',
+  site: 'https://docs.mnwhile-flowkit.com',
   legacy: {
     collections: true,
   },
   integrations: [
     starlight({
-      title: 'OpenFlowKit Docs',
-      description: 'Documentation for OpenFlowKit — the local-first, AI-powered diagramming tool.',
+      title: 'MNWHILE FlowKit Docs',
+      description: 'Documentation for MNWHILE FlowKit — the local-first, AI-powered diagramming tool.',
       favicon: '/favicon.svg',
       logo: {
-        src: './src/assets/Logo_openflowkit.svg',
-        alt: 'OpenFlowKit',
+        src: './src/assets/Logo_mnwhile-flowkit.svg',
+        alt: 'MNWHILE FlowKit',
       },
       social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/Vrun-design/openflowkit' },
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/Vrun-design/mnwhile-flowkit' },
       ],
       editLink: {
-        baseUrl: 'https://github.com/Vrun-design/openflowkit/edit/main/docs-site/src/content/docs/',
+        baseUrl: 'https://github.com/Vrun-design/mnwhile-flowkit/edit/main/docs-site/src/content/docs/',
       },
       // Root locale keeps English at clean URLs (/introduction not /en/introduction)
       defaultLocale: 'root',
@@ -60,12 +60,12 @@ export default defineConfig({
                 return;
               }
 
-              if (href.includes('app.openflowkit.com')) {
+              if (href.includes('app.mnwhile-flowkit.com')) {
                 analytics.capture('docs_open_app_clicked', { href, target: 'app', placement });
                 return;
               }
 
-              if (href.includes('github.com/Vrun-design/openflowkit')) {
+              if (href.includes('github.com/Vrun-design/mnwhile-flowkit')) {
                 analytics.capture('docs_github_clicked', { href, target: 'github', placement });
               }
             });

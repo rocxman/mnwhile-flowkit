@@ -68,11 +68,11 @@ export function registerDiscoveryTools(server: McpServer): void {
                 'server_info',
               ],
               resources: [
-                'openflowkit://docs/dsl-cheatsheet',
-                'openflowkit://templates',
-                'openflowkit://templates/{name}',
-                'openflowkit://icons',
-                'openflowkit://icons/{provider}',
+                'mnwhile-flowkit://docs/dsl-cheatsheet',
+                'mnwhile-flowkit://templates',
+                'mnwhile-flowkit://templates/{name}',
+                'mnwhile-flowkit://icons',
+                'mnwhile-flowkit://icons/{provider}',
               ],
               prompts: [
                 'flowchart_from_description',

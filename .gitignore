@@ -17,6 +17,8 @@ playwright-report
 test-results
 *.local
 .env
+.env.local
+.env*.local
 
 # Editor directories and files
 .vscode/*
@@ -45,3 +47,11 @@ docs-site/.astro/
 .agents/
 .claude/skills/
 .codex-skill-edits/
+
+# Sensitive credentials
+credential.md
+docs/security/credential.md
+
+# Local-only artifacts
+.local-artifacts/
+.vercel

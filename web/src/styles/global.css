@@ -128,23 +128,23 @@ html {
 
 :root {
   /* Brand Colors */
-  --brand-primary: #e95420;
+  --brand-primary: #84cc16;
   --brand-secondary: #64748b;
   --brand-surface: #ffffff;
   --brand-background: #f8fafc;
   --brand-text: #0f172a;
 
   /* Brand Palette */
-  --brand-primary-50: #fef4f0;
-  --brand-primary-100: #fde4d8;
-  --brand-primary-200: #fbc9b1;
-  --brand-primary-300: #f7a07a;
-  --brand-primary-400: #f07043;
-  --brand-primary-500: #e95420;
-  --brand-primary-600: #d14a1b;
-  --brand-primary-700: #b03f16;
-  --brand-primary-800: #8f3411;
-  --brand-primary-900: #6e290d;
+  --brand-primary-50: #f7fee7;
+  --brand-primary-100: #ecfccb;
+  --brand-primary-200: #d9f99d;
+  --brand-primary-300: #bef264;
+  --brand-primary-400: #a3e635;
+  --brand-primary-500: #84cc16;
+  --brand-primary-600: #65a30d;
+  --brand-primary-700: #4d7c0f;
+  --brand-primary-800: #3f6212;
+  --brand-primary-900: #365314;
 
   /* Dimensions */
   --brand-radius: 8px;

@@ -98,7 +98,7 @@ export function initializeSurfaceAnalytics({
       capture_exceptions: false,
       disable_session_recording: true,
       persistence: 'localStorage',
-      persistence_name: `openflowkit_${surface}`,
+      persistence_name: `mnwhile-flowkit_${surface}`,
     });
     initializedSurfaces.add(surface);
   }

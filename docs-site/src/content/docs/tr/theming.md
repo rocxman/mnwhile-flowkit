@@ -1,12 +1,12 @@
 ---
 draft: false
 title: Theming
-description: OpenFlowKit içinde tasarım sistemleri kullanarak her diyagramı tek tek stillendirmeden tutarlı bir görsel dil kurun.
+description: MNWHILE FlowKit içinde tasarım sistemleri kullanarak her diyagramı tek tek stillendirmeden tutarlı bir görsel dil kurun.
 ---
 
-OpenFlowKit, tema yönetimini tek tek diyagram stilleri yerine tekrar kullanılabilir tasarım sistemleri üzerinden ele alır.
+MNWHILE FlowKit, tema yönetimini tek tek diyagram stilleri yerine tekrar kullanılabilir tasarım sistemleri üzerinden ele alır.
 
-## OpenFlowKit içinde theming ne anlama gelir?
+## MNWHILE FlowKit içinde theming ne anlama gelir?
 
 Theming ayrı bir render modu değildir. Diyagramların oturumlar ve ekipler arasında nasıl göründüğünü belirleyen tasarım sistemi katmanıdır.
 

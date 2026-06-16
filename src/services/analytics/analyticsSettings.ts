@@ -1,4 +1,4 @@
-const ANALYTICS_PREFERENCE_STORAGE_KEY = 'openflowkit-analytics-enabled';
+const ANALYTICS_PREFERENCE_STORAGE_KEY = 'mnwhile-flowkit-analytics-enabled';
 
 type AnalyticsPreferenceListener = (enabled: boolean) => void;
 

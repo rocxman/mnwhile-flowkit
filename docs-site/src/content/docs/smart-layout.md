@@ -1,10 +1,10 @@
 ---
 draft: false
 title: Smart Layout
-description: Use ELK-based layout to turn rough graphs into cleaner, more readable diagrams in OpenFlowKit.
+description: Use ELK-based layout to turn rough graphs into cleaner, more readable diagrams in MNWHILE FlowKit.
 ---
 
-OpenFlowKit uses ELK-based layout strategies to turn rough graphs into readable diagrams quickly.
+MNWHILE FlowKit uses ELK-based layout strategies to turn rough graphs into readable diagrams quickly.
 
 ## When to use auto layout
 

@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "openflowkit": {
+    "mnwhile-flowkit": {
       "command": "node",
       "args": ["./mcp-server/dist/index.js"]
     }

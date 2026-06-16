@@ -1,5 +1,5 @@
 :root {
-  --accent: #e95420;
+  --accent: #84cc16;
   --accent-dark: #c2410c;
   --bg: #0f0f0f;
   --surface: #1a1a1a;
@@ -82,7 +82,7 @@ nav {
 
 .badge {
   display: inline-block;
-  background: rgba(233, 84, 32, 0.12);
+  background: rgba(132, 204, 22, 0.14);
   color: var(--accent);
   border: 1px solid rgba(233, 84, 32, 0.3);
   padding: 0.3rem 0.9rem;

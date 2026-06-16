@@ -101,7 +101,7 @@ export function FinalCTASection({ onLaunch }: FinalCTASectionProps): React.React
                   <div
                     className={getTerminalStepClassName(terminalStep >= 1)}
                   >
-                    <span className="text-gray-500">✔</span> Cloning into &apos;openflowkit&apos;...
+                    <span className="text-gray-500">✔</span> Cloning into &apos;mnwhile-flowkit&apos;...
                   </div>
                   <div
                     className={getTerminalStepClassName(terminalStep >= 2)}

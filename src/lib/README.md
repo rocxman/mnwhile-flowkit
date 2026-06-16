@@ -1,12 +1,12 @@
-# @vrun-design/openflowkit-core
+# @vrun-design/mnwhile-flowkit-core
 
-[![npm version](https://img.shields.io/npm/v/@vrun-design/openflowkit-core?style=flat-square&color=indigo)](https://www.npmjs.com/package/@vrun-design/openflowkit-core)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](https://github.com/Vrun-design/OpenFlowKit/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@vrun-design/mnwhile-flowkit-core?style=flat-square&color=indigo)](https://www.npmjs.com/package/@vrun-design/mnwhile-flowkit-core)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](https://github.com/Vrun-design/MNWHILE FlowKit/blob/main/LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue?style=flat-square)](https://www.typescriptlang.org/)
 
-> Core parsers, types, and brand utilities for **[OpenFlowKit](https://openflowkit.com)** — the open-source, white-label diagramming engine.
+> Core parsers, types, and brand utilities for **[MNWHILE FlowKit](https://mnwhile-flowkit.com)** — the open-source, white-label diagramming engine.
 
-This package contains the framework-agnostic logic extracted from OpenFlowKit so you can use it independently in your own apps or build your own canvas on top.
+This package contains the framework-agnostic logic extracted from MNWHILE FlowKit so you can use it independently in your own apps or build your own canvas on top.
 
 ---
 
@@ -24,7 +24,7 @@ This package contains the framework-agnostic logic extracted from OpenFlowKit so
 ## Install
 
 ```bash
-npm install @vrun-design/openflowkit-core
+npm install @vrun-design/mnwhile-flowkit-core
 ```
 
 > **Peer dependencies:** `react >=18`, `react-dom >=18`, `reactflow >=11`
@@ -38,7 +38,7 @@ npm install @vrun-design/openflowkit-core
 Converts Mermaid.js syntax into React Flow nodes & edges, ready to pass directly to a `<ReactFlow>` component.
 
 ```ts
-import { parseMermaid } from '@vrun-design/openflowkit-core';
+import { parseMermaid } from '@vrun-design/mnwhile-flowkit-core';
 
 const dsl = `
 flowchart TD
@@ -66,7 +66,7 @@ const { nodes, edges, direction, error } = parseMermaid(dsl);
 ### OpenFlow DSL V2 Parser
 
 ```ts
-import { parseOpenFlowDSL } from '@vrun-design/openflowkit-core';
+import { parseOpenFlowDSL } from '@vrun-design/mnwhile-flowkit-core';
 
 const dsl = `
 #id:start shape:capsule color:emerald
@@ -86,7 +86,7 @@ const { nodes, edges } = parseOpenFlowDSL(dsl);
 ### Brand Palette Generation
 
 ```ts
-import { generatePalette } from '@vrun-design/openflowkit-core';
+import { generatePalette } from '@vrun-design/mnwhile-flowkit-core';
 
 const palette = generatePalette('#6366f1'); // your primary brand color
 // Returns: { primary, secondary, accent, surface, border, text, ... }
@@ -99,18 +99,18 @@ const palette = generatePalette('#6366f1'); // your primary brand color
 Full TypeScript support with declaration files included.
 
 ```ts
-import type { FlowNode, FlowEdge, NodeData, DesignSystem } from '@vrun-design/openflowkit-core';
+import type { FlowNode, FlowEdge, NodeData, DesignSystem } from '@vrun-design/mnwhile-flowkit-core';
 ```
 
 ---
 
-## Part of OpenFlowKit
+## Part of MNWHILE FlowKit
 
-This package is the extracted core of **[OpenFlowKit](https://github.com/Vrun-design/OpenFlowKit)** — a full-featured, MIT-licensed, white-label diagramming engine built on React Flow.
+This package is the extracted core of **[MNWHILE FlowKit](https://github.com/Vrun-design/MNWHILE FlowKit)** — a full-featured, MIT-licensed, white-label diagramming engine built on React Flow.
 
-- 🌐 **Website**: [openflowkit.com](https://openflowkit.com)
+- 🌐 **Website**: [mnwhile-flowkit.com](https://mnwhile-flowkit.com)
 - 📦 **Full app**: Self-host or fork the repo
-- 🐛 **Issues**: [GitHub Issues](https://github.com/Vrun-design/OpenFlowKit/issues)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/Vrun-design/MNWHILE FlowKit/issues)
 
 ---
 

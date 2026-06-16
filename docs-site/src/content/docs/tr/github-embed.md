@@ -1,10 +1,10 @@
 ---
 draft: false
 title: Embed Diagrams in GitHub
-description: OpenFlowKit diyagramları için izleyici bağlantıları üretin ve bunları GitHub odaklı dokümantasyon akışlarında kullanın.
+description: MNWHILE FlowKit diyagramları için izleyici bağlantıları üretin ve bunları GitHub odaklı dokümantasyon akışlarında kullanın.
 ---
 
-OpenFlowKit diyagramlarını GitHub README veya başka Markdown tabanlı belgelerde etkileşimli, salt okunur görünüm bağlantılarıyla paylaşabilirsiniz.
+MNWHILE FlowKit diyagramlarını GitHub README veya başka Markdown tabanlı belgelerde etkileşimli, salt okunur görünüm bağlantılarıyla paylaşabilirsiniz.
 
 ## Ne zaman faydalıdır?
 

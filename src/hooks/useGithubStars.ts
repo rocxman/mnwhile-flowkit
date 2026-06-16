@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const GITHUB_REPO_API_URL = 'https://api.github.com/repos/Vrun-design/openflowkit';
+const GITHUB_REPO_API_URL = 'https://api.github.com/repos/Vrun-design/mnwhile-flowkit';
 
 let cachedStars: number | null = null;
 let starsRequest: Promise<number | null> | null = null;

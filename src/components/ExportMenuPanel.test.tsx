@@ -17,7 +17,7 @@ vi.mock('react-i18next', async (importOriginal) => {
                 }
 
                 if (key === 'export.openflowdslLabel') {
-                    return `${options?.appName ?? 'OpenFlowKit'} DSL`;
+                    return `${options?.appName ?? 'MNWHILE FlowKit'} DSL`;
                 }
 
                 return options?.defaultValue ?? key;

@@ -221,15 +221,15 @@ function DiagramViewerInner(): React.ReactElement {
             {viewerSize !== 'badge' ? (
                 <div className={`flex shrink-0 items-center justify-between border-b border-slate-200 bg-white/95 px-4 backdrop-blur ${viewerSize === 'card' ? 'h-10' : 'h-12'}`}>
                     <div className="flex items-center gap-2">
-                        <OpenFlowLogo className="h-5 w-5 text-orange-600" />
+                        <OpenFlowLogo className="h-4 w-4" />
                         <span className="text-xs font-semibold text-slate-700">
-                            {viewerSize === 'card' ? 'OpenFlowKit Viewer' : 'OpenFlowKit'}
+                            {viewerSize === 'card' ? 'MNWHILE FlowKit Viewer' : 'MNWHILE FlowKit'}
                         </span>
                     </div>
                     <button
                         onClick={handleOpenInEditor}
                         disabled={'parseError' in parsed}
-                        className="flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition-all hover:border-orange-300 hover:text-orange-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition-all hover:border-lime-300 hover:text-lime-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <ExternalLink className="h-3 w-3" />
                         Open in Editor
@@ -237,7 +237,7 @@ function DiagramViewerInner(): React.ReactElement {
                 </div>
             ) : (
                 <div className="flex h-7 shrink-0 items-center justify-between border-b border-slate-200 bg-white/95 px-3 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
-                    <span>OpenFlowKit</span>
+                    <span>MNWHILE FlowKit</span>
                     <span>Badge Viewer</span>
                 </div>
             )}

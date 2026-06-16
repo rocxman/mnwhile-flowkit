@@ -1,10 +1,10 @@
 ---
 draft: false
 title: OpenFlow DSL
-description: OpenFlowKit diyagramları için editör-doğal metin temsili olan OpenFlow DSL’i kullanın.
+description: MNWHILE FlowKit diyagramları için editör-doğal metin temsili olan OpenFlow DSL’i kullanın.
 ---
 
-OpenFlow DSL, OpenFlowKit Studio’da kullanılan yerel metinsel temsildir. Kod tabanlı bir çalışma istiyor ama editör modeline yakın kalmak istiyorsanız en iyi seçenektir.
+OpenFlow DSL, MNWHILE FlowKit Studio’da kullanılan yerel metinsel temsildir. Kod tabanlı bir çalışma istiyor ama editör modeline yakın kalmak istiyorsanız en iyi seçenektir.
 
 ## Nerede doğru seçimdir?
 
@@ -12,7 +12,7 @@ OpenFlow DSL’i şu durumlarda tercih edin:
 
 - okunabilir ve editör-doğal bir sözdizimi istediğinizde
 - düzen öncesi deterministik yapısal değişiklikler yapmak istediğinizde
-- Mermaid’e göre OpenFlowKit’e daha yakın bir temsil gerektiğinde
+- Mermaid’e göre MNWHILE FlowKit’e daha yakın bir temsil gerektiğinde
 - yapay zekanın ham JSON yerine daha iyi hedefleyebileceği bir format istediğinizde
 
 Studio içindeki Code alanı, mevcut tuvalden DSL üretebilir ve DSL’i tekrar grafiğe uygulayabilir.
@@ -61,7 +61,7 @@ Gerekirse etiket ve ek meta veri de ekleyebilirsiniz.
 
 ## Neden ekipler bunu kullanır?
 
-- OpenFlowKit ana düzenleme ortamıysa
+- MNWHILE FlowKit ana düzenleme ortamıysa
 - graf kod olarak incelenecekse
 - editör içi sadakat uyumluluktan daha önemliyse
 - yapay zekaya editör-doğal bir hedef sağlamak istiyorsanız

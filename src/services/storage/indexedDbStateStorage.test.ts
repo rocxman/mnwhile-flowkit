@@ -87,10 +87,10 @@ describe('indexedDbStateStorage', () => {
       localStorageRef,
     });
 
-    const value = await storage.getItem('openflowkit-storage');
+    const value = await storage.getItem('mnwhile-flowkit-storage');
 
     expect(value).toBe('{"state":{"tabs":[]}}');
-    expect(localStorageRef.getItem).toHaveBeenCalledWith('openflowkit-storage');
+    expect(localStorageRef.getItem).toHaveBeenCalledWith('mnwhile-flowkit-storage');
   });
 
   it('writes and removes values through IndexedDB store', async () => {
@@ -101,12 +101,12 @@ describe('indexedDbStateStorage', () => {
       localStorageRef: null,
     });
 
-    await storage.setItem('openflowkit-storage', '{"state":{"activeTabId":"tab-2"}}');
-    const storedValue = await storage.getItem('openflowkit-storage');
+    await storage.setItem('mnwhile-flowkit-storage', '{"state":{"activeTabId":"tab-2"}}');
+    const storedValue = await storage.getItem('mnwhile-flowkit-storage');
     expect(storedValue).toBe('{"state":{"activeTabId":"tab-2"}}');
 
-    await storage.removeItem('openflowkit-storage');
-    const afterDelete = await storage.getItem('openflowkit-storage');
+    await storage.removeItem('mnwhile-flowkit-storage');
+    const afterDelete = await storage.getItem('mnwhile-flowkit-storage');
     expect(afterDelete).toBeNull();
   });
 });

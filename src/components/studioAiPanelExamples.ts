@@ -41,7 +41,7 @@ export const ITERATION_EXAMPLES: AIStudioExample[] = [
 ];
 
 export const EXAMPLE_ICON_COLORS = [
-  'text-orange-500',
+  'text-lime-500',
   'text-blue-500',
   'text-amber-500',
   'text-indigo-500',
