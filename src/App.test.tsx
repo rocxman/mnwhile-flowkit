@@ -76,17 +76,18 @@ describe('App routing', () => {
 
     render(<App />);
 
-    expect(await screen.findByRole('heading', { name: /visualize your ideas/i })).toBeTruthy();
+    expect(await screen.findByText('Explore')).toBeTruthy();
+    expect(screen.getByText('new')).toBeTruthy();
+    expect(screen.getByText('ideas')).toBeTruthy();
     expect(screen.queryByTestId('home-page')).toBeNull();
   });
 
-  it('navigates from landing login button to auth for signed-out users', async () => {
-    currentAuthUser = null;
+  it('navigates from landing explore button to auth', async () => {
     window.history.pushState({}, '', '/#/');
 
     render(<App />);
 
-    fireEvent.click(await screen.findByRole('button', { name: 'Login' }));
+    fireEvent.click(await screen.findByRole('button', { name: /explore now/i }));
 
     await waitFor(() => {
       expect(window.location.hash).toBe('#/auth');
