@@ -2,6 +2,7 @@ import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCcw } from 'lucide-react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { createLogger } from '@/lib/logger';
+import { Sentry } from '@/lib/sentry';
 import { captureAnalyticsException } from '@/services/analytics/analytics';
 
 const logger = createLogger({ scope: 'ErrorBoundary' });
@@ -32,6 +33,7 @@ class ErrorBoundaryComponent extends Component<Props, State> {
             surface: 'react-error-boundary',
             has_component_stack: Boolean(errorInfo.componentStack),
         });
+        Sentry.captureException(error, { extra: { componentStack: errorInfo.componentStack } });
     }
 
     public render() {

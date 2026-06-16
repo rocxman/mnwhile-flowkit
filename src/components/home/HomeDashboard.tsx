@@ -9,6 +9,7 @@ import {
   LayoutTemplate,
   FileInput,
   ShieldCheck,
+  Users,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
@@ -30,6 +31,7 @@ export interface HomeFlowCard {
 
 interface HomeDashboardProps {
   flows: HomeFlowCard[];
+  sharedFlows?: HomeFlowCard[];
   onCreateNew: () => void;
   onOpenTemplates: () => void;
   onPromptWithAI: () => void;
@@ -42,6 +44,7 @@ interface HomeDashboardProps {
 
 export function HomeDashboard({
   flows,
+  sharedFlows = [],
   onCreateNew,
   onOpenTemplates,
   onPromptWithAI,
@@ -266,6 +269,46 @@ export function HomeDashboard({
           </div>
         )}
       </section>
+
+      {sharedFlows.length > 0 && (
+        <section className="mt-10">
+          <div className="flex items-center gap-2 mb-4">
+            <Users className="h-3.5 w-3.5 text-[var(--brand-secondary)]" />
+            <h2 className="text-xs font-semibold text-[var(--brand-secondary)] uppercase tracking-wider">
+              Shared with Me
+            </h2>
+            <span className="text-xs text-[var(--brand-secondary)]">
+              {sharedFlows.length} {t('home.files', 'files')}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {sharedFlows.map((flow) => (
+              <div
+                key={flow.id}
+                onClick={() => onOpenFlow(flow.id)}
+                className="group relative cursor-pointer flex flex-col overflow-hidden rounded-[16px] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-surface)] transition-all duration-300 hover:border-[var(--brand-primary-400)]/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
+              >
+                <div className="relative flex h-[160px] w-full items-center justify-center overflow-hidden border-b border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-background)]">
+                  <FlowPreview preview={flow.preview} />
+                  <div className="absolute right-3 top-3 z-20 rounded-full bg-[var(--brand-surface)]/80 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
+                    Read-only
+                  </div>
+                </div>
+                <div className="flex flex-col p-4 bg-[var(--brand-surface)]">
+                  <h3 className="font-semibold text-[13.5px] text-[var(--brand-text)] tracking-tight truncate mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors">
+                    {flow.name}
+                  </h3>
+                  <div className="flex items-center gap-2 text-[12px] font-medium text-[var(--brand-secondary)]">
+                    <span>{formatUpdatedAt(flow.updatedAt)}</span>
+                    <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
+                    <span>{flow.nodeCount} node{flow.nodeCount !== 1 ? 's' : ''}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

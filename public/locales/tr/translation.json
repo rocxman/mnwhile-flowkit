@@ -169,7 +169,8 @@
     "speed": "Hız",
     "resolution": "Çözünürlük",
     "transparentBackground": "Şeffaf arka plan",
-    "headingFormat": "Dışa Aktarma Biçimi"
+    "headingFormat": "Dışa Aktarma Biçimi",
+    "actionCloud": "Cloud"
   },
   "import": {
     "title": "İçe Aktar",

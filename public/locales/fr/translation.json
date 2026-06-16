@@ -169,7 +169,8 @@
     "speed": "Vitesse",
     "resolution": "Résolution",
     "transparentBackground": "Arrière-plan transparent",
-    "headingFormat": "Format d'exportation"
+    "headingFormat": "Format d'exportation",
+    "actionCloud": "Cloud"
   },
   "import": {
     "title": "Importer",

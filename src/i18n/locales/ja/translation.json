@@ -169,7 +169,8 @@
     "speed": "速度",
     "resolution": "解像度",
     "transparentBackground": "透明な背景",
-    "headingFormat": "エクスポート形式"
+    "headingFormat": "エクスポート形式",
+    "actionCloud": "Cloud"
   },
   "import": {
     "title": "インポート",

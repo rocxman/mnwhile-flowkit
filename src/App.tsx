@@ -20,7 +20,9 @@ import { RouteLoadingFallback } from '@/components/app/RouteLoadingFallback';
 import { MobileWorkspaceGate } from '@/components/app/MobileWorkspaceGate';
 import { CinematicExportProvider } from '@/context/CinematicExportContext';
 import { AuthPage } from '@/components/AuthPage';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { SharedDocumentPage } from '@/components/SharedDocumentPage';
+import { OfflineBanner } from '@/components/OfflineBanner';
 
 import { useFlowStore } from './store';
 import { useEditorPageActions } from '@/store/editorPageHooks';
@@ -213,6 +215,7 @@ function App(): React.JSX.Element {
         Skip to content
       </a>
       <Router>
+        <OfflineBanner />
         <Routes>
           <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/auth" element={<AuthPage />} />
@@ -225,24 +228,28 @@ function App(): React.JSX.Element {
               </Suspense>
             }
           />
-          <Route path="/home" element={<HomePageRoute />} />
-          <Route path="/templates" element={<HomePageRoute />} />
-          <Route path="/mcp" element={<HomePageRoute />} />
-          <Route path="/settings" element={<HomePageRoute />} />
+          <Route path="/home" element={<ProtectedRoute><HomePageRoute /></ProtectedRoute>} />
+          <Route path="/templates" element={<ProtectedRoute><HomePageRoute /></ProtectedRoute>} />
+          <Route path="/mcp" element={<ProtectedRoute><HomePageRoute /></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><HomePageRoute /></ProtectedRoute>} />
           <Route
             path="/canvas"
             element={
-              <EditorRouteGate>
-                <FlowCanvasRedirectRoute />
-              </EditorRouteGate>
+              <ProtectedRoute>
+                <EditorRouteGate>
+                  <FlowCanvasRedirectRoute />
+                </EditorRouteGate>
+              </ProtectedRoute>
             }
           />
           <Route
             path="/flow/:flowId"
             element={
-              <EditorRouteGate>
-                <FlowCanvasRoute />
-              </EditorRouteGate>
+              <ProtectedRoute>
+                <EditorRouteGate>
+                  <FlowCanvasRoute />
+                </EditorRouteGate>
+              </ProtectedRoute>
             }
           />
           <Route path="/docs" element={<DocsSiteRedirect />} />

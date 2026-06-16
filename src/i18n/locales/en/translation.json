@@ -141,6 +141,7 @@
     "headingFormat": "Export Format",
     "actionCopy": "Copy",
     "actionDownload": "Download",
+    "actionCloud": "Cloud",
     "exportOrShare": "Export or share this canvas",
     "shareSection": "Share canvas",
     "jsonLabel": "JSON File",

@@ -42,6 +42,25 @@ vi.mock('@/components/ShareEmbedModal', () => ({
   ShareEmbedModal: () => <div>ShareEmbedModal</div>,
 }));
 
+vi.mock('@/components/ShareDialog', () => ({
+  ShareDialog: () => <div>ShareDialog</div>,
+}));
+
+vi.mock('@/components/SyncStatusIndicator', () => ({
+  SyncStatusIndicator: () => <div>SyncStatusIndicator</div>,
+}));
+
+vi.mock('@/contexts/AuthContext', () => ({
+  useAuth: () => ({
+    user: { id: 'test-user', email: 'test@example.com' },
+    loading: false,
+    signIn: vi.fn(),
+    signUp: vi.fn(),
+    logout: vi.fn(),
+    resetPassword: vi.fn(),
+  }),
+}));
+
 vi.mock('@/components/ImportRecoveryDialog', () => ({
   ImportRecoveryDialog: (props: unknown) => {
     importRecoveryDialogMock(props);

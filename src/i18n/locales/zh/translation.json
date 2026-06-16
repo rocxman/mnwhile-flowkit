@@ -169,7 +169,8 @@
     "speed": "速度",
     "resolution": "分辨率",
     "transparentBackground": "透明背景",
-    "headingFormat": "导出格式"
+    "headingFormat": "导出格式",
+    "actionCloud": "Cloud"
   },
   "import": {
     "title": "导入",

@@ -195,6 +195,21 @@ export const cloudStorage = {
     if (error) throw error;
   },
 
+  async getSharedWithMe(): Promise<CloudDocument[]> {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated');
+
+    const { data, error } = await supabase
+      .from('document_shares')
+      .select('documents(*)')
+      .eq('shared_with_user_id', user.id);
+
+    if (error) throw error;
+    return ((data as unknown as { documents: CloudDocument | null }[] | null) ?? [])
+      .map((s) => s.documents)
+      .filter((d): d is CloudDocument => d !== null);
+  },
+
   async getDocumentShares(documentId: string) {
     const { data, error } = await supabase
       .from('document_shares')

@@ -26,6 +26,27 @@ vi.mock('./LanguageSelector', () => ({
     LanguageSelector: () => null,
 }));
 
+vi.mock('@/contexts/AuthContext', () => {
+    const mockUser = { id: 'test-user', email: 'test@example.com' };
+    return {
+        useAuth: () => ({
+            user: mockUser,
+            loading: false,
+            signIn: vi.fn(),
+            signUp: vi.fn(),
+            logout: vi.fn(),
+            resetPassword: vi.fn(),
+        }),
+    };
+});
+
+vi.mock('@/lib/cloud-storage', () => ({
+    cloudStorage: {
+        getSharedWithMe: vi.fn().mockResolvedValue([]),
+        getAllDocuments: vi.fn().mockResolvedValue([]),
+    },
+}));
+
 describe('HomePage integration flows', () => {
     function setEmptyHomeState(): void {
         useFlowStore.setState({

@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useState } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { useFlowStore } from '../store';
 import { useWorkspaceDocumentActions, useWorkspaceDocumentsState } from '@/store/documentHooks';
 import { HomeDashboard, type HomeFlowCard } from './home/HomeDashboard';
@@ -8,6 +8,8 @@ import { HomeSettingsView } from './home/HomeSettingsView';
 import { HomeSidebar } from './home/HomeSidebar';
 import { HomeTemplatesView } from './home/HomeTemplatesView';
 import { shouldShowWelcomeModal } from './home/welcomeModalState';
+import { useAuth } from '@/contexts/AuthContext';
+import { cloudStorage } from '@/lib/cloud-storage';
 
 type HomePageTab = 'home' | 'templates' | 'settings' | 'mcp';
 type HomeSettingsTab = 'general' | 'canvas' | 'shortcuts' | 'ai' | 'mcp';
@@ -38,6 +40,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   activeTab: propActiveTab,
   onSwitchTab,
 }) => {
+  const { user } = useAuth();
   const { documents } = useWorkspaceDocumentsState();
   const { renameDocument, deleteDocument, duplicateDocument } = useWorkspaceDocumentActions();
   const hasWorkspaceDocuments = useFlowStore((state) => state.documents.length > 0);
@@ -45,7 +48,38 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [activeSettingsTab, setActiveSettingsTab] = useState<HomeSettingsTab>('general');
   const [flowPendingRename, setFlowPendingRename] = useState<HomeFlowCard | null>(null);
   const [flowPendingDelete, setFlowPendingDelete] = useState<HomeFlowCard | null>(null);
+  const [sharedFlows, setSharedFlows] = useState<HomeFlowCard[]>([]);
   const showWelcomeModal = shouldShowWelcomeModal();
+
+  useEffect(() => {
+    if (!user) {
+      setSharedFlows([]);
+      return;
+    }
+    void (async () => {
+      try {
+        const shared = await cloudStorage.getSharedWithMe();
+        setSharedFlows(
+          shared.map((doc) => {
+            const activePage = doc.pages?.find((p) => p.id === doc.active_page_id) ?? doc.pages?.[0];
+            const nodes = (activePage?.content as { nodes?: unknown[] })?.nodes ?? [];
+            const edges = (activePage?.content as { edges?: unknown[] })?.edges ?? [];
+            return {
+              id: doc.id,
+              name: doc.name,
+              nodeCount: nodes.length,
+              edgeCount: edges.length,
+              updatedAt: doc.updated_at,
+              isActive: false,
+              preview: null,
+            } as HomeFlowCard;
+          })
+        );
+      } catch (err) {
+        console.error('Failed to load shared documents:', err);
+      }
+    })();
+  }, [user]);
 
   const activeTab = propActiveTab ?? internalActiveTab;
   const flows: HomeFlowCard[] = hasWorkspaceDocuments ? documents : [];
@@ -119,6 +153,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         {activeTab === 'home' && (
           <HomeDashboard
             flows={flows}
+            sharedFlows={sharedFlows}
             onCreateNew={onLaunch}
             onOpenTemplates={onLaunchWithTemplates}
             onPromptWithAI={onLaunchWithAI}

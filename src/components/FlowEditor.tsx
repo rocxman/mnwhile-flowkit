@@ -8,6 +8,7 @@ import { ArchitectureLintProvider } from '@/context/ArchitectureLintContext';
 import { useCinematicExportState } from '@/context/CinematicExportContext';
 import { DiagramDiffProvider } from '@/context/DiagramDiffContext';
 import { ShareEmbedModal } from '@/components/ShareEmbedModal';
+import { ShareDialog } from '@/components/ShareDialog';
 import { ImportRecoveryDialog } from '@/components/ImportRecoveryDialog';
 import { MermaidDiagnosticsBanner } from '@/components/MermaidDiagnosticsBanner';
 import { canRecoverMermaidSource as canRecoverMermaidSourceFromState } from '@/services/mermaid/recoveryPresentation';
@@ -19,8 +20,8 @@ import { parseMermaidByType } from '@/services/mermaid/parseMermaidByType';
 import { importMermaidToCanvas } from '@/services/mermaid/rendererFirstImport';
 import { parseMermaidDirectives } from '@/services/mermaid/parseMermaidDirectives';
 import { useFlowStore } from '@/store';
-import { cloudStorage } from '@/lib/cloud-storage';
 import { useAuth } from '@/contexts/AuthContext';
+import { SyncStatusIndicator } from '@/components/SyncStatusIndicator';
 import { resolveLayoutDirection } from '@/components/flow-canvas/pasteHelpers';
 import { buildMermaidDiagnosticsSnapshot } from '@/services/mermaid/diagnosticsSnapshot';
 import { normalizeParseDiagnostics } from '@/services/mermaid/diagnosticFormatting';
@@ -33,8 +34,10 @@ interface FlowEditorProps {
 export function FlowEditor({ onGoHome }: FlowEditorProps) {
   const cinematicExportState = useCinematicExportState();
   const { user } = useAuth();
-  const [publicShareUrl, setPublicShareUrl] = React.useState<string | null>(null);
-  const [isSharingPublicly, setIsSharingPublicly] = React.useState(false);
+  const activeDocument = useFlowStore((state) =>
+    state.documents.find((doc) => doc.id === state.activeDocumentId)
+  );
+  const [showShareDialog, setShowShareDialog] = React.useState(false);
   const mermaidDiagnostics = useMermaidDiagnostics();
   const { setNodes, setEdges } = useCanvasActions();
   const { updateTab } = useTabActions();
@@ -80,62 +83,6 @@ export function FlowEditor({ onGoHome }: FlowEditorProps) {
         layoutMode: mermaidDiagnostics?.layoutMode,
       });
 
-  const handleCreatePublicShare = React.useCallback(async () => {
-    if (!user || isSharingPublicly) {
-      return;
-    }
-
-    const state = useFlowStore.getState();
-    const activeDocument = state.documents.find((doc) => doc.id === state.activeDocumentId);
-    if (!activeDocument) {
-      return;
-    }
-
-    const syncedDocument = {
-      ...activeDocument,
-      pages: activeDocument.pages.map((page) =>
-        page.id === state.activeTabId
-          ? {
-              ...page,
-              nodes: state.nodes,
-              edges: state.edges,
-            }
-          : page,
-      ),
-    };
-
-    setIsSharingPublicly(true);
-    try {
-      await cloudStorage.saveDocument({
-        local_id: syncedDocument.id,
-        name: syncedDocument.name,
-        diagram_type: syncedDocument.pages.find((p) => p.id === syncedDocument.activePageId)?.diagramType,
-        content: syncedDocument.pages.find((p) => p.id === syncedDocument.activePageId)
-          ? {
-              nodes: syncedDocument.pages.find((p) => p.id === syncedDocument.activePageId)?.nodes ?? [],
-              edges: syncedDocument.pages.find((p) => p.id === syncedDocument.activePageId)?.edges ?? [],
-              playback: syncedDocument.pages.find((p) => p.id === syncedDocument.activePageId)?.playback,
-            }
-          : undefined,
-        pages: syncedDocument.pages.map((page) => ({
-          id: page.id,
-          name: page.name,
-          diagramType: page.diagramType,
-          updatedAt: page.updatedAt,
-          content: {
-            nodes: page.nodes,
-            edges: page.edges,
-            playback: page.playback,
-          },
-        })),
-        active_page_id: syncedDocument.activePageId,
-      });
-      const token = await cloudStorage.shareDocument(syncedDocument.id);
-      setPublicShareUrl(`${window.location.origin}/#/share/${token}`);
-    } finally {
-      setIsSharingPublicly(false);
-    }
-  }, [isSharingPublicly, user]);
 
   const handleConvertMermaidToEditable = React.useCallback(async () => {
     if (!mermaidRecoverySource) {
@@ -258,6 +205,9 @@ export function FlowEditor({ onGoHome }: FlowEditorProps) {
               </div>
             </div>
           ) : null}
+          <div className="absolute top-3 right-4 z-50">
+            <SyncStatusIndicator />
+          </div>
           <FlowEditorChrome
             pages={pages}
             activePageId={activePageId}
@@ -292,18 +242,21 @@ export function FlowEditor({ onGoHome }: FlowEditorProps) {
           {shareViewerUrl && (
             <ShareEmbedModal viewerUrl={shareViewerUrl} onClose={clearShareViewerUrl} />
           )}
-          {publicShareUrl && (
-            <ShareEmbedModal viewerUrl={publicShareUrl} onClose={() => setPublicShareUrl(null)} />
-          )}
-          {user && (
+          {user && activeDocument && (
             <button
               type="button"
-              onClick={() => void handleCreatePublicShare()}
-              disabled={isSharingPublicly}
-              className="fixed right-4 bottom-4 z-40 rounded-lg border border-[var(--color-brand-border)] bg-[var(--brand-surface)] px-3 py-1.5 text-[11px] font-semibold text-[var(--brand-primary)] shadow-lg transition-all hover:bg-[var(--brand-background)] hover:text-[var(--brand-text)] disabled:opacity-50"
+              onClick={() => setShowShareDialog(true)}
+              className="fixed right-4 bottom-4 z-40 rounded-lg border border-[var(--color-brand-border)] bg-[var(--brand-surface)] px-3 py-1.5 text-[11px] font-semibold text-[var(--brand-primary)] shadow-lg transition-all hover:bg-[var(--brand-background)] hover:text-[var(--brand-text)]"
             >
-              {isSharingPublicly ? 'Creating...' : 'Share Publicly'}
+              Share
             </button>
+          )}
+          {showShareDialog && activeDocument && (
+            <ShareDialog
+              localDocumentId={activeDocument.id}
+              documentName={activeDocument.name}
+              onClose={() => setShowShareDialog(false)}
+            />
           )}
           {importRecoveryState ? (
             <ImportRecoveryDialog

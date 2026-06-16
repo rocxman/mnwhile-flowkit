@@ -39,6 +39,17 @@ vi.mock('@/components/app/DocsSiteRedirect', () => ({
   DocsSiteRedirect: () => <div data-testid="docs-redirect" />,
 }));
 
+vi.mock('@/contexts/AuthContext', () => ({
+  useAuth: () => ({
+    user: { id: 'test-user', email: 'test@example.com' },
+    loading: false,
+    signIn: vi.fn(),
+    signUp: vi.fn(),
+    logout: vi.fn(),
+    resetPassword: vi.fn(),
+  }),
+}));
+
 function resetEmptyWorkspace(): void {
   useFlowStore.setState({
     ...useFlowStore.getInitialState(),
