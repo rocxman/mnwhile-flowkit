@@ -7,12 +7,16 @@ import { syncWorkspaceDocuments } from '@/store/documentStateSync';
 import { getEditorPagesForDocument } from '@/store/workspaceDocumentModel';
 import type { FlowStoreState } from '@/store';
 import { useFlowStore } from '@/store';
-import { createPersistedDocumentsFromTabs } from './persistedDocumentAdapters';
+import {
+  createPersistedDocumentFromFlowDocument,
+  createPersistedDocumentsFromTabs,
+} from './persistedDocumentAdapters';
 import {
   createLoadedFlowWorkspace,
   localFirstRepository,
   type PersistedChatMessage,
 } from './localFirstRepository';
+import { hydrateFromCloud, queueCloudSync } from './cloudSyncService';
 import {
   parseLegacyChatMessagesJson,
   parsePersistentAISettingsJson,
@@ -104,7 +108,23 @@ async function migrateLegacyStoreIntoRepositoryIfNeeded(): Promise<void> {
 }
 
 async function hydrateStoreFromRepository(): Promise<void> {
+  // Hydrate from cloud first, merge with local
+  const cloudDocs = await hydrateFromCloud();
   const loaded = await localFirstRepository.loadWorkspaceSnapshot();
+
+  // Merge cloud docs into local if newer (cloud-wins-if-newer)
+  if (cloudDocs.length > 0) {
+    const localMap = new Map(loaded.documents.map((d) => [d.id, d]));
+    for (const cloudDoc of cloudDocs) {
+      const localDoc = localMap.get(cloudDoc.id);
+      const cloudPersisted = createPersistedDocumentFromFlowDocument(cloudDoc);
+      if (!localDoc || cloudDoc.updatedAt > localDoc.updatedAt) {
+        localMap.set(cloudDoc.id, cloudPersisted);
+      }
+    }
+    loaded.documents = Array.from(localMap.values());
+  }
+
   const workspace = createLoadedFlowWorkspace(loaded);
   const activeDocument = getEditorPagesForDocument(workspace.documents, workspace.activeDocumentId);
   if (!activeDocument) {
@@ -155,6 +175,8 @@ function persistStoreSnapshot(): void {
     documents,
     nextState.activeDocumentId,
   );
+
+  documents.forEach(queueCloudSync);
 
   if (nextState.aiSettings.storageMode === 'local') {
     void localFirstRepository.savePersistentAISettings(JSON.stringify(nextState.aiSettings));

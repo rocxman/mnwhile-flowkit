@@ -3,6 +3,7 @@ import { supabase } from './supabase';
 export interface CloudDocument {
   id: string;
   user_id: string;
+  local_id: string | null;
   name: string;
   diagram_type: string | null;
   content: Record<string, unknown> | null;
@@ -65,6 +66,7 @@ export const cloudStorage = {
 
   async saveDocument(doc: {
     id?: string;
+    local_id?: string;
     name: string;
     diagram_type?: string;
     content?: Record<string, unknown>;
@@ -84,13 +86,15 @@ export const cloudStorage = {
       updated_at: new Date().toISOString(),
     };
 
-    if (doc.id) {
-      payload.id = doc.id;
+    if (doc.local_id) {
+      payload.local_id = doc.local_id;
     }
 
     const { data, error } = await supabase
       .from('documents')
-      .upsert(payload)
+      .upsert(payload, {
+        onConflict: doc.local_id ? 'user_id,local_id' : undefined,
+      })
       .select()
       .single();
 
@@ -107,13 +111,13 @@ export const cloudStorage = {
     if (error) throw error;
   },
 
-  async shareDocument(id: string): Promise<string> {
+  async shareDocument(localId: string): Promise<string> {
     const shareToken = crypto.randomUUID();
 
     const { error } = await supabase
       .from('documents')
       .update({ is_public: true, share_token: shareToken })
-      .eq('id', id);
+      .eq('local_id', localId);
 
     if (error) throw error;
     return shareToken;
