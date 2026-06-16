@@ -37,6 +37,8 @@
 - Main UI now has a Login/User entry in `src/components/home/SidebarFooter.tsx`.
 - When logged out: sidebar footer shows `Login` button that navigates to `/auth`.
 - When logged in: sidebar footer shows user email and logout icon.
+- Production auth E2E verified on 2026-06-16 with a temporary confirmed Supabase test user: login redirected to `/home`, sidebar showed user email, logout returned sidebar to `Login`, then test user was deleted.
+- Existing user `rocxxman@gmail.com` is confirmed in Supabase and can log in with the password used during signup.
 
 ## Environment Variables
 
