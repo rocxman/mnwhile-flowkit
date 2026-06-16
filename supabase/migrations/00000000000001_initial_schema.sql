@@ -38,7 +38,7 @@ CREATE TABLE public.documents (
 CREATE TABLE public.document_shares (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   document_id UUID NOT NULL REFERENCES public.documents ON DELETE CASCADE,
-  shared_with_user_id UUID NOT NULL REFERENCES auth.users ON DELETE CASCADE,
+  shared_with_user_id UUID NOT NULL REFERENCES public.profiles ON DELETE CASCADE,
   permission TEXT DEFAULT 'view',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   UNIQUE(document_id, shared_with_user_id)
