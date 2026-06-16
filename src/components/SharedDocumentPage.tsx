@@ -48,7 +48,7 @@ export function SharedDocumentPage(): React.JSX.Element {
     return (
       <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-cyan-400 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-lime-400 mx-auto mb-4"></div>
           <p className="text-slate-300">Memuat dokumen...</p>
         </div>
       </main>

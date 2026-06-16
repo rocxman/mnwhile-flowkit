@@ -42,7 +42,7 @@ export function AuthPage(): React.JSX.Element {
           <h1 className="text-2xl font-semibold mb-2">Sudah login</h1>
           <p className="text-sm text-slate-300 mb-6">{user.email}</p>
           <div className="flex gap-3">
-            <button className="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950" onClick={() => navigate('/home')}>
+            <button className="rounded-lg bg-lime-500 px-4 py-2 text-sm font-semibold text-slate-950" onClick={() => navigate('/home')}>
               Buka Workspace
             </button>
             <button className="rounded-lg border border-white/15 px-4 py-2 text-sm" onClick={() => void logout()}>
@@ -70,7 +70,7 @@ export function AuthPage(): React.JSX.Element {
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-white outline-none focus:border-cyan-400"
+              className="mt-1 w-full rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-white outline-none focus:border-lime-400"
             />
           </label>
 
@@ -82,7 +82,7 @@ export function AuthPage(): React.JSX.Element {
               minLength={6}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-white outline-none focus:border-cyan-400"
+              className="mt-1 w-full rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-white outline-none focus:border-lime-400"
             />
           </label>
 
@@ -91,14 +91,14 @@ export function AuthPage(): React.JSX.Element {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-cyan-500 px-4 py-2 font-semibold text-slate-950 disabled:opacity-50"
+            className="w-full rounded-lg bg-lime-500 px-4 py-2 font-semibold text-slate-950 disabled:opacity-50"
           >
             {loading ? 'Memproses...' : mode === 'signin' ? 'Login' : 'Register'}
           </button>
         </form>
 
         <button
-          className="mt-4 text-sm text-cyan-300 hover:text-cyan-200"
+          className="mt-4 text-sm text-lime-300 hover:text-lime-200"
           onClick={() => setMode(mode === 'signin' ? 'signup' : 'signin')}
         >
           {mode === 'signin' ? 'Belum punya akun? Register' : 'Sudah punya akun? Login'}
