@@ -25,6 +25,8 @@ import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { SharedDocumentPage } from '@/components/SharedDocumentPage';
 import { OfflineBanner } from '@/components/OfflineBanner';
 
+import { type HomeSidebarTab } from './components/home/HomeSidebar';
+
 import { useFlowStore } from './store';
 import { useEditorPageActions } from '@/store/editorPageHooks';
 import { useWorkspaceDocumentActions, useWorkspaceRouteResolver } from '@/store/documentHooks';
@@ -231,7 +233,7 @@ function App(): React.JSX.Element {
           />
           <Route path="/home" element={<ProtectedRoute><HomePageRoute /></ProtectedRoute>} />
           <Route path="/templates" element={<ProtectedRoute><HomePageRoute /></ProtectedRoute>} />
-          <Route path="/mcp" element={<ProtectedRoute><HomePageRoute /></ProtectedRoute>} />
+          <Route path="/community" element={<ProtectedRoute><HomePageRoute /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><HomePageRoute /></ProtectedRoute>} />
           <Route
             path="/canvas"
@@ -268,27 +270,27 @@ function App(): React.JSX.Element {
   );
 }
 
-function getHomePageTab(pathname: string): 'home' | 'templates' | 'settings' | 'mcp' {
+function getHomePageTab(pathname: string): HomeSidebarTab {
   switch (pathname) {
     case '/settings':
       return 'settings';
     case '/templates':
       return 'templates';
-    case '/mcp':
-      return 'mcp';
+    case '/community':
+      return 'community';
     default:
       return 'home';
   }
 }
 
-function getHomePagePath(tab: 'home' | 'templates' | 'settings' | 'mcp'): string {
+function getHomePagePath(tab: HomeSidebarTab): string {
   switch (tab) {
     case 'settings':
       return '/settings';
     case 'templates':
       return '/templates';
-    case 'mcp':
-      return '/mcp';
+    case 'community':
+      return '/community';
     default:
       return '/home';
   }

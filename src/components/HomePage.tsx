@@ -1,19 +1,18 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react';
-import { Plus, Sparkles, LayoutTemplate, Upload, FolderOpen } from 'lucide-react';
+import { Plus, FolderOpen, PenTool, Palette, Tv, Sparkles, Upload } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useFlowStore } from '../store';
 import { useWorkspaceDocumentActions, useWorkspaceDocumentsState } from '@/store/documentHooks';
 import { HomeDashboard, type HomeFlowCard } from './home/HomeDashboard';
 import { HomeFlowDeleteDialog, HomeFlowRenameDialog } from './home/HomeFlowDialogs';
-import { HomeMCPView } from './home/HomeMCPView';
 import { HomeSettingsView } from './home/HomeSettingsView';
-import { HomeSidebar } from './home/HomeSidebar';
+import { HomeSidebar, type HomeSidebarTab } from './home/HomeSidebar';
 import { HomeTemplatesView } from './home/HomeTemplatesView';
+import { HomeCommunityView } from './home/HomeCommunityView';
 import { shouldShowWelcomeModal } from './home/welcomeModalState';
 import { useAuth } from '@/contexts/AuthContext';
 import { cloudStorage } from '@/lib/cloud-storage';
 
-type HomePageTab = 'home' | 'templates' | 'settings' | 'mcp';
 type HomeSettingsTab = 'general' | 'canvas' | 'shortcuts' | 'ai' | 'mcp' | 'documentation';
 
 const LazyWelcomeModal = lazy(async () => {
@@ -28,8 +27,8 @@ interface HomePageProps {
   onLaunchWithAI: () => void;
   onImportJSON: () => void;
   onOpenFlow: (flowId: string) => void;
-  activeTab?: HomePageTab;
-  onSwitchTab?: (tab: HomePageTab) => void;
+  activeTab?: HomeSidebarTab;
+  onSwitchTab?: (tab: HomeSidebarTab) => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
@@ -47,8 +46,14 @@ export const HomePage: React.FC<HomePageProps> = ({
   const { documents } = useWorkspaceDocumentsState();
   const { renameDocument, deleteDocument, duplicateDocument } = useWorkspaceDocumentActions();
   const hasWorkspaceDocuments = useFlowStore((state) => state.documents.length > 0);
-  const [internalActiveTab, setInternalActiveTab] = useState<HomePageTab>('home');
+  
+  // Lifted Dashboard state variables
+  const [internalActiveTab, setInternalActiveTab] = useState<HomeSidebarTab>('home');
   const [activeSettingsTab, setActiveSettingsTab] = useState<HomeSettingsTab>('general');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [projectFilter, setProjectFilter] = useState<'all' | 'drafts' | 'trash'>('all');
+
   const [flowPendingRename, setFlowPendingRename] = useState<HomeFlowCard | null>(null);
   const [flowPendingDelete, setFlowPendingDelete] = useState<HomeFlowCard | null>(null);
   const [sharedFlows, setSharedFlows] = useState<HomeFlowCard[]>([]);
@@ -88,20 +93,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   const activeTab = propActiveTab ?? internalActiveTab;
   const flows: HomeFlowCard[] = hasWorkspaceDocuments ? documents : [];
 
-  // Redirect legacy /mcp tab or handle internal redirect to Settings -> MCP
-  useEffect(() => {
-    if (activeTab === 'mcp') {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setActiveSettingsTab('mcp');
-      if (onSwitchTab) {
-        onSwitchTab('settings');
-      } else {
-        setInternalActiveTab('settings');
-      }
-    }
-  }, [activeTab, onSwitchTab]);
-
-  function handleTabChange(tab: HomePageTab): void {
+  function handleTabChange(tab: HomeSidebarTab): void {
     if (onSwitchTab) {
       onSwitchTab(tab);
     } else {
@@ -116,26 +108,18 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   function handleRenameFlow(flowId: string): void {
     const flow = flows.find((entry) => entry.id === flowId);
-    if (!flow) {
-      return;
-    }
-
+    if (!flow) return;
     setFlowPendingRename(flow);
   }
 
   function handleDeleteFlow(flowId: string): void {
     const flow = flows.find((entry) => entry.id === flowId);
-    if (!flow) {
-      return;
-    }
-
+    if (!flow) return;
     setFlowPendingDelete(flow);
   }
 
   function submitFlowRename(nextName: string): void {
-    if (!flowPendingRename) {
-      return;
-    }
+    if (!flowPendingRename) return;
 
     const trimmedName = nextName.trim();
     if (!trimmedName || trimmedName === flowPendingRename.name) {
@@ -148,9 +132,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   }
 
   function confirmFlowDelete(): void {
-    if (!flowPendingDelete) {
-      return;
-    }
+    if (!flowPendingDelete) return;
 
     deleteDocument(flowPendingDelete.id);
     setFlowPendingDelete(null);
@@ -163,22 +145,42 @@ export const HomePage: React.FC<HomePageProps> = ({
     }
   }
 
+  // Filter flows based on search query
+  const filteredFlows = flows.filter((flow) =>
+    flow.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredSharedFlows = sharedFlows.filter((flow) =>
+    flow.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen bg-[var(--brand-background)] flex flex-col text-[var(--brand-text)] md:flex-row">
-      <HomeSidebar activeTab={activeTab} onTabChange={handleTabChange} />
+      <HomeSidebar
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        projectFilter={projectFilter}
+        onProjectFilterChange={setProjectFilter}
+      />
 
-      {/* Main Content */}
+      {/* Main Content Area */}
       <main
         id="main-content"
         className="flex-1 flex min-w-0 flex-col bg-[var(--brand-surface)] md:ml-64"
       >
-        {/* Unified Topbar Navbar */}
+        {/* Unified Figma-style Topbar Navbar */}
         <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center justify-between border-b border-[var(--color-brand-border)] bg-[var(--brand-surface)]/80 px-6 backdrop-blur-md">
-          {/* Left side: Breadcrumb / Title */}
+          {/* Left side: Page Title */}
           <div className="flex items-center gap-2 text-sm font-medium">
             <FolderOpen className="w-4 h-4 text-[var(--brand-secondary)] opacity-60 shrink-0" />
-            <span className="text-[var(--brand-text)] font-semibold capitalize">
-              {activeTab === 'home' ? t('nav.recents', 'Recents') : activeTab}
+            <span className="text-[var(--brand-text)] font-semibold capitalize font-outfit">
+              {activeTab === 'home'
+                ? projectFilter === 'all'
+                  ? t('nav.recents', 'Recents')
+                  : projectFilter
+                : activeTab}
             </span>
             {activeTab === 'settings' && (
               <>
@@ -190,67 +192,94 @@ export const HomePage: React.FC<HomePageProps> = ({
             )}
           </div>
 
-          {/* Right side: Quick Start Pills */}
-          <div className="flex items-center gap-2.5">
+          {/* Right side: Figma-style Action Pills */}
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={onLaunch}
-              className="flex items-center gap-1.5 rounded-lg bg-lime-500 hover:bg-lime-400 text-slate-950 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:shadow-[0_0_15px_rgba(132,204,22,0.25)] hover:scale-[1.02] active:scale-[0.98]"
-              data-testid="home-create-new-main"
+              className="flex items-center gap-1.5 rounded-full bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-500/20 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              title="Design a New Canvas"
             >
-              <Plus className="w-3.5 h-3.5" />
-              <span>New Canvas</span>
+              <PenTool className="w-3.5 h-3.5" />
+              <span>Design</span>
             </button>
+
             <button
               type="button"
-              onClick={onLaunchWithAI}
-              className="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:shadow-[0_0_15px_rgba(147,51,234,0.3)] hover:scale-[1.02] active:scale-[0.98]"
-              data-testid="home-generate-with-ai"
+              onClick={onLaunch}
+              className="flex items-center gap-1.5 rounded-full bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 border border-purple-500/20 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              title="Create a FigJam Flowchart"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Flowpilot AI</span>
+              <Palette className="w-3.5 h-3.5" />
+              <span>FigJam</span>
             </button>
+
             <button
               type="button"
               onClick={handleTopbarTemplatesClick}
-              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all duration-200 cursor-pointer border hover:scale-[1.02] active:scale-[0.98] ${
-                activeTab === 'templates'
-                  ? 'bg-white/10 text-white border-white/20 shadow-inner'
-                  : 'bg-white/5 hover:bg-white/10 text-[var(--brand-text)] border-white/10'
-              }`}
-              data-testid="home-open-templates"
+              className="flex items-center gap-1.5 rounded-full bg-orange-600/10 hover:bg-orange-600/20 text-orange-400 border border-orange-500/20 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              title="Open Presentation Slides Templates"
             >
-              <LayoutTemplate className="w-3.5 h-3.5" />
-              <span>Templates</span>
+              <Tv className="w-3.5 h-3.5" />
+              <span>Slides</span>
             </button>
+
+            <button
+              type="button"
+              onClick={onLaunchWithAI}
+              className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-pink-600/20 to-purple-600/20 hover:from-pink-600/30 hover:to-purple-600/30 text-pink-400 border border-pink-500/30 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              title="Generate Diagram with Flowpilot AI"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>AI Flow</span>
+            </button>
+
             <button
               type="button"
               onClick={onImportJSON}
-              className="flex items-center gap-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-[var(--brand-text)] border border-white/10 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
-              data-testid="home-import-json"
+              className="flex items-center gap-1.5 rounded-full bg-white/5 hover:bg-white/10 text-[var(--brand-text)] border border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              title="Import JSON Schema"
             >
               <Upload className="w-3.5 h-3.5" />
               <span>Import</span>
+            </button>
+
+            <div className="h-4 w-px bg-[var(--color-brand-border)] mx-1" />
+
+            {/* Quick Plus Button */}
+            <button
+              type="button"
+              onClick={onLaunch}
+              className="flex h-7 w-7 items-center justify-center rounded-full bg-lime-500 hover:bg-lime-400 text-slate-950 shadow-md transition-all cursor-pointer hover:scale-[1.05] active:scale-[0.95]"
+              title="Create New File"
+              data-testid="home-create-new-main"
+            >
+              <Plus className="w-4 h-4" />
             </button>
           </div>
         </header>
 
         {activeTab === 'home' && (
           <HomeDashboard
-            flows={flows}
-            sharedFlows={sharedFlows}
+            flows={filteredFlows}
+            sharedFlows={filteredSharedFlows}
             onOpenFlow={onOpenFlow}
             onRenameFlow={handleRenameFlow}
             onDuplicateFlow={handleDuplicateFlow}
             onDeleteFlow={handleDeleteFlow}
+            projectFilter={projectFilter}
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
           />
+        )}
+
+        {activeTab === 'community' && (
+          <HomeCommunityView onUseTemplate={onLaunchWithTemplate} />
         )}
 
         {activeTab === 'templates' && (
           <HomeTemplatesView onUseTemplate={onLaunchWithTemplate} />
         )}
-
-        {activeTab === 'mcp' && <HomeMCPView />}
 
         {activeTab === 'settings' && (
           <HomeSettingsView
@@ -259,6 +288,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           />
         )}
       </main>
+
       <HomeFlowRenameDialog
         key={flowPendingRename?.id ?? 'rename-closed'}
         flowName={flowPendingRename?.name ?? ''}
@@ -273,6 +303,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         onClose={() => setFlowPendingDelete(null)}
         onConfirm={confirmFlowDelete}
       />
+
       {showWelcomeModal ? (
         <Suspense fallback={null}>
           <LazyWelcomeModal

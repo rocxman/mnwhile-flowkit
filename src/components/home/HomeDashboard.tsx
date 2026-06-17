@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Copy,
   Layout,
@@ -8,6 +8,11 @@ import {
   Users,
   LogIn,
   Cloud,
+  List,
+  ChevronDown,
+  Check,
+  Undo,
+  FileText,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -34,8 +39,29 @@ interface HomeDashboardProps {
   onRenameFlow: (flowId: string) => void;
   onDuplicateFlow: (flowId: string) => void;
   onDeleteFlow: (flowId: string) => void;
+  projectFilter: 'all' | 'drafts' | 'trash';
+  viewMode: 'grid' | 'list';
+  onViewModeChange: (mode: 'grid' | 'list') => void;
 }
 
+const INITIAL_TRASH_ITEMS: HomeFlowCard[] = [
+  {
+    id: 'trash-1',
+    name: 'Legacy Microservice Architecture Diagram',
+    nodeCount: 14,
+    edgeCount: 19,
+    updatedAt: '2026-06-10T12:00:00.000Z',
+    preview: null,
+  },
+  {
+    id: 'trash-2',
+    name: 'Temp Wireframe flowchart',
+    nodeCount: 5,
+    edgeCount: 4,
+    updatedAt: '2026-06-14T08:30:00.000Z',
+    preview: null,
+  },
+];
 
 export function HomeDashboard({
   flows,
@@ -44,77 +70,379 @@ export function HomeDashboard({
   onRenameFlow,
   onDuplicateFlow,
   onDeleteFlow,
+  projectFilter,
+  viewMode,
+  onViewModeChange,
 }: HomeDashboardProps): React.ReactElement {
   const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [activeSubTab, setActiveSubTab] = useState<'recents' | 'shared'>('recents');
 
-  const hasFlows = flows.length > 0;
-  const hasSharedFlows = sharedFlows.length > 0;
+  // Navigation Sub-tabs
+  const [activeSubTab, setActiveSubTab] = useState<'recents' | 'shared' | 'projects'>('recents');
+
+  // Interactive Dropdown states
+  const [orgOpen, setOrgOpen] = useState(false);
+  const [fileTypeOpen, setFileTypeOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
+
+  // Dropdown filter selections
+  const [orgFilter, setOrgFilter] = useState('All organizations');
+  const [fileTypeFilter, setFileTypeFilter] = useState('All files');
+  const [sortBy, setSortBy] = useState<'lastViewed' | 'nameAsc' | 'nameDesc'>('lastViewed');
+
+  // Mock Trash Items
+  const [trashItems, setTrashItems] = useState<HomeFlowCard[]>(INITIAL_TRASH_ITEMS);
+
+  // Apply sorting and ownership filters
+  const processedFlows = useMemo(() => {
+    const list = [...flows];
+
+    // Ownership filtering
+    if (fileTypeFilter === 'Owned by me') {
+      // For local-first, drafts/local belong to user
+    }
+
+    // Sort
+    list.sort((a, b) => {
+      if (sortBy === 'nameAsc') return a.name.localeCompare(b.name);
+      if (sortBy === 'nameDesc') return b.name.localeCompare(a.name);
+      const timeA = a.updatedAt ? Date.parse(a.updatedAt) : 0;
+      const timeB = b.updatedAt ? Date.parse(b.updatedAt) : 0;
+      return timeB - timeA;
+    });
+
+    return list;
+  }, [flows, fileTypeFilter, sortBy]);
+
+  const processedSharedFlows = useMemo(() => {
+    const list = [...sharedFlows];
+    list.sort((a, b) => {
+      if (sortBy === 'nameAsc') return a.name.localeCompare(b.name);
+      if (sortBy === 'nameDesc') return b.name.localeCompare(a.name);
+      const timeA = a.updatedAt ? Date.parse(a.updatedAt) : 0;
+      const timeB = b.updatedAt ? Date.parse(b.updatedAt) : 0;
+      return timeB - timeA;
+    });
+    return list;
+  }, [sharedFlows, sortBy]);
+
+  // Restore trash item trigger
+  function handleRestoreTrashItem(item: HomeFlowCard): void {
+    setTrashItems(trashItems.filter((t) => t.id !== item.id));
+    // Simulate recovery by launching it as a new canvas
+    onOpenFlow(item.id);
+  }
+
+  // Perm delete trash item trigger
+  function handlePermanentlyDeleteTrashItem(itemId: string): void {
+    setTrashItems(trashItems.filter((t) => t.id !== itemId));
+  }
+
+
+  // Dropdown options
+  const orgOptions = ['All organizations', 'Personal', 'Work Team'];
+  const fileTypeOptions = ['All files', 'Owned by me', 'Shared with me'];
+  const sortOptions = [
+    { key: 'lastViewed', label: 'Last viewed' },
+    { key: 'nameAsc', label: 'Alphabetical A-Z' },
+    { key: 'nameDesc', label: 'Alphabetical Z-A' },
+  ];
+
+  const currentSortLabel = sortOptions.find((o) => o.key === sortBy)?.label ?? 'Last viewed';
+
+  // Renders the file previews
+  const hasFlows = processedFlows.length > 0;
+  const hasSharedFlows = processedSharedFlows.length > 0;
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 animate-in fade-in duration-300 sm:px-6 md:px-10 md:py-8">
-      {/* Dashboard Sub-navbar Tabs */}
-      <div className="flex items-center justify-between border-b border-[var(--color-brand-border)] mb-8">
-        <div className="flex gap-6">
-          <button
-            type="button"
-            onClick={() => setActiveSubTab('recents')}
-            className={`relative pb-3 text-sm font-semibold transition-all cursor-pointer ${
-              activeSubTab === 'recents'
-                ? 'text-[var(--brand-text)]'
-                : 'text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
-            }`}
-          >
-            <div className="flex items-center gap-2">
-              <span>{t('home.recentFiles', 'Recent Files')}</span>
-              <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
+    <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 md:px-10 md:py-8 animate-in fade-in duration-300">
+      
+      {/* Sub-navigation Menu & Grid Filters Toolbar */}
+      <div className="flex flex-col gap-4 border-b border-[var(--color-brand-border)] pb-3 mb-6 md:flex-row md:items-center md:justify-between">
+        
+        {/* Left Side: Sub Tabs */}
+        {projectFilter === 'all' ? (
+          <div className="flex gap-5">
+            <button
+              type="button"
+              onClick={() => setActiveSubTab('recents')}
+              className={`relative pb-3 text-xs font-bold transition-all cursor-pointer focus:outline-none ${
                 activeSubTab === 'recents'
-                  ? 'bg-lime-500/10 text-lime-500 border border-lime-500/20'
-                  : 'bg-white/5 text-[var(--brand-secondary)] border border-white/5'
-              }`}>
-                {flows.length}
-              </span>
-            </div>
-            {activeSubTab === 'recents' && (
-              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-lime-500 rounded-full" />
-            )}
-          </button>
+                  ? 'text-[var(--brand-text)]'
+                  : 'text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
+              }`}
+            >
+              <div className="flex items-center gap-1.5">
+                <span>Recently viewed</span>
+                <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
+                  activeSubTab === 'recents'
+                    ? 'bg-lime-500/10 text-lime-500 border border-lime-500/20'
+                    : 'bg-white/5 text-[var(--brand-secondary)] border border-white/5'
+                }`}>
+                  {flows.length}
+                </span>
+              </div>
+              {activeSubTab === 'recents' && (
+                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-lime-500 rounded-full animate-in fade-in" />
+              )}
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setActiveSubTab('shared')}
-            className={`relative pb-3 text-sm font-semibold transition-all cursor-pointer ${
-              activeSubTab === 'shared'
-                ? 'text-[var(--brand-text)]'
-                : 'text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
-            }`}
-          >
-            <div className="flex items-center gap-2">
-              <span>{t('home.sharedWithMe', 'Shared with Me')}</span>
-              <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
+            <button
+              type="button"
+              onClick={() => setActiveSubTab('shared')}
+              className={`relative pb-3 text-xs font-bold transition-all cursor-pointer focus:outline-none ${
                 activeSubTab === 'shared'
-                  ? 'bg-lime-500/10 text-lime-500 border border-lime-500/20'
-                  : 'bg-white/5 text-[var(--brand-secondary)] border border-white/5'
-              }`}>
-                {sharedFlows.length}
-              </span>
-            </div>
-            {activeSubTab === 'shared' && (
-              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-lime-500 rounded-full" />
+                  ? 'text-[var(--brand-text)]'
+                  : 'text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
+              }`}
+            >
+              <div className="flex items-center gap-1.5">
+                <span>Shared files</span>
+                <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
+                  activeSubTab === 'shared'
+                    ? 'bg-lime-500/10 text-lime-500 border border-lime-500/20'
+                    : 'bg-white/5 text-[var(--brand-secondary)] border border-white/5'
+                }`}>
+                  {sharedFlows.length}
+                </span>
+              </div>
+              {activeSubTab === 'shared' && (
+                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-lime-500 rounded-full animate-in fade-in" />
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveSubTab('projects')}
+              className={`relative pb-3 text-xs font-bold transition-all cursor-pointer focus:outline-none ${
+                activeSubTab === 'projects'
+                  ? 'text-[var(--brand-text)]'
+                  : 'text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
+              }`}
+            >
+              <div className="flex items-center gap-1.5">
+                <span>Shared projects</span>
+                <span className="rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none bg-white/5 text-[var(--brand-secondary)] border border-white/5">
+                  0
+                </span>
+              </div>
+              {activeSubTab === 'projects' && (
+                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-lime-500 rounded-full animate-in fade-in" />
+              )}
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 pb-2">
+            <span className="inline-flex h-2 w-2 rounded-full bg-lime-500" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--brand-text)] capitalize">
+              Viewing folder: <span className="text-lime-400">{projectFilter}</span>
+            </h2>
+          </div>
+        )}
+
+        {/* Right Side: Figma Filters Toolbar */}
+        <div className="flex flex-wrap items-center gap-2">
+          
+          {/* Org Selector */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => { setOrgOpen(!orgOpen); setFileTypeOpen(false); setSortOpen(false); }}
+              className="flex items-center gap-1.5 rounded-lg border border-[var(--color-brand-border)] bg-black/10 px-2.5 py-1.5 text-[11px] font-semibold text-[var(--brand-secondary)] hover:text-white transition-all cursor-pointer"
+            >
+              <span>{orgFilter}</span>
+              <ChevronDown className="w-3.5 h-3.5 opacity-60" />
+            </button>
+            {orgOpen && (
+              <>
+                <button type="button" className="fixed inset-0 z-30" onClick={() => setOrgOpen(false)} />
+                <div className="absolute right-0 z-40 mt-1 w-44 rounded-lg border border-[var(--color-brand-border)] bg-[var(--brand-surface)] p-1 shadow-xl animate-in fade-in slide-in-from-top-1 duration-150">
+                  {orgOptions.map((opt) => (
+                    <button
+                      key={opt}
+                      onClick={() => { setOrgFilter(opt); setOrgOpen(false); }}
+                      className="flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-[11px] text-[var(--brand-secondary)] hover:bg-white/5 hover:text-white text-left cursor-pointer"
+                    >
+                      <span>{opt}</span>
+                      {orgFilter === opt && <Check className="w-3 h-3 text-lime-500" />}
+                    </button>
+                  ))}
+                </div>
+              </>
             )}
-          </button>
+          </div>
+
+          {/* File Type Selector */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => { setFileTypeOpen(!fileTypeOpen); setOrgOpen(false); setSortOpen(false); }}
+              className="flex items-center gap-1.5 rounded-lg border border-[var(--color-brand-border)] bg-black/10 px-2.5 py-1.5 text-[11px] font-semibold text-[var(--brand-secondary)] hover:text-white transition-all cursor-pointer"
+            >
+              <span>{fileTypeFilter}</span>
+              <ChevronDown className="w-3.5 h-3.5 opacity-60" />
+            </button>
+            {fileTypeOpen && (
+              <>
+                <button type="button" className="fixed inset-0 z-30" onClick={() => setFileTypeOpen(false)} />
+                <div className="absolute right-0 z-40 mt-1 w-44 rounded-lg border border-[var(--color-brand-border)] bg-[var(--brand-surface)] p-1 shadow-xl animate-in fade-in slide-in-from-top-1 duration-150">
+                  {fileTypeOptions.map((opt) => (
+                    <button
+                      key={opt}
+                      onClick={() => { setFileTypeFilter(opt); setFileTypeOpen(false); }}
+                      className="flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-[11px] text-[var(--brand-secondary)] hover:bg-white/5 hover:text-white text-left cursor-pointer"
+                    >
+                      <span>{opt}</span>
+                      {fileTypeFilter === opt && <Check className="w-3 h-3 text-lime-500" />}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Sorting Selector */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => { setSortOpen(!sortOpen); setOrgOpen(false); setFileTypeOpen(false); }}
+              className="flex items-center gap-1.5 rounded-lg border border-[var(--color-brand-border)] bg-black/10 px-2.5 py-1.5 text-[11px] font-semibold text-[var(--brand-secondary)] hover:text-white transition-all cursor-pointer"
+            >
+              <span>{currentSortLabel}</span>
+              <ChevronDown className="w-3.5 h-3.5 opacity-60" />
+            </button>
+            {sortOpen && (
+              <>
+                <button type="button" className="fixed inset-0 z-30" onClick={() => setSortOpen(false)} />
+                <div className="absolute right-0 z-40 mt-1 w-44 rounded-lg border border-[var(--color-brand-border)] bg-[var(--brand-surface)] p-1 shadow-xl animate-in fade-in slide-in-from-top-1 duration-150">
+                  {sortOptions.map((opt) => (
+                    <button
+                      key={opt.key}
+                      onClick={() => { setSortBy(opt.key as typeof sortBy); setSortOpen(false); }}
+                      className="flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-[11px] text-[var(--brand-secondary)] hover:bg-white/5 hover:text-white text-left cursor-pointer"
+                    >
+                      <span>{opt.label}</span>
+                      {sortBy === opt.key && <Check className="w-3 h-3 text-lime-500" />}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Divider */}
+          <div className="h-4 w-px bg-[var(--color-brand-border)] mx-1" />
+
+          {/* Grid/List View Mode Toggles */}
+          <div className="flex items-center gap-1 rounded-lg border border-[var(--color-brand-border)] bg-black/10 p-0.5">
+            <button
+              type="button"
+              onClick={() => onViewModeChange('grid')}
+              className={`flex h-6 w-6 items-center justify-center rounded transition-all cursor-pointer focus:outline-none ${
+                viewMode === 'grid'
+                  ? 'bg-white/10 text-white shadow-inner'
+                  : 'text-[var(--brand-secondary)] hover:text-white'
+              }`}
+              title="Grid View"
+            >
+              <Layout className="w-3.5 h-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => onViewModeChange('list')}
+              className={`flex h-6 w-6 items-center justify-center rounded transition-all cursor-pointer focus:outline-none ${
+                viewMode === 'list'
+                  ? 'bg-white/10 text-white shadow-inner'
+                  : 'text-[var(--brand-secondary)] hover:text-white'
+              }`}
+              title="List View"
+            >
+              <List className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Recents Tab Content */}
-      {activeSubTab === 'recents' && (
+      {/* Main Content Areas based on Sidebar filter selection */}
+      {projectFilter === 'trash' ? (
+        <section className="animate-in fade-in duration-300">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-[11px] font-bold text-[var(--brand-secondary)] uppercase tracking-wider">
+              Trash Bin (Deleted Files)
+            </h2>
+            <span className="text-xs text-[var(--brand-secondary)]">
+              {trashItems.length} items
+            </span>
+          </div>
+
+          {trashItems.length === 0 ? (
+            <div className="flex flex-col py-16 items-center justify-center text-center border border-dashed border-white/5 rounded-2xl max-w-xl mx-auto my-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/5 text-[var(--brand-secondary)] mb-4">
+                <Trash2 className="w-5 h-5 opacity-40" />
+              </div>
+              <h3 className="text-sm font-semibold text-[var(--brand-text)] mb-1">Trash is empty</h3>
+              <p className="text-xs text-[var(--brand-secondary)] max-w-xs leading-relaxed">
+                Files you delete will appear here and can be recovered within 30 days.
+              </p>
+            </div>
+          ) : (
+            <div className="border border-[var(--color-brand-border)] rounded-xl overflow-hidden bg-[var(--brand-surface)] shadow-md">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="border-b border-[var(--color-brand-border)] bg-black/15 text-[var(--brand-secondary)] font-bold">
+                    <th className="p-3 pl-4">Name</th>
+                    <th className="p-3">Deleted Date</th>
+                    <th className="p-3">Canvas Elements</th>
+                    <th className="p-3 text-right pr-4">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {trashItems.map((item) => (
+                    <tr key={item.id} className="border-b border-[var(--color-brand-border)]/40 hover:bg-white/[0.02] transition-colors">
+                      <td className="p-3 pl-4 font-semibold text-[var(--brand-text)] flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-red-500 opacity-70" />
+                        <span>{item.name}</span>
+                      </td>
+                      <td className="p-3 text-[var(--brand-secondary)]">
+                        {formatUpdatedAt(item.updatedAt)}
+                      </td>
+                      <td className="p-3 text-[var(--brand-secondary)]">
+                        {item.nodeCount} nodes, {item.edgeCount} edges
+                      </td>
+                      <td className="p-3 text-right pr-4">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => handleRestoreTrashItem(item)}
+                            className="inline-flex items-center gap-1 py-1 px-2.5 rounded bg-lime-500/10 hover:bg-lime-500/20 text-lime-400 text-[10px] font-bold border border-lime-500/20 transition-all cursor-pointer"
+                          >
+                            <Undo className="w-3 h-3" />
+                            <span>Restore</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handlePermanentlyDeleteTrashItem(item.id)}
+                            className="inline-flex items-center gap-1 py-1 px-2.5 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400 text-[10px] font-bold border border-red-500/20 transition-all cursor-pointer"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                            <span>Delete</span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      ) : activeSubTab === 'recents' ? (
         <section className="animate-in fade-in duration-300">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <h2 className="text-[11px] font-bold text-[var(--brand-secondary)] uppercase tracking-wider">
-                {t('home.recentFiles', 'Recent Files')}
+                {projectFilter === 'drafts' ? 'Draft files' : t('home.recentFiles', 'Recent Files')}
               </h2>
               <Tooltip
                 text={t(
@@ -135,7 +463,7 @@ export function HomeDashboard({
             </div>
             {hasFlows && (
               <span className="text-xs text-[var(--brand-secondary)]">
-                {flows.length} {t('home.files', 'files')}
+                {processedFlows.length} {t('home.files', 'files')}
               </span>
             )}
           </div>
@@ -155,9 +483,10 @@ export function HomeDashboard({
                 Create a new blank canvas, generate with AI, or import an existing file. Your work will automatically save here.
               </p>
             </div>
-          ) : (
+          ) : viewMode === 'grid' ? (
+            /* GRID VIEW */
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              {flows.map((flow) => (
+              {processedFlows.map((flow) => (
                 <div
                   key={flow.id}
                   onClick={() => onOpenFlow(flow.id)}
@@ -166,35 +495,34 @@ export function HomeDashboard({
                   <div className="relative flex h-[160px] w-full items-center justify-center overflow-hidden border-b border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-background)]">
                     <FlowPreview preview={flow.preview} />
 
-                    {/* Sleek Floating Actions Pill */}
+                    {/* Floating Actions Menu */}
                     <div className="absolute right-3 top-3 z-20 flex items-center gap-0.5 rounded-full border border-[color-mix(in_srgb,var(--color-brand-border),white_10%)] bg-[var(--brand-surface)]/80 backdrop-blur-md p-1 opacity-0 transform translate-y-[-4px] transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0 shadow-lg">
                       <FlowCardActionButton
                         label={t('common.rename', 'Rename')}
                         onClick={() => onRenameFlow(flow.id)}
-                        hoverClassName="hover:bg-[var(--brand-primary)]/10 hover:text-[var(--brand-primary)] focus-visible:ring-[var(--brand-primary)]"
+                        hoverClassName="hover:bg-[var(--brand-primary)]/10 hover:text-[var(--brand-primary)]"
                       >
                         <Pencil className="h-3 w-3" />
                       </FlowCardActionButton>
                       <FlowCardActionButton
                         label={t('common.duplicate', 'Duplicate')}
                         onClick={() => onDuplicateFlow(flow.id)}
-                        hoverClassName="hover:bg-[var(--brand-primary)]/10 hover:text-[var(--brand-primary)] focus-visible:ring-[var(--brand-primary)]"
+                        hoverClassName="hover:bg-[var(--brand-primary)]/10 hover:text-[var(--brand-primary)]"
                       >
                         <Copy className="h-3 w-3" />
                       </FlowCardActionButton>
-                      {/* Divider */}
                       <div className="h-3 w-[1px] bg-[var(--color-brand-border)] mx-0.5"></div>
                       <FlowCardActionButton
                         label={t('common.delete', 'Delete')}
                         onClick={() => onDeleteFlow(flow.id)}
-                        hoverClassName="hover:bg-red-500/10 hover:text-red-500 focus-visible:ring-red-500"
+                        hoverClassName="hover:bg-red-500/10 hover:text-red-500"
                       >
                         <Trash2 className="h-3 w-3" />
                       </FlowCardActionButton>
                     </div>
                   </div>
                   <div className="flex flex-col p-4 bg-[var(--brand-surface)] transition-colors group-hover:bg-[color-mix(in_srgb,var(--brand-surface),white_2%)]">
-                    <h3 className="font-semibold text-[13.5px] text-[var(--brand-text)] tracking-tight truncate mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors">
+                    <h3 className="font-semibold text-[13.5px] text-[var(--brand-text)] tracking-tight truncate mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors text-left">
                       {flow.name}
                     </h3>
                     <div className="flex items-center gap-2 text-[12px] font-medium text-[var(--brand-secondary)]">
@@ -203,25 +531,76 @@ export function HomeDashboard({
                       <span>
                         {flow.nodeCount} node{flow.nodeCount !== 1 ? 's' : ''}
                       </span>
-                      {flow.isActive && (
-                        <>
-                          <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
-                          <span className="text-[var(--brand-primary)]">
-                            {t('home.currentFlow', 'Current')}
-                          </span>
-                        </>
-                      )}
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+          ) : (
+            /* LIST VIEW */
+            <div className="border border-[var(--color-brand-border)] rounded-xl overflow-hidden bg-[var(--brand-surface)] shadow-md animate-in fade-in duration-200">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="border-b border-[var(--color-brand-border)] bg-black/15 text-[var(--brand-secondary)] font-bold">
+                    <th className="p-3 pl-4">Name</th>
+                    <th className="p-3">Last Edited</th>
+                    <th className="p-3">Elements</th>
+                    <th className="p-3 text-right pr-4">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {processedFlows.map((flow) => (
+                    <tr
+                      key={flow.id}
+                      onClick={() => onOpenFlow(flow.id)}
+                      className="group border-b border-[var(--color-brand-border)]/40 hover:bg-white/[0.02] transition-colors cursor-pointer"
+                    >
+                      <td className="p-3 pl-4 font-semibold text-[var(--brand-text)] flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-blue-400 opacity-70 shrink-0" />
+                        <span className="truncate max-w-sm block">{flow.name}</span>
+                      </td>
+                      <td className="p-3 text-[var(--brand-secondary)]">
+                        {formatUpdatedAt(flow.updatedAt)}
+                      </td>
+                      <td className="p-3 text-[var(--brand-secondary)]">
+                        {flow.nodeCount} nodes, {flow.edgeCount} edges
+                      </td>
+                      <td className="p-3 text-right pr-4" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => onRenameFlow(flow.id)}
+                            className="p-1.5 rounded-lg hover:bg-white/5 text-[var(--brand-secondary)] hover:text-white transition-all cursor-pointer"
+                            title="Rename"
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => onDuplicateFlow(flow.id)}
+                            className="p-1.5 rounded-lg hover:bg-white/5 text-[var(--brand-secondary)] hover:text-white transition-all cursor-pointer"
+                            title="Duplicate"
+                          >
+                            <Copy className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => onDeleteFlow(flow.id)}
+                            className="p-1.5 rounded-lg hover:bg-white/5 text-red-400 hover:bg-red-500/10 transition-all cursor-pointer"
+                            title="Delete"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </section>
-      )}
-
-      {/* Shared with Me Tab Content */}
-      {activeSubTab === 'shared' && (
+      ) : activeSubTab === 'shared' ? (
         <section className="animate-in fade-in duration-300">
           {!user ? (
             <div className="flex w-full max-w-lg mx-auto flex-col py-12 px-6 items-center justify-center rounded-2xl border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-gradient-to-b from-white/[0.01] to-transparent text-center shadow-lg my-6">
@@ -255,46 +634,85 @@ export function HomeDashboard({
                 Files that other team members share with you will automatically show up here.
               </p>
             </div>
-          ) : (
-            <div>
-              <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-2">
-                  <h2 className="text-[11px] font-bold text-[var(--brand-secondary)] uppercase tracking-wider">
-                    {t('home.sharedWithMe', 'Shared with Me')}
-                  </h2>
-                </div>
-                <span className="text-xs text-[var(--brand-secondary)]">
-                  {sharedFlows.length} {t('home.files', 'files')}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                {sharedFlows.map((flow) => (
-                  <div
-                    key={flow.id}
-                    onClick={() => onOpenFlow(flow.id)}
-                    className="group relative cursor-pointer flex flex-col overflow-hidden rounded-[16px] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-surface)] transition-all duration-300 hover:border-[var(--brand-primary-400)]/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
-                  >
-                    <div className="relative flex h-[160px] w-full items-center justify-center overflow-hidden border-b border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-background)]">
-                      <FlowPreview preview={flow.preview} />
-                      <div className="absolute right-3 top-3 z-20 rounded-full bg-[var(--brand-surface)]/80 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
-                        Read-only
-                      </div>
-                    </div>
-                    <div className="flex flex-col p-4 bg-[var(--brand-surface)]">
-                      <h3 className="font-semibold text-[13.5px] text-[var(--brand-text)] tracking-tight truncate mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors">
-                        {flow.name}
-                      </h3>
-                      <div className="flex items-center gap-2 text-[12px] font-medium text-[var(--brand-secondary)]">
-                        <span>{formatUpdatedAt(flow.updatedAt)}</span>
-                        <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
-                        <span>{flow.nodeCount} node{flow.nodeCount !== 1 ? 's' : ''}</span>
-                      </div>
+          ) : viewMode === 'grid' ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {processedSharedFlows.map((flow) => (
+                <div
+                  key={flow.id}
+                  onClick={() => onOpenFlow(flow.id)}
+                  className="group relative cursor-pointer flex flex-col overflow-hidden rounded-[16px] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-surface)] transition-all duration-300 hover:border-[var(--brand-primary-400)]/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
+                >
+                  <div className="relative flex h-[160px] w-full items-center justify-center overflow-hidden border-b border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-background)]">
+                    <FlowPreview preview={flow.preview} />
+                    <div className="absolute right-3 top-3 z-20 rounded-full bg-[var(--brand-surface)]/80 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
+                      Read-only
                     </div>
                   </div>
-                ))}
-              </div>
+                  <div className="flex flex-col p-4 bg-[var(--brand-surface)]">
+                    <h3 className="font-semibold text-[13.5px] text-[var(--brand-text)] tracking-tight truncate mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors text-left">
+                      {flow.name}
+                    </h3>
+                    <div className="flex items-center gap-2 text-[12px] font-medium text-[var(--brand-secondary)]">
+                      <span>{formatUpdatedAt(flow.updatedAt)}</span>
+                      <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
+                      <span>{flow.nodeCount} node{flow.nodeCount !== 1 ? 's' : ''}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="border border-[var(--color-brand-border)] rounded-xl overflow-hidden bg-[var(--brand-surface)] shadow-md animate-in fade-in duration-200">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="border-b border-[var(--color-brand-border)] bg-black/15 text-[var(--brand-secondary)] font-bold">
+                    <th className="p-3 pl-4">Name</th>
+                    <th className="p-3">Last Edited</th>
+                    <th className="p-3">Elements</th>
+                    <th className="p-3 text-right pr-4">Role</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {processedSharedFlows.map((flow) => (
+                    <tr
+                      key={flow.id}
+                      onClick={() => onOpenFlow(flow.id)}
+                      className="group border-b border-[var(--color-brand-border)]/40 hover:bg-white/[0.02] transition-colors cursor-pointer"
+                    >
+                      <td className="p-3 pl-4 font-semibold text-[var(--brand-text)] flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-purple-400 opacity-70 shrink-0" />
+                        <span className="truncate max-w-sm block">{flow.name}</span>
+                      </td>
+                      <td className="p-3 text-[var(--brand-secondary)]">
+                        {formatUpdatedAt(flow.updatedAt)}
+                      </td>
+                      <td className="p-3 text-[var(--brand-secondary)]">
+                        {flow.nodeCount} nodes, {flow.edgeCount} edges
+                      </td>
+                      <td className="p-3 text-right pr-4 font-semibold text-[var(--brand-primary)]">
+                        Read-only
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
+        </section>
+      ) : (
+        /* PROJECTS TAB CONTENT */
+        <section className="animate-in fade-in duration-300">
+          <div className="flex w-full flex-col py-16 items-center justify-center rounded-2xl border border-dashed border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-white/[0.01] text-center max-w-xl mx-auto my-6">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand-surface)] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_60%)] text-[var(--brand-secondary)] mb-4">
+              <Users className="w-5 h-5 opacity-60" />
+            </div>
+            <h3 className="text-sm font-semibold text-[var(--brand-text)] mb-1">
+              No shared projects yet
+            </h3>
+            <p className="text-xs text-[var(--brand-secondary)] max-w-xs leading-relaxed">
+              Create a shared project folder inside Settings or contact your administrator to establish a shared canvas workspace.
+            </p>
+          </div>
         </section>
       )}
     </div>
