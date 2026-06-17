@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Copy, Check, UserPlus, Trash2, Users } from 'lucide-react';
-import { cloudStorage, type CloudDocument } from '@/lib/cloud-storage';
+import { cloudStorage } from '@/lib/cloud-storage';
 import { MODAL_PANEL_CLASS, SECTION_CARD_CLASS } from '@/lib/designTokens';
 
 interface ShareDialogProps {
@@ -160,7 +160,7 @@ export function ShareDialog({ localDocumentId, documentName, onClose }: ShareDia
       >
         <div className="flex items-center justify-between border-b border-[var(--color-brand-border)] px-5 py-4">
           <div>
-            <h2 id="share-dialog-title" className="text-sm font-semibold">Share "{documentName}"</h2>
+            <h2 id="share-dialog-title" className="text-sm font-semibold">Share &ldquo;{documentName}&rdquo;</h2>
             <p className="mt-0.5 text-[11px] text-[var(--brand-secondary-light)]">
               Manage public and private sharing
             </p>

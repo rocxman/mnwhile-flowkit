@@ -98,12 +98,12 @@ describe('HomePage integration flows', () => {
     it('switches between home, templates, and settings views via sidebar', async () => {
         await renderHomePage();
 
-        fireEvent.click(screen.getByTestId('sidebar-templates'));
+        fireEvent.click(screen.getByTestId('home-open-templates'));
         expect(screen.getByRole('heading', { name: 'Templates' })).toBeTruthy();
         expect(screen.getByText('Featured Templates')).toBeTruthy();
 
         fireEvent.click(screen.getByTestId('sidebar-settings'));
-        expect(screen.getByRole('heading', { name: 'Settings' })).toBeTruthy();
+        expect(screen.getByText('Settings')).toBeTruthy();
         expect(screen.getByText('Flowpilot')).toBeTruthy();
     });
 
@@ -112,7 +112,7 @@ describe('HomePage integration flows', () => {
 
         await renderHomePage({ onLaunchWithTemplate });
 
-        fireEvent.click(screen.getByTestId('sidebar-templates'));
+        fireEvent.click(screen.getByTestId('home-open-templates'));
         fireEvent.click(screen.getByRole('button', { name: /AWS Event-Driven SaaS Platform/i }));
         fireEvent.click(screen.getByRole('button', { name: 'Use Template' }));
 
@@ -123,7 +123,7 @@ describe('HomePage integration flows', () => {
     it('shows only explicitly featured templates on the homepage templates tab', async () => {
         await renderHomePage();
 
-        fireEvent.click(screen.getByTestId('sidebar-templates'));
+        fireEvent.click(screen.getByTestId('home-open-templates'));
 
         expect(screen.getByRole('button', { name: /AWS Event-Driven SaaS Platform/i })).toBeTruthy();
         expect(screen.queryByRole('button', { name: /Product Discovery Workshop Map/i })).toBeNull();

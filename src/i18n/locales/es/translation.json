@@ -73,6 +73,7 @@
     "exportAs": "Exportar como"
   },
   "nav": {
+    "recents": "Recientes",
     "home": "Inicio",
     "editor": "Editor",
     "menu": "Menú",
@@ -229,6 +230,7 @@
     "title": "Panel",
     "description": "Administre sus flujos y diagramas.",
     "recentFiles": "Archivos recientes",
+    "sharedWithMe": "Compartido conmigo",
     "files": "archivos",
     "createFirstFlow": "Crear su primer flujo",
     "startFromScratch": "Comenzar desde cero o importar un diagrama existente.",

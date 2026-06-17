@@ -73,6 +73,7 @@
     "rename": "Yeniden Adlandır"
   },
   "nav": {
+    "recents": "En Son",
     "home": "Ana Sayfa",
     "editor": "Editör",
     "menu": "Menü",
@@ -249,6 +250,7 @@
     "title": "Gösterge Paneli",
     "description": "Akışlarınızı ve diyagramlarınızı yönetin.",
     "recentFiles": "Son Dosyalar",
+    "sharedWithMe": "Benimle Paylaşılan",
     "files": "dosyalar",
     "createFirstFlow": "İlk akışınızı oluşturun",
     "startFromScratch": "Sıfırdan başlayın veya mevcut bir diyagramı içe aktarın.",

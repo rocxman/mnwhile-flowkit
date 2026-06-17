@@ -1,21 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Copy,
   Layout,
-  WandSparkles,
   Pencil,
-  Plus,
   Trash2,
-  LayoutTemplate,
-  FileInput,
   ShieldCheck,
   Users,
+  LogIn,
+  Cloud,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '../ui/Button';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { Tooltip } from '../Tooltip';
 import type { WorkspaceDocumentPreview } from '@/store/workspaceDocumentModel';
-import { recordOnboardingEvent } from '@/services/onboarding/events';
 
 const AUTOSAVED_LABEL = 'Autosaved';
 
@@ -32,281 +30,271 @@ export interface HomeFlowCard {
 interface HomeDashboardProps {
   flows: HomeFlowCard[];
   sharedFlows?: HomeFlowCard[];
-  onCreateNew: () => void;
-  onOpenTemplates: () => void;
-  onPromptWithAI: () => void;
-  onImportJSON: () => void;
   onOpenFlow: (flowId: string) => void;
   onRenameFlow: (flowId: string) => void;
   onDuplicateFlow: (flowId: string) => void;
   onDeleteFlow: (flowId: string) => void;
 }
 
+
 export function HomeDashboard({
   flows,
   sharedFlows = [],
-  onCreateNew,
-  onOpenTemplates,
-  onPromptWithAI,
-  onImportJSON,
   onOpenFlow,
   onRenameFlow,
   onDuplicateFlow,
   onDeleteFlow,
 }: HomeDashboardProps): React.ReactElement {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [activeSubTab, setActiveSubTab] = useState<'recents' | 'shared'>('recents');
+
   const hasFlows = flows.length > 0;
-  const secondaryActionIconClass =
-    'h-4 w-4 text-[var(--brand-secondary)] transition-transform duration-300 group-hover:scale-110';
-
-  function handleCreateNew(): void {
-    recordOnboardingEvent('welcome_blank_selected', { source: 'home-dashboard' });
-    onCreateNew();
-  }
-
-  function handlePromptWithAI(): void {
-    recordOnboardingEvent('welcome_prompt_selected', { source: 'home-dashboard' });
-    onPromptWithAI();
-  }
-
-  function handleImportJSON(): void {
-    recordOnboardingEvent('welcome_import_selected', { source: 'home-dashboard' });
-    onImportJSON();
-  }
-
-  function handleOpenTemplates(): void {
-    recordOnboardingEvent('welcome_template_selected', { source: 'home-dashboard' });
-    onOpenTemplates();
-  }
+  const hasSharedFlows = sharedFlows.length > 0;
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 animate-in fade-in duration-300 sm:px-6 md:px-10 md:py-12">
-      <div className="mb-8 flex flex-col gap-4 md:mb-12 md:flex-row md:items-end md:justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold text-[var(--brand-text)] tracking-tight mb-1">
-            {t('home.title', 'Dashboard')}
-          </h1>
-          <p className="text-[var(--brand-secondary)] text-sm">
-            {t('home.description', 'Manage your flows and diagrams.')}
-          </p>
+    <div className="flex-1 overflow-y-auto px-4 py-6 animate-in fade-in duration-300 sm:px-6 md:px-10 md:py-8">
+      {/* Dashboard Sub-navbar Tabs */}
+      <div className="flex items-center justify-between border-b border-[var(--color-brand-border)] mb-8">
+        <div className="flex gap-6">
+          <button
+            type="button"
+            onClick={() => setActiveSubTab('recents')}
+            className={`relative pb-3 text-sm font-semibold transition-all cursor-pointer ${
+              activeSubTab === 'recents'
+                ? 'text-[var(--brand-text)]'
+                : 'text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <span>{t('home.recentFiles', 'Recent Files')}</span>
+              <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
+                activeSubTab === 'recents'
+                  ? 'bg-lime-500/10 text-lime-500 border border-lime-500/20'
+                  : 'bg-white/5 text-[var(--brand-secondary)] border border-white/5'
+              }`}>
+                {flows.length}
+              </span>
+            </div>
+            {activeSubTab === 'recents' && (
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-lime-500 rounded-full" />
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveSubTab('shared')}
+            className={`relative pb-3 text-sm font-semibold transition-all cursor-pointer ${
+              activeSubTab === 'shared'
+                ? 'text-[var(--brand-text)]'
+                : 'text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <span>{t('home.sharedWithMe', 'Shared with Me')}</span>
+              <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
+                activeSubTab === 'shared'
+                  ? 'bg-lime-500/10 text-lime-500 border border-lime-500/20'
+                  : 'bg-white/5 text-[var(--brand-secondary)] border border-white/5'
+              }`}>
+                {sharedFlows.length}
+              </span>
+            </div>
+            {activeSubTab === 'shared' && (
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-lime-500 rounded-full" />
+            )}
+          </button>
         </div>
-        <Button
-          onClick={handleCreateNew}
-          data-testid="home-create-new-header"
-          variant="primary"
-          size="sm"
-        >
-          <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
-          {t('home.createNew', 'Create new')}
-        </Button>
       </div>
 
-      <section>
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <h2 className="text-xs font-semibold text-[var(--brand-secondary)] uppercase tracking-wider">
-              {t('home.recentFiles', 'Recent Files')}
-            </h2>
-            <Tooltip
-              text={t(
-                'home.localStorageHint',
-                'Autosaved on this device. We do not upload your diagram data to our servers.'
-              )}
-              side="right"
-            >
-              <div className="flex cursor-default items-center justify-center text-[var(--brand-primary)] hover:brightness-110 transition-all duration-200">
-                <ShieldCheck
-                  className="w-[13px] h-[13px]"
-                  fill="currentColor"
-                  stroke="white"
-                  strokeWidth={1.5}
-                />
-              </div>
-            </Tooltip>
-          </div>
-          {hasFlows && (
-            <span className="text-xs text-[var(--brand-secondary)]">
-              {flows.length} {t('home.files', 'files')}
-            </span>
-          )}
-        </div>
-
-        {!hasFlows ? (
-          <div
-            className="flex w-full flex-col py-2 sm:py-6 animate-in fade-in zoom-in-[0.99] duration-700"
-            data-testid="home-empty-state"
-          >
-            <div className="relative overflow-hidden w-full max-w-[840px] mx-auto rounded-[24px] bg-[var(--brand-surface)] border border-[var(--color-brand-border)]/80 shadow-[0_8px_30px_rgba(0,0,0,0.03)]">
-              {/* Super-delicate background gradient inside card */}
-              <div className="absolute top-0 left-0 w-full h-[140px] bg-gradient-to-b from-[var(--brand-background)] to-[var(--brand-surface)] pointer-events-none"></div>
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[120px] bg-[var(--brand-primary)]/5 blur-[50px] rounded-full pointer-events-none"></div>
-
-              <div className="relative z-10 flex flex-col items-center px-6 py-10 text-center">
-                {/* Sleek Icon */}
-                <div className="flex h-16 w-16 items-center justify-center rounded-[18px] bg-[var(--brand-surface)] shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-[var(--color-brand-border)]/60 mb-5 relative group cursor-default">
-                  <div className="absolute inset-0 bg-[var(--brand-primary)]/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-[18px]"></div>
-                  <Layout
-                    className="w-8 h-8 text-[var(--brand-primary)] transition-transform group-hover:scale-105 duration-500"
+      {/* Recents Tab Content */}
+      {activeSubTab === 'recents' && (
+        <section className="animate-in fade-in duration-300">
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-2">
+              <h2 className="text-[11px] font-bold text-[var(--brand-secondary)] uppercase tracking-wider">
+                {t('home.recentFiles', 'Recent Files')}
+              </h2>
+              <Tooltip
+                text={t(
+                  'home.localStorageHint',
+                  'Autosaved on this device. We do not upload your diagram data to our servers.'
+                )}
+                side="right"
+              >
+                <div className="flex cursor-default items-center justify-center text-[var(--brand-primary)] hover:brightness-110 transition-all duration-200">
+                  <ShieldCheck
+                    className="w-[13px] h-[13px]"
+                    fill="currentColor"
+                    stroke="white"
                     strokeWidth={1.5}
                   />
                 </div>
+              </Tooltip>
+            </div>
+            {hasFlows && (
+              <span className="text-xs text-[var(--brand-secondary)]">
+                {flows.length} {t('home.files', 'files')}
+              </span>
+            )}
+          </div>
 
-                <h2 className="text-[24px] sm:text-[28px] font-bold tracking-tight text-[var(--brand-text)] mb-2">
-                  {t('home.homeEmptyTitle', 'Create your first flow')}
-                </h2>
-                <p className="text-[14px] text-[var(--brand-secondary)] max-w-[500px] mb-8 leading-relaxed">
-                  {t(
-                    'home.homeEmptySubtitle',
-                    'Design enterprise-grade architectures instantly. Start from a blank canvas, describe your infrastructure with our AI builder, or use a tailored template.'
-                  )}
-                </p>
+          {!hasFlows ? (
+            <div
+              className="flex w-full flex-col py-12 items-center justify-center rounded-2xl border border-dashed border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-white/[0.01] text-center max-w-xl mx-auto my-6 animate-in fade-in duration-500"
+              data-testid="home-empty-state"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand-surface)] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_60%)] text-[var(--brand-secondary)] mb-4">
+                <Layout className="w-5 h-5 opacity-60" />
+              </div>
+              <h3 className="text-sm font-semibold text-[var(--brand-text)] mb-1">
+                No recent files yet
+              </h3>
+              <p className="text-xs text-[var(--brand-secondary)] max-w-xs leading-relaxed">
+                Create a new blank canvas, generate with AI, or import an existing file. Your work will automatically save here.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {flows.map((flow) => (
+                <div
+                  key={flow.id}
+                  onClick={() => onOpenFlow(flow.id)}
+                  className="group relative cursor-pointer flex flex-col overflow-hidden rounded-[16px] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-surface)] transition-all duration-300 hover:border-[var(--brand-primary-400)]/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
+                >
+                  <div className="relative flex h-[160px] w-full items-center justify-center overflow-hidden border-b border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-background)]">
+                    <FlowPreview preview={flow.preview} />
 
-                {/* Action Grid strictly inside the card */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full max-w-[640px]">
-                  <Button
-                    onClick={handleCreateNew}
-                    data-testid="home-create-new-main"
-                    variant="primary"
-                    size="lg"
-                    className="w-full text-[14.5px]"
-                  >
-                    <Plus className="w-4 h-4" strokeWidth={2.5} />{' '}
-                    {t('home.homeBlankCanvas', 'Blank Canvas')}
-                  </Button>
-
-                  <Button
-                    onClick={handlePromptWithAI}
-                    data-testid="home-generate-with-ai"
-                    variant="secondary"
-                    size="lg"
-                    className="w-full text-[14.5px] group"
-                  >
-                    <WandSparkles className={secondaryActionIconClass} strokeWidth={2} />{' '}
-                    {t('home.homeFlowpilotAI', 'Flowpilot AI')}
-                  </Button>
-
-                  <Button
-                    onClick={handleOpenTemplates}
-                    data-testid="home-open-templates"
-                    variant="secondary"
-                    size="lg"
-                    className="w-full text-[14.5px]"
-                  >
-                    <LayoutTemplate className={secondaryActionIconClass} strokeWidth={2} />{' '}
-                    {t('home.homeTemplates', 'Templates')}
-                  </Button>
+                    {/* Sleek Floating Actions Pill */}
+                    <div className="absolute right-3 top-3 z-20 flex items-center gap-0.5 rounded-full border border-[color-mix(in_srgb,var(--color-brand-border),white_10%)] bg-[var(--brand-surface)]/80 backdrop-blur-md p-1 opacity-0 transform translate-y-[-4px] transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0 shadow-lg">
+                      <FlowCardActionButton
+                        label={t('common.rename', 'Rename')}
+                        onClick={() => onRenameFlow(flow.id)}
+                        hoverClassName="hover:bg-[var(--brand-primary)]/10 hover:text-[var(--brand-primary)] focus-visible:ring-[var(--brand-primary)]"
+                      >
+                        <Pencil className="h-3 w-3" />
+                      </FlowCardActionButton>
+                      <FlowCardActionButton
+                        label={t('common.duplicate', 'Duplicate')}
+                        onClick={() => onDuplicateFlow(flow.id)}
+                        hoverClassName="hover:bg-[var(--brand-primary)]/10 hover:text-[var(--brand-primary)] focus-visible:ring-[var(--brand-primary)]"
+                      >
+                        <Copy className="h-3 w-3" />
+                      </FlowCardActionButton>
+                      {/* Divider */}
+                      <div className="h-3 w-[1px] bg-[var(--color-brand-border)] mx-0.5"></div>
+                      <FlowCardActionButton
+                        label={t('common.delete', 'Delete')}
+                        onClick={() => onDeleteFlow(flow.id)}
+                        hoverClassName="hover:bg-red-500/10 hover:text-red-500 focus-visible:ring-red-500"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </FlowCardActionButton>
+                    </div>
+                  </div>
+                  <div className="flex flex-col p-4 bg-[var(--brand-surface)] transition-colors group-hover:bg-[color-mix(in_srgb,var(--brand-surface),white_2%)]">
+                    <h3 className="font-semibold text-[13.5px] text-[var(--brand-text)] tracking-tight truncate mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors">
+                      {flow.name}
+                    </h3>
+                    <div className="flex items-center gap-2 text-[12px] font-medium text-[var(--brand-secondary)]">
+                      <span>{formatUpdatedAt(flow.updatedAt)}</span>
+                      <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
+                      <span>
+                        {flow.nodeCount} node{flow.nodeCount !== 1 ? 's' : ''}
+                      </span>
+                      {flow.isActive && (
+                        <>
+                          <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
+                          <span className="text-[var(--brand-primary)]">
+                            {t('home.currentFlow', 'Current')}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
-                <div className="mt-8 flex items-center justify-center pt-6 border-t border-[var(--color-brand-border)]/60 w-full max-w-[640px]">
-                  <ImportExistingFileButton
-                    label={t('home.homeImportFile', 'Or import an existing file')}
-                    onClick={handleImportJSON}
-                  />
+      {/* Shared with Me Tab Content */}
+      {activeSubTab === 'shared' && (
+        <section className="animate-in fade-in duration-300">
+          {!user ? (
+            <div className="flex w-full max-w-lg mx-auto flex-col py-12 px-6 items-center justify-center rounded-2xl border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-gradient-to-b from-white/[0.01] to-transparent text-center shadow-lg my-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-lime-500/10 border border-lime-500/25 text-lime-400 mb-5">
+                <Cloud className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-semibold text-[var(--brand-text)] mb-2">
+                Cloud Sync & Sharing
+              </h3>
+              <p className="text-xs text-[var(--brand-secondary)] max-w-sm leading-relaxed mb-6">
+                Sign in with your account to access files shared by your team and collaborate in real-time.
+              </p>
+              <button
+                type="button"
+                onClick={() => navigate('/auth')}
+                className="flex items-center gap-2 py-2 px-5 rounded-lg bg-lime-500 hover:bg-lime-400 text-slate-950 text-xs font-semibold transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(132,204,22,0.25)] active:scale-[0.98]"
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                <span>Sign In to Continue</span>
+              </button>
+            </div>
+          ) : !hasSharedFlows ? (
+            <div className="flex w-full flex-col py-12 items-center justify-center rounded-2xl border border-dashed border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-white/[0.01] text-center max-w-xl mx-auto my-6 animate-in fade-in duration-500">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand-surface)] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_60%)] text-[var(--brand-secondary)] mb-4">
+                <Users className="w-5 h-5 opacity-60" />
+              </div>
+              <h3 className="text-sm font-semibold text-[var(--brand-text)] mb-1">
+                No shared files yet
+              </h3>
+              <p className="text-xs text-[var(--brand-secondary)] max-w-xs leading-relaxed">
+                Files that other team members share with you will automatically show up here.
+              </p>
+            </div>
+          ) : (
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2">
+                  <h2 className="text-[11px] font-bold text-[var(--brand-secondary)] uppercase tracking-wider">
+                    {t('home.sharedWithMe', 'Shared with Me')}
+                  </h2>
                 </div>
+                <span className="text-xs text-[var(--brand-secondary)]">
+                  {sharedFlows.length} {t('home.files', 'files')}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                {sharedFlows.map((flow) => (
+                  <div
+                    key={flow.id}
+                    onClick={() => onOpenFlow(flow.id)}
+                    className="group relative cursor-pointer flex flex-col overflow-hidden rounded-[16px] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-surface)] transition-all duration-300 hover:border-[var(--brand-primary-400)]/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
+                  >
+                    <div className="relative flex h-[160px] w-full items-center justify-center overflow-hidden border-b border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-background)]">
+                      <FlowPreview preview={flow.preview} />
+                      <div className="absolute right-3 top-3 z-20 rounded-full bg-[var(--brand-surface)]/80 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
+                        Read-only
+                      </div>
+                    </div>
+                    <div className="flex flex-col p-4 bg-[var(--brand-surface)]">
+                      <h3 className="font-semibold text-[13.5px] text-[var(--brand-text)] tracking-tight truncate mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors">
+                        {flow.name}
+                      </h3>
+                      <div className="flex items-center gap-2 text-[12px] font-medium text-[var(--brand-secondary)]">
+                        <span>{formatUpdatedAt(flow.updatedAt)}</span>
+                        <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
+                        <span>{flow.nodeCount} node{flow.nodeCount !== 1 ? 's' : ''}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {flows.map((flow) => (
-              <div
-                key={flow.id}
-                onClick={() => onOpenFlow(flow.id)}
-                className="group relative cursor-pointer flex flex-col overflow-hidden rounded-[16px] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-surface)] transition-all duration-300 hover:border-[var(--brand-primary-400)]/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
-              >
-                <div className="relative flex h-[160px] w-full items-center justify-center overflow-hidden border-b border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-background)]">
-                  <FlowPreview preview={flow.preview} />
-
-                  {/* Sleek Floating Actions Pill */}
-                  <div className="absolute right-3 top-3 z-20 flex items-center gap-0.5 rounded-full border border-[color-mix(in_srgb,var(--color-brand-border),white_10%)] bg-[var(--brand-surface)]/80 backdrop-blur-md p-1 opacity-0 transform translate-y-[-4px] transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0 shadow-lg">
-                    <FlowCardActionButton
-                      label={t('common.rename', 'Rename')}
-                      onClick={() => onRenameFlow(flow.id)}
-                      hoverClassName="hover:bg-[var(--brand-primary)]/10 hover:text-[var(--brand-primary)] focus-visible:ring-[var(--brand-primary)]"
-                    >
-                      <Pencil className="h-3 w-3" />
-                    </FlowCardActionButton>
-                    <FlowCardActionButton
-                      label={t('common.duplicate', 'Duplicate')}
-                      onClick={() => onDuplicateFlow(flow.id)}
-                      hoverClassName="hover:bg-[var(--brand-primary)]/10 hover:text-[var(--brand-primary)] focus-visible:ring-[var(--brand-primary)]"
-                    >
-                      <Copy className="h-3 w-3" />
-                    </FlowCardActionButton>
-                    {/* Divider */}
-                    <div className="h-3 w-[1px] bg-[var(--color-brand-border)] mx-0.5"></div>
-                    <FlowCardActionButton
-                      label={t('common.delete', 'Delete')}
-                      onClick={() => onDeleteFlow(flow.id)}
-                      hoverClassName="hover:bg-red-500/10 hover:text-red-500 focus-visible:ring-red-500"
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </FlowCardActionButton>
-                  </div>
-                </div>
-                <div className="flex flex-col p-4 bg-[var(--brand-surface)] transition-colors group-hover:bg-[color-mix(in_srgb,var(--brand-surface),white_2%)]">
-                  <h3 className="font-semibold text-[13.5px] text-[var(--brand-text)] tracking-tight truncate mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors">
-                    {flow.name}
-                  </h3>
-                  <div className="flex items-center gap-2 text-[12px] font-medium text-[var(--brand-secondary)]">
-                    <span>{formatUpdatedAt(flow.updatedAt)}</span>
-                    <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
-                    <span>
-                      {flow.nodeCount} node{flow.nodeCount !== 1 ? 's' : ''}
-                    </span>
-                    {flow.isActive && (
-                      <>
-                        <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
-                        <span className="text-[var(--brand-primary)]">
-                          {t('home.currentFlow', 'Current')}
-                        </span>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {sharedFlows.length > 0 && (
-        <section className="mt-10">
-          <div className="flex items-center gap-2 mb-4">
-            <Users className="h-3.5 w-3.5 text-[var(--brand-secondary)]" />
-            <h2 className="text-xs font-semibold text-[var(--brand-secondary)] uppercase tracking-wider">
-              Shared with Me
-            </h2>
-            <span className="text-xs text-[var(--brand-secondary)]">
-              {sharedFlows.length} {t('home.files', 'files')}
-            </span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {sharedFlows.map((flow) => (
-              <div
-                key={flow.id}
-                onClick={() => onOpenFlow(flow.id)}
-                className="group relative cursor-pointer flex flex-col overflow-hidden rounded-[16px] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-surface)] transition-all duration-300 hover:border-[var(--brand-primary-400)]/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
-              >
-                <div className="relative flex h-[160px] w-full items-center justify-center overflow-hidden border-b border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-background)]">
-                  <FlowPreview preview={flow.preview} />
-                  <div className="absolute right-3 top-3 z-20 rounded-full bg-[var(--brand-surface)]/80 backdrop-blur-md px-2.5 py-1 text-[10px] font-semibold text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
-                    Read-only
-                  </div>
-                </div>
-                <div className="flex flex-col p-4 bg-[var(--brand-surface)]">
-                  <h3 className="font-semibold text-[13.5px] text-[var(--brand-text)] tracking-tight truncate mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors">
-                    {flow.name}
-                  </h3>
-                  <div className="flex items-center gap-2 text-[12px] font-medium text-[var(--brand-secondary)]">
-                    <span>{formatUpdatedAt(flow.updatedAt)}</span>
-                    <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
-                    <span>{flow.nodeCount} node{flow.nodeCount !== 1 ? 's' : ''}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          )}
         </section>
       )}
     </div>
@@ -400,27 +388,6 @@ function FlowPreview({ preview }: FlowPreviewProps): React.ReactElement {
       </svg>
       <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_40px_20px_var(--brand-background)] opacity-[0.85]" />
     </div>
-  );
-}
-
-interface ImportExistingFileButtonProps {
-  label: string;
-  onClick: () => void;
-}
-
-function ImportExistingFileButton({
-  label,
-  onClick,
-}: ImportExistingFileButtonProps): React.ReactElement {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--brand-secondary)] transition-colors hover:text-[var(--brand-text)] focus:outline-none focus-visible:underline"
-    >
-      <FileInput className="w-[14px] h-[14px]" />
-      {label}
-    </button>
   );
 }
 

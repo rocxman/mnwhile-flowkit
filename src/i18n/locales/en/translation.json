@@ -73,6 +73,7 @@
     "rename": "Rename"
   },
   "nav": {
+    "recents": "Recents",
     "home": "Home",
     "editor": "Editor",
     "menu": "Menu",
@@ -249,6 +250,7 @@
     "title": "Dashboard",
     "description": "Manage your flows and diagrams.",
     "recentFiles": "Recent Files",
+    "sharedWithMe": "Shared with Me",
     "files": "files",
     "createFirstFlow": "Create your first flow",
     "startFromScratch": "Start from scratch or import an existing diagram.",

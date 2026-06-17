@@ -73,6 +73,7 @@
     "exportAs": "导出为"
   },
   "nav": {
+    "recents": "最近",
     "home": "首页",
     "editor": "编辑器",
     "menu": "菜单",
@@ -229,6 +230,7 @@
     "title": "仪表板",
     "description": "管理您的流程和图表。",
     "recentFiles": "最近文件",
+    "sharedWithMe": "与我共享",
     "files": "个文件",
     "createFirstFlow": "创建您的第一个流程",
     "startFromScratch": "从零开始或导入现有图表。",

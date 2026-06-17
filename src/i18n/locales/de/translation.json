@@ -73,6 +73,7 @@
     "exportAs": "Exportieren als"
   },
   "nav": {
+    "recents": "Zuletzt verwendet",
     "home": "Startseite",
     "editor": "Editor",
     "menu": "Menü",
@@ -229,6 +230,7 @@
     "title": "Dashboard",
     "description": "Verwalten Sie Ihre Flüsse und Diagramme.",
     "recentFiles": "Letzte Dateien",
+    "sharedWithMe": "Mit mir geteilt",
     "files": "Dateien",
     "createFirstFlow": "Ersten Fluss erstellen",
     "startFromScratch": "Von Grund auf beginnen oder ein vorhandenes Diagramm importieren.",

@@ -19,6 +19,8 @@ export function SyncStatusIndicator(): React.ReactElement {
     };
   });
 
+  const [now, setNow] = useState(() => Date.now());
+
   useEffect(() => {
     const unsubscribe = subscribeCloudSync((syncState) => {
       setState({
@@ -26,12 +28,21 @@ export function SyncStatusIndicator(): React.ReactElement {
         error: syncState.error,
         lastSyncedAt: syncState.lastSyncedAt ? new Date(syncState.lastSyncedAt) : null,
       });
+      setNow(Date.now());
     });
 
     return unsubscribe;
   }, []);
 
   const { status, error, lastSyncedAt } = state;
+
+  useEffect(() => {
+    if (status !== 'synced' || !lastSyncedAt) return;
+    const interval = setInterval(() => {
+      setNow(Date.now());
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [status, lastSyncedAt]);
 
   const statusConfig: Record<SyncStatus, { text: string; className: string; icon: string }> = {
     idle: {
@@ -58,12 +69,13 @@ export function SyncStatusIndicator(): React.ReactElement {
 
   const { text, className, icon } = statusConfig[status];
 
-  const formatLastSynced = (date: Date | null): string => {
+  const formatLastSynced = (date: Date | null, currentNow: number): string => {
     if (!date) return '';
-    const diffMs = Date.now() - date.getTime();
+    const diffMs = currentNow - date.getTime();
     const diffSec = Math.floor(diffMs / 1000);
     const diffMin = Math.floor(diffSec / 60);
 
+    if (diffMs < 0) return 'just now';
     if (diffSec < 10) return 'just now';
     if (diffSec < 60) return `${diffSec}s ago`;
     if (diffMin < 60) return `${diffMin}m ago`;
@@ -76,7 +88,7 @@ export function SyncStatusIndicator(): React.ReactElement {
       <span className={className}>{text}</span>
       {status === 'synced' && lastSyncedAt && (
         <span className="text-gray-400 dark:text-gray-500">
-          {formatLastSynced(lastSyncedAt)}
+          {formatLastSynced(lastSyncedAt, now)}
         </span>
       )}
     </div>

@@ -73,6 +73,7 @@
     "exportAs": "Exporter en tant que"
   },
   "nav": {
+    "recents": "Récents",
     "home": "Accueil",
     "editor": "Éditeur",
     "menu": "Menu",
@@ -229,6 +230,7 @@
     "title": "Tableau de bord",
     "description": "Gérez vos flux et diagrammes.",
     "recentFiles": "Fichiers récents",
+    "sharedWithMe": "Partagé avec moi",
     "files": "fichiers",
     "createFirstFlow": "Créer votre premier flux",
     "startFromScratch": "Commencer de zéro ou importer un diagramme existant.",
