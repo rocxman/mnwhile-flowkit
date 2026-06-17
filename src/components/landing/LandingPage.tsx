@@ -40,7 +40,7 @@ export function LandingPage(): React.JSX.Element {
           onClick={() => navigate('/auth')}
           className="pointer-events-auto mt-auto mb-[18vh] inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-sm font-semibold text-black shadow-[0_0_0_1px_rgba(255,255,255,.15),0_20px_60px_rgba(255,255,255,.08)] transition-all duration-300 hover:-translate-y-1 hover:scale-[1.03] hover:bg-lime-400 hover:shadow-[0_0_30px_rgba(132,204,22,0.3)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white cursor-pointer"
         >
-          Launch FlowKit
+          Get Started
           <svg
             width="16"
             height="16"
