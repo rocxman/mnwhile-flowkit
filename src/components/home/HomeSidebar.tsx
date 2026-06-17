@@ -3,7 +3,6 @@ import {
   Clock,
   Settings,
   Globe,
-  LayoutTemplate,
   Search,
   ChevronDown,
   Bell,
@@ -76,6 +75,7 @@ export function HomeSidebar({
           <button
             type="button"
             onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+            data-testid="user-profile-button"
             className="flex items-center gap-2 rounded-lg py-1.5 px-2.5 text-sm font-bold text-[var(--brand-text)] hover:bg-slate-100 dark:hover:bg-white/5 transition-all text-left w-full cursor-pointer focus:outline-none"
           >
             <div className="flex h-5.5 w-5.5 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-red-400 to-orange-400 text-[10px] font-extrabold text-white shadow-sm border border-orange-500/20">
@@ -99,6 +99,18 @@ export function HomeSidebar({
                   <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--brand-text-muted)]">Signed in as</p>
                   <p className="truncate text-xs font-semibold text-[var(--brand-text)]">{user?.email ?? 'local-guest@mnwhile.dev'}</p>
                 </div>
+                
+                {/* Settings dropdown option */}
+                <button
+                  type="button"
+                  data-testid="sidebar-settings"
+                  onClick={() => { setUserDropdownOpen(false); onTabChange('settings'); }}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-[var(--brand-secondary)] hover:bg-slate-100 dark:hover:bg-white/5 hover:text-[var(--brand-text)] dark:hover:text-white transition-colors text-left mt-1 cursor-pointer"
+                >
+                  <Settings className="w-3.5 h-3.5" />
+                  <span>Settings</span>
+                </button>
+
                 {user ? (
                   <button
                     type="button"
@@ -186,7 +198,7 @@ export function HomeSidebar({
             onClick={() => selectTab('home')}
             className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold transition-all cursor-pointer text-left ${
               activeTab === 'home' && projectFilter === 'all'
-                ? 'bg-slate-100 dark:bg-white/10 text-[var(--brand-text)] dark:text-white shadow-inner font-bold'
+                ? 'bg-[#e8f2ff] dark:bg-[#0c8ce9]/15 text-[#0c8ce9] dark:text-[#33a3ff] font-bold shadow-sm'
                 : 'text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
             }`}
           >
@@ -199,38 +211,12 @@ export function HomeSidebar({
             onClick={() => selectTab('community')}
             className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold transition-all cursor-pointer text-left ${
               activeTab === 'community'
-                ? 'bg-slate-100 dark:bg-white/10 text-[var(--brand-text)] dark:text-white shadow-inner font-bold'
+                ? 'bg-[#e8f2ff] dark:bg-[#0c8ce9]/15 text-[#0c8ce9] dark:text-[#33a3ff] font-bold shadow-sm'
                 : 'text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
             }`}
           >
             <Globe className="w-3.5 h-3.5 shrink-0" />
             <span className="flex-1">Community</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => selectTab('templates')}
-            className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold transition-all cursor-pointer text-left ${
-              activeTab === 'templates'
-                ? 'bg-slate-100 dark:bg-white/10 text-[var(--brand-text)] dark:text-white shadow-inner font-bold'
-                : 'text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
-            }`}
-          >
-            <LayoutTemplate className="w-3.5 h-3.5 shrink-0" />
-            <span className="flex-1">Templates</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => selectTab('settings')}
-            className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold transition-all cursor-pointer text-left ${
-              activeTab === 'settings'
-                ? 'bg-slate-100 dark:bg-white/10 text-[var(--brand-text)] dark:text-white shadow-inner font-bold'
-                : 'text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
-            }`}
-          >
-            <Settings className="w-3.5 h-3.5 shrink-0" />
-            <span className="flex-1">{t('nav.settings', 'Settings')}</span>
           </button>
         </div>
 
@@ -256,7 +242,7 @@ export function HomeSidebar({
                 onClick={() => { onTabChange('home'); onProjectFilterChange('drafts'); }}
                 className={`group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer text-left ${
                   activeTab === 'home' && projectFilter === 'drafts'
-                    ? 'bg-slate-100 dark:bg-white/10 text-[var(--brand-text)] dark:text-white'
+                    ? 'bg-slate-100 dark:bg-white/10 text-[var(--brand-text)] dark:text-white font-bold'
                     : 'text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
                 }`}
               >
@@ -269,7 +255,7 @@ export function HomeSidebar({
                 onClick={() => { onTabChange('home'); onProjectFilterChange('all'); }}
                 className={`group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer text-left ${
                   activeTab === 'home' && projectFilter === 'all' && activeTab === 'home'
-                    ? 'bg-slate-100 dark:bg-white/10 text-[var(--brand-text)] dark:text-white'
+                    ? 'bg-slate-100 dark:bg-white/10 text-[var(--brand-text)] dark:text-white font-bold'
                     : 'text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
                 }`}
               >
@@ -280,7 +266,11 @@ export function HomeSidebar({
               <button
                 type="button"
                 onClick={() => selectTab('templates')}
-                className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)] transition-all cursor-pointer text-left"
+                className={`group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer text-left ${
+                  activeTab === 'templates'
+                    ? 'bg-slate-100 dark:bg-white/10 text-[var(--brand-text)] dark:text-white font-bold'
+                    : 'text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
+                }`}
               >
                 <HelpCircle className="w-3.5 h-3.5 shrink-0 text-[var(--brand-secondary)] group-hover:text-[var(--brand-text)] dark:group-hover:text-white transition-colors" />
                 <span>Resources</span>
@@ -291,7 +281,7 @@ export function HomeSidebar({
                 onClick={() => { onTabChange('home'); onProjectFilterChange('trash'); }}
                 className={`group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer text-left ${
                   activeTab === 'home' && projectFilter === 'trash'
-                    ? 'bg-slate-100 dark:bg-white/10 text-[var(--brand-text)] dark:text-white'
+                    ? 'bg-slate-100 dark:bg-white/10 text-[var(--brand-text)] dark:text-white font-bold'
                     : 'text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
                 }`}
               >

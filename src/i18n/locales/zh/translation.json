@@ -287,7 +287,8 @@
     "themeLight": "浅色",
     "themeDark": "深色",
     "themeSystem": "跟随系统",
-    "mcp": "MCP"
+    "mcp": "MCP",
+    "documentation": "文档"
   },
   "shortcuts": {
     "title": "键盘快捷键",

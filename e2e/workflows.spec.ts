@@ -173,6 +173,7 @@ test('main menu exposes version history', async ({ page }) => {
 
 test('settings view opens from the home sidebar', async ({ page }) => {
   await page.goto('/#/home');
+  await page.getByTestId('user-profile-button').click();
   await page.getByTestId('sidebar-settings').click();
 
   await expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible();

@@ -287,7 +287,8 @@
     "themeLight": "Hell",
     "themeDark": "Dunkel",
     "themeSystem": "System",
-    "mcp": "MCP"
+    "mcp": "MCP",
+    "documentation": "Dokumentation"
   },
   "shortcuts": {
     "title": "Tastaturkürzel",

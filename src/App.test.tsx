@@ -76,9 +76,8 @@ describe('App routing', () => {
 
     render(<App />);
 
-    expect(await screen.findByText('Explore')).toBeTruthy();
-    expect(screen.getByText('new')).toBeTruthy();
-    expect(screen.getByText('ideas')).toBeTruthy();
+    expect(await screen.findByText('Get Started')).toBeTruthy();
+    expect(screen.getByAltText('MNWHILE FlowKit Logo')).toBeTruthy();
     expect(screen.queryByTestId('home-page')).toBeNull();
   });
 
@@ -87,7 +86,7 @@ describe('App routing', () => {
 
     render(<App />);
 
-    fireEvent.click(await screen.findByRole('button', { name: /explore now/i }));
+    fireEvent.click(await screen.findByRole('button', { name: /get started/i }));
 
     await waitFor(() => {
       expect(window.location.hash).toBe('#/auth');

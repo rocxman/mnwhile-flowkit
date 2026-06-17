@@ -102,6 +102,7 @@ describe('HomePage integration flows', () => {
         expect(screen.getByRole('heading', { name: 'Templates' })).toBeTruthy();
         expect(screen.getByText('Featured Templates')).toBeTruthy();
 
+        fireEvent.click(screen.getByTestId('user-profile-button'));
         fireEvent.click(screen.getByTestId('sidebar-settings'));
         expect(screen.getByText('Settings')).toBeTruthy();
         expect(screen.getByText('Flowpilot')).toBeTruthy();

@@ -13,6 +13,9 @@ import {
   Check,
   Undo,
   FileText,
+  Palette,
+  Tv,
+  PenTool,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +24,29 @@ import { Tooltip } from '../Tooltip';
 import type { WorkspaceDocumentPreview } from '@/store/workspaceDocumentModel';
 
 const AUTOSAVED_LABEL = 'Autosaved';
+
+function getFileTypeIcon(flow: HomeFlowCard): React.ReactElement {
+  const nameLower = flow.name.toLowerCase();
+  if (nameLower.includes('figjam') || nameLower.includes('flowchart') || nameLower.includes('board') || nameLower.includes('diagram')) {
+    return (
+      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-purple-500/10 text-purple-600 dark:text-purple-400">
+        <Palette className="w-3.5 h-3.5" />
+      </div>
+    );
+  }
+  if (nameLower.includes('slide') || nameLower.includes('presentation') || nameLower.includes('deck') || nameLower.includes('template')) {
+    return (
+      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-orange-500/10 text-orange-600 dark:text-orange-400">
+        <Tv className="w-3.5 h-3.5" />
+      </div>
+    );
+  }
+  return (
+    <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-blue-500/10 text-blue-600 dark:text-blue-400">
+      <PenTool className="w-3.5 h-3.5" />
+    </div>
+  );
+}
 
 export interface HomeFlowCard {
   id: string;
@@ -163,62 +189,41 @@ export function HomeDashboard({
         
         {/* Left Side: Sub Tabs */}
         {projectFilter === 'all' ? (
-          <div className="flex gap-2 bg-slate-50/50 dark:bg-black/20 p-1 rounded-xl border border-[var(--color-brand-border)]">
+          <div className="flex gap-1.5 bg-slate-100/40 dark:bg-black/20 p-1 rounded-xl border border-[var(--color-brand-border)]">
             <button
               type="button"
               onClick={() => setActiveSubTab('recents')}
-              className={`flex items-center gap-1.5 text-xs font-semibold transition-all cursor-pointer focus:outline-none px-3.5 py-1.5 rounded-lg ${
+              className={`flex items-center text-xs font-semibold transition-all cursor-pointer focus:outline-none px-4 py-1.5 rounded-lg ${
                 activeSubTab === 'recents'
-                  ? 'bg-slate-200/70 dark:bg-white/10 text-[var(--brand-text)] dark:text-white shadow-sm font-bold'
-                  : 'text-[var(--brand-secondary)] hover:bg-slate-100 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
+                  ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm font-bold'
+                  : 'text-[var(--brand-secondary)] hover:bg-slate-100/40 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
               }`}
             >
-              <span>Recently viewed</span>
-              <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
-                activeSubTab === 'recents'
-                  ? 'bg-slate-300/60 dark:bg-white/10 text-slate-800 dark:text-white border border-slate-400/20 dark:border-white/15'
-                  : 'bg-slate-200/30 dark:bg-white/5 text-[var(--brand-secondary)] border border-slate-300/10 dark:border-white/5'
-              }`}>
-                {flows.length}
-              </span>
+              Recently viewed
             </button>
 
             <button
               type="button"
               onClick={() => setActiveSubTab('shared')}
-              className={`flex items-center gap-1.5 text-xs font-semibold transition-all cursor-pointer focus:outline-none px-3.5 py-1.5 rounded-lg ${
+              className={`flex items-center text-xs font-semibold transition-all cursor-pointer focus:outline-none px-4 py-1.5 rounded-lg ${
                 activeSubTab === 'shared'
-                  ? 'bg-slate-200/70 dark:bg-white/10 text-[var(--brand-text)] dark:text-white shadow-sm font-bold'
-                  : 'text-[var(--brand-secondary)] hover:bg-slate-100 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
+                  ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm font-bold'
+                  : 'text-[var(--brand-secondary)] hover:bg-slate-100/40 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
               }`}
             >
-              <span>Shared files</span>
-              <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
-                activeSubTab === 'shared'
-                  ? 'bg-slate-300/60 dark:bg-white/10 text-slate-800 dark:text-white border border-slate-400/20 dark:border-white/15'
-                  : 'bg-slate-200/30 dark:bg-white/5 text-[var(--brand-secondary)] border border-slate-300/10 dark:border-white/5'
-              }`}>
-                {sharedFlows.length}
-              </span>
+              Shared files
             </button>
 
             <button
               type="button"
               onClick={() => setActiveSubTab('projects')}
-              className={`flex items-center gap-1.5 text-xs font-semibold transition-all cursor-pointer focus:outline-none px-3.5 py-1.5 rounded-lg ${
+              className={`flex items-center text-xs font-semibold transition-all cursor-pointer focus:outline-none px-4 py-1.5 rounded-lg ${
                 activeSubTab === 'projects'
-                  ? 'bg-slate-200/70 dark:bg-white/10 text-[var(--brand-text)] dark:text-white shadow-sm font-bold'
-                  : 'text-[var(--brand-secondary)] hover:bg-slate-100 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
+                  ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm font-bold'
+                  : 'text-[var(--brand-secondary)] hover:bg-slate-100/40 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
               }`}
             >
-              <span>Shared projects</span>
-              <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
-                activeSubTab === 'projects'
-                  ? 'bg-slate-300/60 dark:bg-white/10 text-slate-800 dark:text-white border border-slate-400/20 dark:border-white/15'
-                  : 'bg-slate-200/30 dark:bg-white/5 text-[var(--brand-secondary)] border border-slate-300/10 dark:border-white/5'
-              }`}>
-                0
-              </span>
+              Shared projects
             </button>
           </div>
         ) : (
@@ -510,16 +515,17 @@ export function HomeDashboard({
                       </FlowCardActionButton>
                     </div>
                   </div>
-                  <div className="flex flex-col p-4 bg-[var(--brand-surface)] transition-colors group-hover:bg-[color-mix(in_srgb,var(--brand-surface),white_2%)]">
-                    <h3 className="font-semibold text-[13.5px] text-[var(--brand-text)] tracking-tight truncate mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors text-left">
-                      {flow.name}
-                    </h3>
-                    <div className="flex items-center gap-2 text-[12px] font-medium text-[var(--brand-secondary)]">
-                      <span>{formatUpdatedAt(flow.updatedAt)}</span>
-                      <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
-                      <span>
-                        {flow.nodeCount} node{flow.nodeCount !== 1 ? 's' : ''}
-                      </span>
+                  <div className="flex items-start gap-2.5 p-3.5 bg-[var(--brand-surface)] transition-colors group-hover:bg-[color-mix(in_srgb,var(--brand-surface),white_2%)] text-left border-t border-[var(--color-brand-border)]/40">
+                    <div className="mt-0.5 shrink-0">
+                      {getFileTypeIcon(flow)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-[13px] text-[var(--brand-text)] tracking-tight truncate group-hover:text-[var(--brand-primary)] transition-colors">
+                        {flow.name}
+                      </h3>
+                      <p className="text-[11px] text-[var(--brand-secondary)] mt-0.5">
+                        {formatUpdatedAt(flow.updatedAt)}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -544,8 +550,8 @@ export function HomeDashboard({
                       onClick={() => onOpenFlow(flow.id)}
                       className="group border-b border-[var(--color-brand-border)]/40 hover:bg-white/[0.02] transition-colors cursor-pointer"
                     >
-                      <td className="p-3 pl-4 font-semibold text-[var(--brand-text)] flex items-center gap-2">
-                        <FileText className="w-4 h-4 text-blue-400 opacity-70 shrink-0" />
+                      <td className="p-3 pl-4 font-semibold text-[var(--brand-text)] flex items-center gap-2.5">
+                        {getFileTypeIcon(flow)}
                         <span className="truncate max-w-sm block">{flow.name}</span>
                       </td>
                       <td className="p-3 text-[var(--brand-secondary)]">
@@ -637,14 +643,17 @@ export function HomeDashboard({
                       Read-only
                     </div>
                   </div>
-                  <div className="flex flex-col p-4 bg-[var(--brand-surface)]">
-                    <h3 className="font-semibold text-[13.5px] text-[var(--brand-text)] tracking-tight truncate mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors text-left">
-                      {flow.name}
-                    </h3>
-                    <div className="flex items-center gap-2 text-[12px] font-medium text-[var(--brand-secondary)]">
-                      <span>{formatUpdatedAt(flow.updatedAt)}</span>
-                      <div className="h-[3px] w-[3px] rounded-full bg-[color-mix(in_srgb,var(--brand-secondary),transparent_50%)]"></div>
-                      <span>{flow.nodeCount} node{flow.nodeCount !== 1 ? 's' : ''}</span>
+                  <div className="flex items-start gap-2.5 p-3.5 bg-[var(--brand-surface)] transition-colors group-hover:bg-[color-mix(in_srgb,var(--brand-surface),white_2%)] text-left border-t border-[var(--color-brand-border)]/40">
+                    <div className="mt-0.5 shrink-0">
+                      {getFileTypeIcon(flow)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-[13px] text-[var(--brand-text)] tracking-tight truncate group-hover:text-[var(--brand-primary)] transition-colors">
+                        {flow.name}
+                      </h3>
+                      <p className="text-[11px] text-[var(--brand-secondary)] mt-0.5">
+                        {formatUpdatedAt(flow.updatedAt)}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -668,8 +677,8 @@ export function HomeDashboard({
                       onClick={() => onOpenFlow(flow.id)}
                       className="group border-b border-[var(--color-brand-border)]/40 hover:bg-white/[0.02] transition-colors cursor-pointer"
                     >
-                      <td className="p-3 pl-4 font-semibold text-[var(--brand-text)] flex items-center gap-2">
-                        <FileText className="w-4 h-4 text-purple-400 opacity-70 shrink-0" />
+                      <td className="p-3 pl-4 font-semibold text-[var(--brand-text)] flex items-center gap-2.5">
+                        {getFileTypeIcon(flow)}
                         <span className="truncate max-w-sm block">{flow.name}</span>
                       </td>
                       <td className="p-3 text-[var(--brand-secondary)]">

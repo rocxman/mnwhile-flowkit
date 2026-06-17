@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react';
-import { Plus, FolderOpen, PenTool, Palette, Tv, Sparkles, Upload } from 'lucide-react';
+import { FolderOpen, PenTool, Palette, Tv, Sparkles, Upload, Megaphone, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useFlowStore } from '../store';
 import { useWorkspaceDocumentActions, useWorkspaceDocumentsState } from '@/store/documentHooks';
@@ -145,6 +145,14 @@ export const HomePage: React.FC<HomePageProps> = ({
     }
   }
 
+  function handleBuzzClick(): void {
+    alert("Buzz is coming soon! Connect with your team instantly.");
+  }
+
+  function handleSiteClick(): void {
+    alert("Site Builder is coming soon! Publish your diagrams to live web pages.");
+  }
+
   // Filter flows based on search query
   const filteredFlows = flows.filter((flow) =>
     flow.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -180,6 +188,10 @@ export const HomePage: React.FC<HomePageProps> = ({
                 ? projectFilter === 'all'
                   ? t('nav.recents', 'Recents')
                   : projectFilter
+                : activeTab === 'settings'
+                ? 'Settings'
+                : activeTab === 'templates'
+                ? 'Templates'
                 : activeTab}
             </span>
             {activeTab === 'settings' && (
@@ -193,11 +205,12 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           {/* Right side: Figma-style Action Pills */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <button
               type="button"
               onClick={onLaunch}
-              className="flex items-center gap-1.5 rounded-lg bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              data-testid="home-create-new-main"
+              className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               title="Design a New Canvas"
             >
               <PenTool className="w-3.5 h-3.5 text-blue-500 shrink-0" />
@@ -207,7 +220,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <button
               type="button"
               onClick={onLaunch}
-              className="flex items-center gap-1.5 rounded-lg bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               title="Create a FigJam Flowchart"
             >
               <Palette className="w-3.5 h-3.5 text-purple-500 shrink-0" />
@@ -217,7 +230,8 @@ export const HomePage: React.FC<HomePageProps> = ({
             <button
               type="button"
               onClick={handleTopbarTemplatesClick}
-              className="flex items-center gap-1.5 rounded-lg bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              data-testid="home-open-templates"
+              className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               title="Open Presentation Slides Templates"
             >
               <Tv className="w-3.5 h-3.5 text-orange-500 shrink-0" />
@@ -227,34 +241,42 @@ export const HomePage: React.FC<HomePageProps> = ({
             <button
               type="button"
               onClick={onLaunchWithAI}
-              className="flex items-center gap-1.5 rounded-lg bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              data-testid="home-generate-with-ai"
+              className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               title="Generate Diagram with Flowpilot AI"
             >
               <Sparkles className="w-3.5 h-3.5 text-pink-500 shrink-0" />
-              <span>AI Flow</span>
+              <span>Make</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleBuzzClick}
+              className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              title="Buzz with team"
+            >
+              <Megaphone className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+              <span>Buzz</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleSiteClick}
+              className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              title="Publish Live Website"
+            >
+              <Globe className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
+              <span>Site</span>
             </button>
 
             <button
               type="button"
               onClick={onImportJSON}
-              className="flex items-center gap-1.5 rounded-lg bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               title="Import JSON Schema"
             >
-              <Upload className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
+              <Upload className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
               <span>Import</span>
-            </button>
-
-            <div className="h-4 w-px bg-[var(--color-brand-border)] mx-1" />
-
-            {/* Quick Plus Button */}
-            <button
-              type="button"
-              onClick={onLaunch}
-              className="flex h-7 w-7 items-center justify-center rounded-lg bg-lime-500 hover:bg-lime-400 text-slate-950 shadow-md transition-all cursor-pointer hover:scale-[1.05] active:scale-[0.95]"
-              title="Create New File"
-              data-testid="home-create-new-main"
-            >
-              <Plus className="w-4 h-4" />
             </button>
           </div>
         </header>

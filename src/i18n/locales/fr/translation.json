@@ -287,7 +287,8 @@
     "themeLight": "Clair",
     "themeDark": "Sombre",
     "themeSystem": "Système",
-    "mcp": "MCP"
+    "mcp": "MCP",
+    "documentation": "Documentation"
   },
   "shortcuts": {
     "title": "Raccourcis clavier",

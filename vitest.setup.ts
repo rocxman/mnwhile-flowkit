@@ -70,3 +70,14 @@ if (!hasWorkingStorage('sessionStorage')) {
     configurable: true,
   });
 }
+
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+if (typeof globalThis !== 'undefined' && !globalThis.ResizeObserver) {
+  globalThis.ResizeObserver = ResizeObserverMock;
+}
+
