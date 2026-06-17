@@ -10,9 +10,9 @@ import {
   HelpCircle,
   Sliders,
 } from 'lucide-react';
-import { WorkspaceProps } from './shared/workspaceTypes';
-import { WorkspaceCanvas } from './shared/WorkspaceCanvas';
-import { WorkspaceOverlays } from './shared/WorkspaceOverlays';
+import { WorkspaceProps } from '../shared/workspaceTypes';
+import { WorkspaceCanvas } from '../shared/WorkspaceCanvas';
+import { WorkspaceOverlays } from '../shared/WorkspaceOverlays';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { PropertiesPanel } from '@/components/PropertiesPanel';
 import { useSelectionActions } from '@/store/selectionHooks';

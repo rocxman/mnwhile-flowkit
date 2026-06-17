@@ -1,8 +1,8 @@
 import React from 'react';
-import { WorkspaceProps } from './shared/workspaceTypes';
-import { WorkspaceHeader } from './shared/WorkspaceHeader';
-import { WorkspaceCanvas } from './shared/WorkspaceCanvas';
-import { WorkspaceOverlays } from './shared/WorkspaceOverlays';
+import { WorkspaceProps } from '../shared/workspaceTypes';
+import { WorkspaceHeader } from '../shared/WorkspaceHeader';
+import { WorkspaceCanvas } from '../shared/WorkspaceCanvas';
+import { WorkspaceOverlays } from '../shared/WorkspaceOverlays';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { PropertiesPanel } from '@/components/PropertiesPanel';
 

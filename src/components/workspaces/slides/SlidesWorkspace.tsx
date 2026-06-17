@@ -11,9 +11,9 @@ import {
   Play,
   HelpCircle,
 } from 'lucide-react';
-import { WorkspaceProps } from './shared/workspaceTypes';
-import { WorkspaceCanvas } from './shared/WorkspaceCanvas';
-import { WorkspaceOverlays } from './shared/WorkspaceOverlays';
+import { WorkspaceProps } from '../shared/workspaceTypes';
+import { WorkspaceCanvas } from '../shared/WorkspaceCanvas';
+import { WorkspaceOverlays } from '../shared/WorkspaceOverlays';
 import { useFlowStore } from '@/store';
 import { useWorkspaceDocumentActions } from '@/store/documentHooks';
 import { useAuth } from '@/contexts/AuthContext';

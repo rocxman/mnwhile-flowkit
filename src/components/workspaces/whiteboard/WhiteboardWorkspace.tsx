@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useCallback, useRef, Suspense, lazy } from 'react';
 import type { AppState } from '@excalidraw/excalidraw/types';
 import type { ExcalidrawElement } from '@excalidraw/excalidraw/element/types';
-import { useFlowStore } from '../../store';
-import { useAuth } from '../../contexts/AuthContext';
-import { exportWhiteboardToPNG, exportWhiteboardToSVG } from '../../services/whiteboard/whiteboardExport';
-import { saveWhiteboard, loadWhiteboard } from '../../services/whiteboard/whiteboardStorage';
-import { saveWhiteboardToCloud, loadWhiteboardFromCloud } from '../../services/whiteboard/whiteboardCloudSync';
+import { useFlowStore } from '@/store';
+import { useAuth } from '@/contexts/AuthContext';
+import { exportWhiteboardToPNG, exportWhiteboardToSVG } from '@/services/whiteboard/whiteboardExport';
+import { saveWhiteboard, loadWhiteboard } from '@/services/whiteboard/whiteboardStorage';
+import { saveWhiteboardToCloud, loadWhiteboardFromCloud } from '@/services/whiteboard/whiteboardCloudSync';
 
 const Whiteboard = lazy(() =>
-  import('../Whiteboard').then((m) => ({ default: m.Whiteboard }))
+  import('../../Whiteboard').then((m) => ({ default: m.Whiteboard }))
 );
 
 function WhiteboardLoading() {

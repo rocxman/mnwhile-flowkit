@@ -2,13 +2,13 @@ import React, { Suspense, lazy } from 'react';
 import { useFlowStore } from '@/store';
 import { WorkspaceProps } from './shared/workspaceTypes';
 
-const MnFlowWorkspace = lazy(() => import('./MnFlowWorkspace'));
-const DesignWorkspace = lazy(() => import('./DesignWorkspace'));
-const SlidesWorkspace = lazy(() => import('./SlidesWorkspace'));
-const MakeWorkspace = lazy(() => import('./MakeWorkspace'));
-const BuzzWorkspace = lazy(() => import('./BuzzWorkspace'));
-const SiteWorkspace = lazy(() => import('./SiteWorkspace'));
-const WhiteboardWorkspace = lazy(() => import('./WhiteboardWorkspace'));
+const MnFlowWorkspace = lazy(() => import('./mnflow/MnFlowWorkspace'));
+const DesignWorkspace = lazy(() => import('./design/DesignWorkspace'));
+const SlidesWorkspace = lazy(() => import('./slides/SlidesWorkspace'));
+const MakeWorkspace = lazy(() => import('./make/MakeWorkspace'));
+const BuzzWorkspace = lazy(() => import('./buzz/BuzzWorkspace'));
+const SiteWorkspace = lazy(() => import('./site/SiteWorkspace'));
+const WhiteboardWorkspace = lazy(() => import('./whiteboard/WhiteboardWorkspace'));
 
 function WorkspaceLoadingFallback() {
   return (
