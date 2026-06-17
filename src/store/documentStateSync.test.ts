@@ -25,6 +25,7 @@ function createDocument(pages: FlowTab[]): FlowDocument {
         updatedAt: '2026-03-27T00:00:00.000Z',
         activePageId: pages[0]?.id ?? '',
         pages,
+        workspaceType: 'mnflow',
     };
 }
 

@@ -1,6 +1,7 @@
 import { cloudStorage, type CloudDocument } from '@/lib/cloud-storage';
 import type { DiagramType } from '@/lib/types';
 import type { FlowDocument } from './flowDocumentModel';
+import type { WorkspaceType } from './persistenceTypes';
 import { supabase } from '@/lib/supabase';
 
 const CLOUD_SYNC_DEBOUNCE_MS = 2000;
@@ -51,6 +52,7 @@ function flowDocumentToCloudPayload(doc: FlowDocument) {
   return {
     local_id: doc.id,
     name: doc.name,
+    workspace_type: doc.workspaceType,
     diagram_type: primaryPage?.diagramType,
     content: primaryPage
       ? {
@@ -86,6 +88,7 @@ export function cloudDocumentToFlowDocument(cloud: CloudDocument): FlowDocument 
   return {
     id: localId,
     name: cloud.name,
+    workspaceType: ((cloud as { workspace_type?: string })?.workspace_type as WorkspaceType) ?? 'mnflow',
     createdAt: cloud.created_at,
     updatedAt: cloud.updated_at,
     activePageId,

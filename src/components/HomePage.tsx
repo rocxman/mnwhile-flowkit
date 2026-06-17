@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react';
-import { FolderOpen, PenTool, Palette, Tv, Sparkles, Upload, Megaphone, Globe } from 'lucide-react';
+import { FolderOpen, PenTool, Pencil, Palette, Tv, Sparkles, Upload, Megaphone, Globe, Bell } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { type WorkspaceType } from '@/services/storage/persistenceTypes';
 import { useFlowStore } from '../store';
 import { useWorkspaceDocumentActions, useWorkspaceDocumentsState } from '@/store/documentHooks';
 import { HomeDashboard, type HomeFlowCard } from './home/HomeDashboard';
@@ -21,7 +22,7 @@ const LazyWelcomeModal = lazy(async () => {
 });
 
 interface HomePageProps {
-  onLaunch: () => void;
+  onLaunch: (name?: string, workspaceType?: WorkspaceType) => void;
   onLaunchWithTemplates: () => void;
   onLaunchWithTemplate: (templateId: string) => void;
   onLaunchWithAI: () => void;
@@ -53,6 +54,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [projectFilter, setProjectFilter] = useState<'all' | 'drafts' | 'trash'>('all');
+  const [notifOpen, setNotifOpen] = useState(false);
 
   const [flowPendingRename, setFlowPendingRename] = useState<HomeFlowCard | null>(null);
   const [flowPendingDelete, setFlowPendingDelete] = useState<HomeFlowCard | null>(null);
@@ -101,11 +103,6 @@ export const HomePage: React.FC<HomePageProps> = ({
     }
   }
 
-  function handleTopbarTemplatesClick(): void {
-    onLaunchWithTemplates();
-    handleTabChange('templates');
-  }
-
   function handleRenameFlow(flowId: string): void {
     const flow = flows.find((entry) => entry.id === flowId);
     if (!flow) return;
@@ -146,11 +143,11 @@ export const HomePage: React.FC<HomePageProps> = ({
   }
 
   function handleBuzzClick(): void {
-    alert("Buzz is coming soon! Connect with your team instantly.");
+    onLaunch('Untitled Buzz', 'buzz');
   }
 
   function handleSiteClick(): void {
-    alert("Site Builder is coming soon! Publish your diagrams to live web pages.");
+    onLaunch('Untitled Site', 'site');
   }
 
   // Filter flows based on search query
@@ -167,6 +164,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       <HomeSidebar
         activeTab={activeTab}
         onTabChange={handleTabChange}
+        onTemplatesClick={onLaunchWithTemplates}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         projectFilter={projectFilter}
@@ -176,7 +174,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* Main Content Area */}
       <main
         id="main-content"
-        className="flex-1 flex min-w-0 flex-col bg-[var(--brand-surface)] md:ml-64"
+        className="flex-1 flex min-w-0 flex-col bg-[var(--brand-surface)] md:ml-72"
       >
         {/* Unified Figma-style Topbar Navbar */}
         <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center justify-between border-b border-[var(--color-brand-border)] bg-[var(--brand-surface)]/80 px-6 backdrop-blur-md">
@@ -208,7 +206,27 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="flex items-center gap-1.5">
             <button
               type="button"
-              onClick={onLaunch}
+              onClick={() => onLaunch('Untitled MnFlow', 'mnflow')}
+              className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              title="Create a MnFlow Flowchart"
+            >
+              <Palette className="w-3.5 h-3.5 text-purple-500 shrink-0" />
+              <span>MnFlow</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onLaunch('Untitled Whiteboard', 'whiteboard')}
+              className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              title="Create a Whiteboard for freeform drawing"
+            >
+              <Pencil className="w-3.5 h-3.5 text-cyan-500 shrink-0" />
+              <span>Whiteboard</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onLaunch('Untitled Design', 'design')}
               data-testid="home-create-new-main"
               className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               title="Design a New Canvas"
@@ -216,28 +234,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               <PenTool className="w-3.5 h-3.5 text-blue-500 shrink-0" />
               <span>Design</span>
             </button>
-
+ 
             <button
               type="button"
-              onClick={onLaunch}
+              onClick={() => onLaunch('Untitled Slides', 'slides')}
+              data-testid="home-create-slides"
               className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
-              title="Create a FigJam Flowchart"
-            >
-              <Palette className="w-3.5 h-3.5 text-purple-500 shrink-0" />
-              <span>FigJam</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleTopbarTemplatesClick}
-              data-testid="home-open-templates"
-              className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
-              title="Open Presentation Slides Templates"
+              title="Create a Slides Presentation"
             >
               <Tv className="w-3.5 h-3.5 text-orange-500 shrink-0" />
               <span>Slides</span>
             </button>
-
+ 
             <button
               type="button"
               onClick={onLaunchWithAI}
@@ -248,17 +256,17 @@ export const HomePage: React.FC<HomePageProps> = ({
               <Sparkles className="w-3.5 h-3.5 text-pink-500 shrink-0" />
               <span>Make</span>
             </button>
-
+ 
             <button
               type="button"
               onClick={handleBuzzClick}
               className="flex items-center gap-1.5 rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
-              title="Buzz with team"
+              title="Create a Buzz space"
             >
               <Megaphone className="w-3.5 h-3.5 text-rose-500 shrink-0" />
               <span>Buzz</span>
             </button>
-
+ 
             <button
               type="button"
               onClick={handleSiteClick}
@@ -278,6 +286,44 @@ export const HomePage: React.FC<HomePageProps> = ({
               <Upload className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
               <span>Import</span>
             </button>
+
+            {/* Notification Bell */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setNotifOpen(!notifOpen)}
+                className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100/70 hover:bg-slate-200/80 dark:bg-white/5 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-all shadow-sm cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+                title="Notifications"
+              >
+                <Bell className="w-3.5 h-3.5" />
+                <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-indigo-500 ring-2 ring-white dark:ring-[#1e1e1e] animate-pulse" />
+              </button>
+
+              {/* Notifications Dropdown */}
+              {notifOpen && (
+                <>
+                  <button
+                    type="button"
+                    className="fixed inset-0 z-30"
+                    onClick={() => setNotifOpen(false)}
+                    aria-label="Close notification menu"
+                  />
+                  <div className="absolute top-full right-0 z-40 mt-1.5 w-64 rounded-xl border border-slate-200 dark:border-[#2c2c2c] bg-white dark:bg-[#1e1e1e] p-3 shadow-2xl animate-in fade-in slide-in-from-top-1 duration-150 text-left">
+                    <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-[#8e8e8e] mb-2.5">Notifications</h4>
+                    <div className="space-y-2.5">
+                      <div className="rounded-lg bg-slate-50 dark:bg-[#2c2c2c] p-2 border border-slate-100 dark:border-transparent">
+                        <p className="text-[10px] font-bold text-slate-800 dark:text-white mb-0.5">Welcome to MNWHILE FlowKit!</p>
+                        <p className="text-[9px] text-slate-500 dark:text-[#8e8e8e] leading-relaxed">Start designing premium local-first diagrams now.</p>
+                      </div>
+                      <div className="rounded-lg bg-slate-50 dark:bg-[#2c2c2c] p-2 border border-slate-100 dark:border-transparent opacity-80">
+                        <p className="text-[10px] font-bold text-slate-800 dark:text-white mb-0.5">Vercel Deploy Successful</p>
+                        <p className="text-[9px] text-slate-500 dark:text-[#8e8e8e] leading-relaxed">Your release is fully compiled and running.</p>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </header>
 

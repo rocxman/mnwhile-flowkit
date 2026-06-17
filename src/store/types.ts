@@ -19,6 +19,7 @@ import type {
 import type { MermaidImportStatus } from '@/services/mermaid/importContracts';
 import type { ExportSerializationMode } from '@/services/canonicalSerialization';
 import type { FlowDocument } from '@/services/storage/flowDocumentModel';
+import type { WorkspaceType } from '@/services/storage/persistenceTypes';
 
 export interface ViewSettings {
   showGrid: boolean;
@@ -115,7 +116,7 @@ export interface FlowState {
   activeDocumentId: string;
   setDocuments: (documents: FlowDocument[]) => void;
   setActiveDocumentId: (id: string) => void;
-  createDocument: () => string;
+  createDocument: (name?: string, workspaceType?: WorkspaceType) => string;
   renameDocument: (id: string, nextName: string) => void;
   duplicateDocument: (id: string) => string | null;
   deleteDocumentRecord: (id: string) => void;

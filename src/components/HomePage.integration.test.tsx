@@ -92,6 +92,7 @@ describe('HomePage integration flows', () => {
             updatedAt: pages[0]?.updatedAt ?? '2026-03-27T00:00:00.000Z',
             activePageId: pages[0]?.id ?? '',
             pages,
+            workspaceType: 'mnflow',
         };
     }
 
@@ -142,6 +143,16 @@ describe('HomePage integration flows', () => {
 
         expect(onLaunchWithTemplates).toHaveBeenCalledTimes(1);
         expect(onLaunchWithAI).toHaveBeenCalledTimes(1);
+    });
+
+    it('launches whiteboard workspace from homepage button', async () => {
+        const onLaunch = vi.fn();
+        setEmptyHomeState();
+
+        await renderHomePage({ onLaunch });
+
+        fireEvent.click(screen.getByText('Whiteboard'));
+        expect(onLaunch).toHaveBeenCalledWith('Untitled Whiteboard', 'whiteboard');
     });
 
     it('keeps the empty dashboard focused on the primary actions', async () => {

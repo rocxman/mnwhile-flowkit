@@ -46,6 +46,7 @@ describe('persistedDocumentAdapters', () => {
       createdAt: '2026-03-27T00:00:00.000Z',
       updatedAt: '2026-03-27T00:00:00.000Z',
       activePageId: 'page-2',
+      workspaceType: 'mnflow',
       pages: [
         {
           id: 'page-1',
@@ -73,5 +74,53 @@ describe('persistedDocumentAdapters', () => {
     expect(persisted.pages).toHaveLength(2);
     expect(persisted.activePageId).toBe('page-2');
     expect(persisted.content?.history).toBeUndefined();
+  });
+
+  it('preserves workspaceType when persisting flow documents', () => {
+    const whiteboardDoc = createPersistedDocumentFromFlowDocument({
+      id: 'doc-wb',
+      name: 'My Whiteboard',
+      createdAt: '2026-03-27T00:00:00.000Z',
+      updatedAt: '2026-03-27T00:00:00.000Z',
+      activePageId: 'page-1',
+      workspaceType: 'whiteboard',
+      pages: [
+        {
+          id: 'page-1',
+          name: 'Page 1',
+          diagramType: 'flowchart',
+          updatedAt: '2026-03-27T00:00:00.000Z',
+          nodes: [],
+          edges: [],
+          playback: undefined,
+          history: { past: [], future: [] },
+        },
+      ],
+    });
+
+    expect(whiteboardDoc.workspaceType).toBe('whiteboard');
+
+    const designDoc = createPersistedDocumentFromFlowDocument({
+      id: 'doc-design',
+      name: 'My Design',
+      createdAt: '2026-03-27T00:00:00.000Z',
+      updatedAt: '2026-03-27T00:00:00.000Z',
+      activePageId: 'page-1',
+      workspaceType: 'design',
+      pages: [
+        {
+          id: 'page-1',
+          name: 'Page 1',
+          diagramType: 'flowchart',
+          updatedAt: '2026-03-27T00:00:00.000Z',
+          nodes: [],
+          edges: [],
+          playback: undefined,
+          history: { past: [], future: [] },
+        },
+      ],
+    });
+
+    expect(designDoc.workspaceType).toBe('design');
   });
 });

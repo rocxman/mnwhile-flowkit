@@ -83,6 +83,7 @@ export function createPersistedDocumentFromFlowDocument(document: FlowDocument):
   return {
     id: document.id,
     name: document.name,
+    workspaceType: document.workspaceType,
     diagramType: activePage?.diagramType,
     content: activePage?.content,
     pages,

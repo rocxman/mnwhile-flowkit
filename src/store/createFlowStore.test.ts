@@ -53,4 +53,23 @@ describe('createFlowStore', () => {
         expect(typeof state.setViewSettings).toBe('function');
         expect(typeof state.updateLastSaveTime).toBe('function');
     });
+
+    it('creates a new document with the specified workspace type', () => {
+        const store = createFlowStore();
+        
+        // MnFlow is default
+        const doc1Id = store.getState().createDocument('My Flow');
+        const doc1 = store.getState().documents.find(d => d.id === doc1Id);
+        expect(doc1?.workspaceType).toBe('mnflow');
+
+        // Design workspace
+        const doc2Id = store.getState().createDocument('My Design', 'design');
+        const doc2 = store.getState().documents.find(d => d.id === doc2Id);
+        expect(doc2?.workspaceType).toBe('design');
+
+        // Slides workspace
+        const doc3Id = store.getState().createDocument('My Slides', 'slides');
+        const doc3 = store.getState().documents.find(d => d.id === doc3Id);
+        expect(doc3?.workspaceType).toBe('slides');
+    });
 });

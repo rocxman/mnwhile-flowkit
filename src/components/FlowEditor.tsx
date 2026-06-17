@@ -2,7 +2,7 @@ import React from 'react';
 import '@xyflow/react/dist/style.css';
 import { FlowCanvas } from './FlowCanvas';
 import { CinematicExportOverlay } from './CinematicExportOverlay';
-import { FlowEditorChrome } from './flow-editor/FlowEditorChrome';
+import { WorkspaceRouter } from './workspaces/WorkspaceRouter';
 import { useFlowEditorScreenModel } from './flow-editor/useFlowEditorScreenModel';
 import { ArchitectureLintProvider } from '@/context/ArchitectureLintContext';
 import { useCinematicExportState } from '@/context/CinematicExportContext';
@@ -33,7 +33,7 @@ interface FlowEditorProps {
 
 export function FlowEditor({ onGoHome }: FlowEditorProps) {
   const cinematicExportState = useCinematicExportState();
-  const { user } = useAuth();
+  const { user: _user } = useAuth();
   const activeDocument = useFlowStore((state) =>
     state.documents.find((doc) => doc.id === state.activeDocumentId)
   );
@@ -208,7 +208,7 @@ export function FlowEditor({ onGoHome }: FlowEditorProps) {
           <div className="absolute top-3 right-4 z-50">
             <SyncStatusIndicator />
           </div>
-          <FlowEditorChrome
+          <WorkspaceRouter
             pages={pages}
             activePageId={activePageId}
             topNav={flowEditorController.chrome.topNav}
@@ -229,6 +229,7 @@ export function FlowEditor({ onGoHome }: FlowEditorProps) {
             playback={flowEditorController.chrome.playback}
             toolbar={flowEditorController.chrome.toolbar}
             emptyState={flowEditorController.chrome.emptyState}
+            onShare={() => setShowShareDialog(true)}
           />
 
           <input
@@ -241,15 +242,6 @@ export function FlowEditor({ onGoHome }: FlowEditorProps) {
           />
           {shareViewerUrl && (
             <ShareEmbedModal viewerUrl={shareViewerUrl} onClose={clearShareViewerUrl} />
-          )}
-          {user && activeDocument && (
-            <button
-              type="button"
-              onClick={() => setShowShareDialog(true)}
-              className="fixed right-4 bottom-4 z-40 rounded-lg border border-[var(--color-brand-border)] bg-[var(--brand-surface)] px-3 py-1.5 text-[11px] font-semibold text-[var(--brand-primary)] shadow-lg transition-all hover:bg-[var(--brand-background)] hover:text-[var(--brand-text)]"
-            >
-              Share
-            </button>
           )}
           {showShareDialog && activeDocument && (
             <ShareDialog

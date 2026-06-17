@@ -3,6 +3,7 @@ import { nowIso } from '@/lib/date';
 import { createId } from '@/lib/id';
 import { DEFAULT_DIAGRAM_TYPE } from '@/services/diagramDocument';
 import type { FlowDocument } from '@/services/storage/flowDocumentModel';
+import type { WorkspaceType } from '@/services/storage/persistenceTypes';
 import type { GetFlowState, SetFlowState } from '../actionFactory';
 import { createEmptyFlowHistory } from '../historyState';
 import type { FlowState } from '../types';
@@ -20,12 +21,13 @@ function createEmptyPage(documentId: string, pageName = 'Page 1'): FlowTab {
     };
 }
 
-function createEmptyDocument(name = 'Untitled Flow'): FlowDocument {
+function createEmptyDocument(name = 'Untitled Flow', workspaceType: WorkspaceType = 'mnflow'): FlowDocument {
     const documentId = createId('doc');
     const primaryPage = createEmptyPage(documentId);
     return {
         id: documentId,
         name,
+        workspaceType,
         createdAt: nowIso(),
         updatedAt: nowIso(),
         activePageId: primaryPage.id,
@@ -107,8 +109,8 @@ export function createWorkspaceDocumentActions(set: SetFlowState, get: GetFlowSt
                 edges: activePage.edges,
             });
         },
-        createDocument: () => {
-            const document = createEmptyDocument();
+        createDocument: (name?: string, workspaceType?: WorkspaceType) => {
+            const document = createEmptyDocument(name, workspaceType);
             const pages = toFlowTabPages(document);
             const activePage = pages[0];
 

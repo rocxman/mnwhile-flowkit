@@ -15,9 +15,12 @@ export interface PersistedDocumentPage {
   content: PersistedDocumentContent;
 }
 
+export type WorkspaceType = 'mnflow' | 'design' | 'slides' | 'make' | 'buzz' | 'site' | 'whiteboard';
+
 export interface PersistedDocument {
   id: string;
   name: string;
+  workspaceType?: WorkspaceType;
   diagramType?: FlowTab['diagramType'];
   content?: PersistedDocumentContent;
   pages?: PersistedDocumentPage[];

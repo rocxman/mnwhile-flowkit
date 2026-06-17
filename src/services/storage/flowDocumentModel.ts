@@ -6,6 +6,7 @@ import type {
   PersistedDocumentContent,
   PersistedDocumentPage,
   WorkspaceMeta,
+  WorkspaceType,
 } from './persistenceTypes';
 
 export interface FlowPage {
@@ -22,6 +23,7 @@ export interface FlowPage {
 export interface FlowDocument {
   id: string;
   name: string;
+  workspaceType: WorkspaceType;
   createdAt: string;
   updatedAt: string;
   activePageId: string;
@@ -92,6 +94,7 @@ export function createFlowDocumentFromPersistedDocument(
   return {
     id: document.id,
     name: document.name,
+    workspaceType: document.workspaceType ?? 'mnflow',
     createdAt: document.createdAt,
     updatedAt: document.updatedAt,
     activePageId,

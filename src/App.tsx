@@ -26,6 +26,7 @@ import { SharedDocumentPage } from '@/components/SharedDocumentPage';
 import { OfflineBanner } from '@/components/OfflineBanner';
 
 import { type HomeSidebarTab } from './components/home/HomeSidebar';
+import type { WorkspaceType } from '@/services/storage/persistenceTypes';
 
 import { useFlowStore } from './store';
 import { useEditorPageActions } from '@/store/editorPageHooks';
@@ -121,13 +122,13 @@ function HomePageRoute(): React.JSX.Element {
     void loadFlowEditorModule();
   }, []);
 
-  function openNewFlow(routeState?: FlowEditorRouteState): void {
-    const newDocumentId = createDocument();
+  function openNewFlow(routeState?: FlowEditorRouteState, name?: string, workspaceType?: WorkspaceType): void {
+    const newDocumentId = createDocument(name, workspaceType);
     navigate(`/flow/${newDocumentId}`, routeState ? { state: routeState } : undefined);
   }
 
-  function handleLaunch(): void {
-    openNewFlow();
+  function handleLaunch(name?: string, workspaceType?: WorkspaceType): void {
+    openNewFlow(undefined, name, workspaceType);
   }
 
   function handleLaunchWithTemplates(): void {
@@ -135,7 +136,7 @@ function HomePageRoute(): React.JSX.Element {
   }
 
   function handleLaunchWithAI(): void {
-    openNewFlow(createFlowEditorAIRouteState());
+    openNewFlow(createFlowEditorAIRouteState(), 'Untitled Make', 'make');
   }
 
   function handleLaunchWithInitialTemplate(templateId: string): void {

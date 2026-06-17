@@ -115,4 +115,17 @@ describe('flowDocumentModel', () => {
     expect(tabs[0]?.id).toBe('doc-1');
     expect(tabs[0]?.name).toBe('System Design');
   });
+
+  it('defaults legacy documents without workspaceType to mnflow', () => {
+    const persistedDocument = createPersistedDocument();
+    // workspaceType is undefined on persistedDocument by default
+    const document = createFlowDocumentFromPersistedDocument(persistedDocument);
+    expect(document.workspaceType).toBe('mnflow');
+  });
+
+  it('preserves workspaceType from persisted document', () => {
+    const persistedDocument = createPersistedDocument({ workspaceType: 'design' });
+    const document = createFlowDocumentFromPersistedDocument(persistedDocument);
+    expect(document.workspaceType).toBe('design');
+  });
 });

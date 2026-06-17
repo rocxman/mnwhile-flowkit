@@ -25,6 +25,7 @@ function createDocumentFromTab(tab: FlowTab): FlowDocument {
         updatedAt: tab.updatedAt ?? '2026-03-27T00:00:00.000Z',
         activePageId: tab.id,
         pages: [tab],
+        workspaceType: 'mnflow',
     };
 }
 

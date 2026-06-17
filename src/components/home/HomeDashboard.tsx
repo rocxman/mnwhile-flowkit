@@ -27,7 +27,13 @@ const AUTOSAVED_LABEL = 'Autosaved';
 
 function getFileTypeIcon(flow: HomeFlowCard): React.ReactElement {
   const nameLower = flow.name.toLowerCase();
-  if (nameLower.includes('figjam') || nameLower.includes('flowchart') || nameLower.includes('board') || nameLower.includes('diagram')) {
+  if (
+    nameLower.includes('figjam') ||
+    nameLower.includes('mnflow') ||
+    nameLower.includes('flowchart') ||
+    nameLower.includes('board') ||
+    nameLower.includes('diagram')
+  ) {
     return (
       <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-purple-500/10 text-purple-600 dark:text-purple-400">
         <Palette className="w-3.5 h-3.5" />

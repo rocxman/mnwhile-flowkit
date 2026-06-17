@@ -1225,7 +1225,82 @@ Complete phase-by-phase implementation checklist for MNWHILE FLOWKIT self-hosted
 
 ---
 
-## Phase 7: Post-Launch (Future)
+## Phase 7: Multi-Workspace Architecture (Current Phase)
+
+**Duration:** 2-3 weeks  
+**Goal:** Establish professional multi-workspace architecture and extract shared infrastructure.
+
+### 7.1 Commit & Stabilize
+
+- [ ] Review working tree changes
+- [ ] Run `npm run build`
+- [ ] Run focused tests for workspace/store changes
+- [ ] Commit current changes with professional message
+- [ ] Push to GitHub
+- [ ] Deploy to Vercel production
+
+### 7.2 Documentation
+
+- [x] Create `docs/architecture/WORKSPACE_ARCHITECTURE.md`
+- [x] Create `docs/planning/WORKSPACE_ROADMAP.md`
+- [ ] Update `CLAUDE.md` with workspace architecture rules
+- [ ] Update this checklist
+
+### 7.3 Shared Infrastructure Extraction
+
+- [ ] Create `shared/hooks/useWorkspaceDocument.ts`
+- [ ] Create `shared/hooks/useWorkspaceUser.ts`
+- [ ] Create `shared/hooks/useWorkspacePanelState.ts`
+- [ ] Create `shared/primitives/MNWHILELogo.tsx`
+- [ ] Create `shared/primitives/WorkspaceDocTitle.tsx`
+- [ ] Create `shared/primitives/WorkspaceAvatar.tsx`
+- [ ] Create `shared/primitives/WorkspaceRail.tsx`
+- [ ] Create `shared/primitives/WorkspaceRailButton.tsx`
+- [ ] Create `shared/primitives/WorkspaceSidebarShell.tsx`
+- [ ] Create `shared/primitives/WorkspaceFloatingHelp.tsx`
+- [ ] Create `shared/primitives/WorkspacePlayShareBar.tsx`
+- [ ] Refactor each workspace to use shared hooks/primitives
+- [ ] Verify: all workspaces visually identical to before
+- [ ] Run tests + build
+
+### 7.4 Directory Reorganization
+
+- [ ] Create subdirectories: `mnflow/`, `design/`, `slides/`, `make/`, `buzz/`, `site/`
+- [ ] Move MnFlowWorkspace.tsx → `mnflow/MnFlowWorkspace.tsx`
+- [ ] Split DesignWorkspace.tsx → `design/` subcomponents
+- [ ] Split SlidesWorkspace.tsx → `slides/` subcomponents
+- [ ] Split MakeWorkspace.tsx → `make/` subcomponents
+- [ ] Split BuzzWorkspace.tsx → `buzz/` subcomponents
+- [ ] Split SiteWorkspace.tsx → `site/` subcomponents
+- [ ] Update WorkspaceRouter.tsx import paths
+- [ ] Run tests + build + verify visual parity
+
+### 7.5 Engine Abstraction Preparation
+
+- [ ] Create `src/components/workspaces/engines/types.ts`
+- [ ] Define `WorkspaceEngine` interface
+- [ ] Register current React Flow engine as `diagramEngine`
+- [ ] Create workspace engine mapping
+
+### Phase 7 Deliverables
+
+✅ Multi-workspace shell architecture  
+✅ Shared hooks and primitives extracted  
+✅ Workspace directories isolated  
+✅ Engine abstraction foundation  
+✅ Documentation complete  
+
+**Acceptance Criteria:**
+- All 6 workspace types launch correctly
+- No visible UI changes from architecture refactor
+- Build passes, tests pass
+- Each workspace in its own subfolder
+- Shared hooks/primitives in `shared/` directory
+- Engine interface exists for future canvas swaps
+
+---
+
+## Phase 8: Post-Launch (Future)
 
 **Duration:** Ongoing  
 **Goal:** Monitor, iterate, scale.
