@@ -78,7 +78,7 @@ export function HomeCommunityView({
   return (
     <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 md:px-10 md:py-8 animate-in fade-in duration-300">
       {/* Banner Cover Header */}
-      <div className="relative overflow-hidden rounded-[24px] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-gradient-to-r from-purple-950/40 via-indigo-950/30 to-[var(--brand-surface)] p-8 md:p-12 mb-8 shadow-xl">
+      <div className="relative overflow-hidden rounded-[24px] border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-gradient-to-r from-purple-100/30 via-indigo-100/20 dark:from-purple-950/40 dark:via-indigo-950/30 to-[var(--brand-surface)] p-8 md:p-12 mb-8 shadow-xl">
         <div className="absolute top-0 right-0 p-8 opacity-[0.05] pointer-events-none select-none">
           <Sparkles className="w-48 h-48 text-indigo-500" />
         </div>
@@ -118,7 +118,7 @@ export function HomeCommunityView({
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition-all cursor-pointer ${
               activeCategory === cat
                 ? 'bg-indigo-600 text-white shadow-md'
-                : 'bg-white/5 hover:bg-white/10 text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
+                : 'bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
             }`}
           >
             {cat === 'all' ? 'All Templates' : cat}
@@ -129,7 +129,7 @@ export function HomeCommunityView({
       {/* Grid of Community Cards */}
       {filteredItems.length === 0 ? (
         <div className="flex flex-col py-16 items-center justify-center text-center max-w-md mx-auto">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 text-[var(--brand-secondary)] mb-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-[var(--brand-secondary)] mb-4">
             <Users className="w-5 h-5 opacity-60" />
           </div>
           <h3 className="text-sm font-semibold text-[var(--brand-text)] mb-1">No templates found</h3>
@@ -158,7 +158,7 @@ export function HomeCommunityView({
                 <div className="flex flex-1 flex-col p-4">
                   {/* Creator Info */}
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-[9px] font-bold text-indigo-400 border border-indigo-500/20 shadow-sm">
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-[9px] font-bold text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 shadow-sm">
                       {item.creator.avatar}
                     </div>
                     <div className="min-w-0 flex-1 text-left">

@@ -163,80 +163,69 @@ export function HomeDashboard({
         
         {/* Left Side: Sub Tabs */}
         {projectFilter === 'all' ? (
-          <div className="flex gap-5">
+          <div className="flex gap-2 bg-slate-50/50 dark:bg-black/20 p-1 rounded-xl border border-[var(--color-brand-border)]">
             <button
               type="button"
               onClick={() => setActiveSubTab('recents')}
-              className={`relative pb-3 text-xs font-bold transition-all cursor-pointer focus:outline-none ${
+              className={`flex items-center gap-1.5 text-xs font-semibold transition-all cursor-pointer focus:outline-none px-3.5 py-1.5 rounded-lg ${
                 activeSubTab === 'recents'
-                  ? 'text-[var(--brand-text)]'
-                  : 'text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
+                  ? 'bg-slate-200/70 dark:bg-white/10 text-[var(--brand-text)] dark:text-white shadow-sm font-bold'
+                  : 'text-[var(--brand-secondary)] hover:bg-slate-100 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
               }`}
             >
-              <div className="flex items-center gap-1.5">
-                <span>Recently viewed</span>
-                <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
-                  activeSubTab === 'recents'
-                    ? 'bg-lime-500/10 text-lime-500 border border-lime-500/20'
-                    : 'bg-white/5 text-[var(--brand-secondary)] border border-white/5'
-                }`}>
-                  {flows.length}
-                </span>
-              </div>
-              {activeSubTab === 'recents' && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-lime-500 rounded-full animate-in fade-in" />
-              )}
+              <span>Recently viewed</span>
+              <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
+                activeSubTab === 'recents'
+                  ? 'bg-slate-300/60 dark:bg-white/10 text-slate-800 dark:text-white border border-slate-400/20 dark:border-white/15'
+                  : 'bg-slate-200/30 dark:bg-white/5 text-[var(--brand-secondary)] border border-slate-300/10 dark:border-white/5'
+              }`}>
+                {flows.length}
+              </span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveSubTab('shared')}
-              className={`relative pb-3 text-xs font-bold transition-all cursor-pointer focus:outline-none ${
+              className={`flex items-center gap-1.5 text-xs font-semibold transition-all cursor-pointer focus:outline-none px-3.5 py-1.5 rounded-lg ${
                 activeSubTab === 'shared'
-                  ? 'text-[var(--brand-text)]'
-                  : 'text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
+                  ? 'bg-slate-200/70 dark:bg-white/10 text-[var(--brand-text)] dark:text-white shadow-sm font-bold'
+                  : 'text-[var(--brand-secondary)] hover:bg-slate-100 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
               }`}
             >
-              <div className="flex items-center gap-1.5">
-                <span>Shared files</span>
-                <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
-                  activeSubTab === 'shared'
-                    ? 'bg-lime-500/10 text-lime-500 border border-lime-500/20'
-                    : 'bg-white/5 text-[var(--brand-secondary)] border border-white/5'
-                }`}>
-                  {sharedFlows.length}
-                </span>
-              </div>
-              {activeSubTab === 'shared' && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-lime-500 rounded-full animate-in fade-in" />
-              )}
+              <span>Shared files</span>
+              <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
+                activeSubTab === 'shared'
+                  ? 'bg-slate-300/60 dark:bg-white/10 text-slate-800 dark:text-white border border-slate-400/20 dark:border-white/15'
+                  : 'bg-slate-200/30 dark:bg-white/5 text-[var(--brand-secondary)] border border-slate-300/10 dark:border-white/5'
+              }`}>
+                {sharedFlows.length}
+              </span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveSubTab('projects')}
-              className={`relative pb-3 text-xs font-bold transition-all cursor-pointer focus:outline-none ${
+              className={`flex items-center gap-1.5 text-xs font-semibold transition-all cursor-pointer focus:outline-none px-3.5 py-1.5 rounded-lg ${
                 activeSubTab === 'projects'
-                  ? 'text-[var(--brand-text)]'
-                  : 'text-[var(--brand-secondary)] hover:text-[var(--brand-text)]'
+                  ? 'bg-slate-200/70 dark:bg-white/10 text-[var(--brand-text)] dark:text-white shadow-sm font-bold'
+                  : 'text-[var(--brand-secondary)] hover:bg-slate-100 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
               }`}
             >
-              <div className="flex items-center gap-1.5">
-                <span>Shared projects</span>
-                <span className="rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none bg-white/5 text-[var(--brand-secondary)] border border-white/5">
-                  0
-                </span>
-              </div>
-              {activeSubTab === 'projects' && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-lime-500 rounded-full animate-in fade-in" />
-              )}
+              <span>Shared projects</span>
+              <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-mono font-bold leading-none ${
+                activeSubTab === 'projects'
+                  ? 'bg-slate-300/60 dark:bg-white/10 text-slate-800 dark:text-white border border-slate-400/20 dark:border-white/15'
+                  : 'bg-slate-200/30 dark:bg-white/5 text-[var(--brand-secondary)] border border-slate-300/10 dark:border-white/5'
+              }`}>
+                0
+              </span>
             </button>
           </div>
         ) : (
           <div className="flex items-center gap-2 pb-2">
             <span className="inline-flex h-2 w-2 rounded-full bg-lime-500" />
             <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--brand-text)] capitalize">
-              Viewing folder: <span className="text-lime-400">{projectFilter}</span>
+              Viewing folder: <span className="text-lime-600 dark:text-lime-400">{projectFilter}</span>
             </h2>
           </div>
         )}
@@ -249,7 +238,7 @@ export function HomeDashboard({
             <button
               type="button"
               onClick={() => { setOrgOpen(!orgOpen); setFileTypeOpen(false); setSortOpen(false); }}
-              className="flex items-center gap-1.5 rounded-lg border border-[var(--color-brand-border)] bg-black/10 px-2.5 py-1.5 text-[11px] font-semibold text-[var(--brand-secondary)] hover:text-white transition-all cursor-pointer"
+              className="flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer"
             >
               <span>{orgFilter}</span>
               <ChevronDown className="w-3.5 h-3.5 opacity-60" />
@@ -262,7 +251,7 @@ export function HomeDashboard({
                     <button
                       key={opt}
                       onClick={() => { setOrgFilter(opt); setOrgOpen(false); }}
-                      className="flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-[11px] text-[var(--brand-secondary)] hover:bg-white/5 hover:text-white text-left cursor-pointer"
+                      className="flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-[11px] text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)] text-left cursor-pointer"
                     >
                       <span>{opt}</span>
                       {orgFilter === opt && <Check className="w-3 h-3 text-lime-500" />}
@@ -278,7 +267,7 @@ export function HomeDashboard({
             <button
               type="button"
               onClick={() => { setFileTypeOpen(!fileTypeOpen); setOrgOpen(false); setSortOpen(false); }}
-              className="flex items-center gap-1.5 rounded-lg border border-[var(--color-brand-border)] bg-black/10 px-2.5 py-1.5 text-[11px] font-semibold text-[var(--brand-secondary)] hover:text-white transition-all cursor-pointer"
+              className="flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer"
             >
               <span>{fileTypeFilter}</span>
               <ChevronDown className="w-3.5 h-3.5 opacity-60" />
@@ -291,7 +280,7 @@ export function HomeDashboard({
                     <button
                       key={opt}
                       onClick={() => { setFileTypeFilter(opt); setFileTypeOpen(false); }}
-                      className="flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-[11px] text-[var(--brand-secondary)] hover:bg-white/5 hover:text-white text-left cursor-pointer"
+                      className="flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-[11px] text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)] text-left cursor-pointer"
                     >
                       <span>{opt}</span>
                       {fileTypeFilter === opt && <Check className="w-3 h-3 text-lime-500" />}
@@ -307,7 +296,7 @@ export function HomeDashboard({
             <button
               type="button"
               onClick={() => { setSortOpen(!sortOpen); setOrgOpen(false); setFileTypeOpen(false); }}
-              className="flex items-center gap-1.5 rounded-lg border border-[var(--color-brand-border)] bg-black/10 px-2.5 py-1.5 text-[11px] font-semibold text-[var(--brand-secondary)] hover:text-white transition-all cursor-pointer"
+              className="flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer"
             >
               <span>{currentSortLabel}</span>
               <ChevronDown className="w-3.5 h-3.5 opacity-60" />
@@ -320,7 +309,7 @@ export function HomeDashboard({
                     <button
                       key={opt.key}
                       onClick={() => { setSortBy(opt.key as typeof sortBy); setSortOpen(false); }}
-                      className="flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-[11px] text-[var(--brand-secondary)] hover:bg-white/5 hover:text-white text-left cursor-pointer"
+                      className="flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-[11px] text-[var(--brand-secondary)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[var(--brand-text)] text-left cursor-pointer"
                     >
                       <span>{opt.label}</span>
                       {sortBy === opt.key && <Check className="w-3 h-3 text-lime-500" />}
@@ -335,14 +324,14 @@ export function HomeDashboard({
           <div className="h-4 w-px bg-[var(--color-brand-border)] mx-1" />
 
           {/* Grid/List View Mode Toggles */}
-          <div className="flex items-center gap-1 rounded-lg border border-[var(--color-brand-border)] bg-black/10 p-0.5">
+          <div className="flex items-center gap-1 rounded-lg border border-[var(--color-brand-border)] bg-slate-50/80 dark:bg-black/20 p-0.5">
             <button
               type="button"
               onClick={() => onViewModeChange('grid')}
               className={`flex h-6 w-6 items-center justify-center rounded transition-all cursor-pointer focus:outline-none ${
                 viewMode === 'grid'
-                  ? 'bg-white/10 text-white shadow-inner'
-                  : 'text-[var(--brand-secondary)] hover:text-white'
+                  ? 'bg-slate-200 dark:bg-white/10 text-slate-800 dark:text-white shadow-sm font-bold'
+                  : 'text-[var(--brand-secondary)] hover:bg-slate-100 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
               }`}
               title="Grid View"
             >
@@ -353,8 +342,8 @@ export function HomeDashboard({
               onClick={() => onViewModeChange('list')}
               className={`flex h-6 w-6 items-center justify-center rounded transition-all cursor-pointer focus:outline-none ${
                 viewMode === 'list'
-                  ? 'bg-white/10 text-white shadow-inner'
-                  : 'text-[var(--brand-secondary)] hover:text-white'
+                  ? 'bg-slate-200 dark:bg-white/10 text-slate-800 dark:text-white shadow-sm font-bold'
+                  : 'text-[var(--brand-secondary)] hover:bg-slate-100 dark:hover:bg-white/5 hover:text-[var(--brand-text)]'
               }`}
               title="List View"
             >

@@ -53,7 +53,7 @@ export function HomeSettingsView({
                                 )}
                             </p>
                         </div>
-                        <div className="border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] rounded-2xl p-5 bg-white/[0.01]">
+                        <div className="border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] rounded-2xl p-5 bg-slate-50/50 dark:bg-white/[0.01]">
                             <MCPFlowVisual />
                         </div>
                         <MCPSettings variant="page" />
@@ -138,10 +138,10 @@ function DocumentationSettings(): React.ReactElement {
                         href={res.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex flex-col justify-between p-5 rounded-2xl border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-surface)] hover:bg-white/[0.02] hover:border-[var(--brand-primary-400)]/40 hover:shadow-md transition-all duration-200 cursor-pointer"
+                        className="group flex flex-col justify-between p-5 rounded-2xl border border-[color-mix(in_srgb,var(--color-brand-border),transparent_50%)] bg-[var(--brand-surface)] hover:bg-slate-50 dark:hover:bg-white/[0.02] hover:border-[var(--brand-primary-400)]/40 hover:shadow-md transition-all duration-200 cursor-pointer"
                     >
                         <div>
-                            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 border border-white/10 mb-4 group-hover:scale-105 transition-transform duration-200">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 mb-4 group-hover:scale-105 transition-transform duration-200">
                                 {res.icon}
                             </div>
                             <h3 className="text-sm font-semibold text-[var(--brand-text)] mb-1 group-hover:text-[var(--brand-primary)] transition-colors">

@@ -197,50 +197,50 @@ export const HomePage: React.FC<HomePageProps> = ({
             <button
               type="button"
               onClick={onLaunch}
-              className="flex items-center gap-1.5 rounded-full bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-500/20 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-1.5 rounded-lg bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               title="Design a New Canvas"
             >
-              <PenTool className="w-3.5 h-3.5" />
+              <PenTool className="w-3.5 h-3.5 text-blue-500 shrink-0" />
               <span>Design</span>
             </button>
 
             <button
               type="button"
               onClick={onLaunch}
-              className="flex items-center gap-1.5 rounded-full bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 border border-purple-500/20 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-1.5 rounded-lg bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               title="Create a FigJam Flowchart"
             >
-              <Palette className="w-3.5 h-3.5" />
+              <Palette className="w-3.5 h-3.5 text-purple-500 shrink-0" />
               <span>FigJam</span>
             </button>
 
             <button
               type="button"
               onClick={handleTopbarTemplatesClick}
-              className="flex items-center gap-1.5 rounded-full bg-orange-600/10 hover:bg-orange-600/20 text-orange-400 border border-orange-500/20 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-1.5 rounded-lg bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               title="Open Presentation Slides Templates"
             >
-              <Tv className="w-3.5 h-3.5" />
+              <Tv className="w-3.5 h-3.5 text-orange-500 shrink-0" />
               <span>Slides</span>
             </button>
 
             <button
               type="button"
               onClick={onLaunchWithAI}
-              className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-pink-600/20 to-purple-600/20 hover:from-pink-600/30 hover:to-purple-600/30 text-pink-400 border border-pink-500/30 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-1.5 rounded-lg bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               title="Generate Diagram with Flowpilot AI"
             >
-              <Sparkles className="w-3.5 h-3.5" />
+              <Sparkles className="w-3.5 h-3.5 text-pink-500 shrink-0" />
               <span>AI Flow</span>
             </button>
 
             <button
               type="button"
               onClick={onImportJSON}
-              className="flex items-center gap-1.5 rounded-full bg-white/5 hover:bg-white/10 text-[var(--brand-text)] border border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-1.5 rounded-lg bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               title="Import JSON Schema"
             >
-              <Upload className="w-3.5 h-3.5" />
+              <Upload className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
               <span>Import</span>
             </button>
 
@@ -250,7 +250,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <button
               type="button"
               onClick={onLaunch}
-              className="flex h-7 w-7 items-center justify-center rounded-full bg-lime-500 hover:bg-lime-400 text-slate-950 shadow-md transition-all cursor-pointer hover:scale-[1.05] active:scale-[0.95]"
+              className="flex h-7 w-7 items-center justify-center rounded-lg bg-lime-500 hover:bg-lime-400 text-slate-950 shadow-md transition-all cursor-pointer hover:scale-[1.05] active:scale-[0.95]"
               title="Create New File"
               data-testid="home-create-new-main"
             >
