@@ -1,0 +1,73 @@
+- generic [ref=e5] [box=0,0,1920,991]:
+  - generic [ref=e6] [box=0,0,1920,991]:
+    - generic [ref=e8] [box=0,0,1920,991]:
+      - navigation "Sidebar" [ref=e9] [box=0,0,241,991]:
+        - generic [ref=e10] [box=0,0,240,991]:
+          - generic [ref=e11] [box=0,0,240,88]:
+            - generic [ref=e12] [box=8,0,224,40]:
+              - button "Account dropdown for rocxman" [ref=e13] [box=8,8,110,32]
+              - generic [ref=e15] [box=200,8,32,32]
+            - generic [ref=e22] [box=8,48,224,32]:
+              - img [ref=e24] [box=14,52,24,24]
+              - combobox "Search" [ref=e27] [box=42,56,152,16]
+          - generic [ref=e33] [box=0,88,240,713]:
+            - list [ref=e34] [box=0,88,240,64]:
+              - listitem [ref=e35] [box=0,88,240,32]
+              - button "Community" [ref=e37] [box=0,120,240,32]
+            - generic [ref=e40] [box=0,171,232,32]:
+              - 'button "Plan: rocxxman''s team" [ref=e41] [box=8,171,165,32]'
+              - button "Change plan. rocxxman's team currently on Free plan" [ref=e43] [box=177,179,35,16]
+            - list [ref=e45] [box=0,205,240,128]:
+              - listitem [ref=e47] [box=0,205,240,32]
+              - listitem [ref=e53] [box=0,237,240,32]
+              - button "Resources" [ref=e55] [box=0,269,240,32]
+              - listitem [ref=e56] [box=0,301,240,32]
+            - button "See what’s included Your plan and usage" [ref=e59] [cursor=pointer] [box=12,341,216,58]:
+              - generic [box=25,354,107,32]
+              - img [box=195,358,24,24]
+            - button "Starred" [ref=e65] [box=0,424,240,32]:
+              - generic [box=0,432,16,16]
+              - generic [box=16,432,40,16]: Starred
+          - generic [ref=e69] [box=16,813,208,168]:
+            - img [ref=e70] [box=108,829,24,24]
+            - paragraph [ref=e73] [box=32,865,176,64]:
+              - generic [ref=e74] [box=33,866,175,30]: You’re running out of files in your free team.
+              - text: Upgrade to give your ideas and designs room to grow without limits.
+            - button "View plans" [ref=e75] [box=32,941,176,24]:
+              - generic [box=32,941,176,24]
+      - generic [ref=e76] [box=241,0,1679,991]:
+        - generic [ref=e80] [box=273,0,1600,48]:
+          - heading "Recents" [level=1] [ref=e82] [box=273,13,49,22]
+          - generic [ref=e85] [box=1282,8,591,32]:
+            - button "New Design file" [ref=e87] [box=1282,8,91,32]:
+              - generic [box=1282,8,91,32]
+            - button "New FigJam file" [ref=e89] [box=1381,8,93,32]:
+              - generic [box=1381,8,93,32]
+            - button "New Slides file" [ref=e91] [box=1482,8,87,32]:
+              - generic [box=1482,8,87,32]
+            - button "New Make file" [ref=e93] [box=1577,8,84,32]:
+              - generic [box=1577,8,84,32]
+            - button "New Buzz file" [ref=e95] [box=1669,8,81,32]:
+              - generic [box=1669,8,81,32]
+            - button "New Site file" [ref=e97] [box=1758,8,75,32]:
+              - generic [box=1758,8,75,32]
+            - button "Import" [ref=e98] [box=1841,8,32,32]:
+              - generic [box=1841,8,32,32]
+        - generic [box=241,49,1664,64]:
+          - generic [box=273,49,1598,64]:
+            - generic [box=273,49,1598,64]:
+              - tablist [ref=e100] [box=273,69,291,24]
+              - generic [ref=e110] [box=1534,69,337,24]
+        - main [ref=e138] [box=241,113,1664,878]:
+          - tabpanel "Recently viewed" [ref=e139] [box=241,113,1664,259]:
+            - list [ref=e145] [box=243,115,1660,257]:
+              - group "Untitled" [ref=e148] [box=275,115,294,225]
+              - group "E-Commerce UI/UX Workflow Board" [ref=e171] [box=601,115,294,225]
+    - toolbar "Help/zoom toolbar" [ref=e199] [box=1864,939,32,32]:
+      - button "Help" [ref=e201] [box=1864,939,32,32]:
+        - img [box=1865,939,30,32]
+  - generic [box=0,0,1920,0]:
+    - status [box=0,0,1920,0]
+    - group [ref=e204] [box=1064,1942,32,40]:
+      - alert [ref=e206] [box=1072,1954,16,16]
+      - alert [ref=e208] [box=1072,1954,16,16]

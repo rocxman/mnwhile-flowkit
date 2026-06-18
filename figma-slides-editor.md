@@ -1,0 +1,102 @@
+- generic [ref=e5] [box=0,0,1920,991]:
+  - generic [ref=e6] [box=0,0,1920,991]:
+    - generic [ref=e235] [box=0,0,1920,991]:
+      - application [ref=e244] [box=0,-200,1,16]
+      - status [ref=e245] [box=0,0,1,1]: Screenreader support for the board is currently disabled. To enable it via Accessibility settings, press Ctrl+K, type Accessibility Settings, and press Enter. To see available keyboard shortcuts, enter Ctrl+Shift+Question mark .
+      - generic [box=0,931,1920,48]:
+        - generic [box=0,0,0,0]:
+          - region "Application toolbar" [box=0,0,0,0]:
+            - toolbar "Editor" [ref=e248] [box=748,931,424,48]:
+              - generic [ref=e252] [box=0,0,0,0]:
+                - group "Move" [ref=e253] [box=756,939,49,32]
+                - button "Text" [ref=e256] [box=813,939,32,32]
+                - button "Image/video…" [ref=e257] [box=853,939,32,32]
+                - button "Shapes" [ref=e259] [box=893,939,32,32]
+                - button "Live interaction" [ref=e261] [box=933,939,32,32]
+                - button "Comment" [ref=e262] [box=973,939,32,32]
+                - button "Actions" [ref=e263] [box=1013,939,32,32]
+                - button "Assets" [ref=e265] [box=1053,939,32,32]
+              - radiogroup "Toolbelt Mode" [ref=e268] [box=1102,939,62,32]:
+                - generic [ref=e269] [box=1103,940,1,1]: Toolbelt Mode
+                - generic [ref=e270] [box=1104,941,58,28]
+      - generic [box=241,0,1438,991]:
+        - generic [box=0,0,0,0]:
+          - generic [box=0,0,0,0]:
+            - region "Comments on canvas" [box=0,0,0,0]:
+              - button "Create new comment" [box=969,491,0,0]
+      - generic [box=0,0,0,0]:
+        - region "Left sidebar" [box=0,0,0,0]:
+          - generic [ref=e284] [box=0,0,240,991]:
+            - generic [ref=e286] [box=0,0,240,991]:
+              - generic [ref=e287] [box=0,0,240,96]:
+                - generic [ref=e288] [box=0,0,240,48]
+                - generic [ref=e310] [box=0,44,240,52]
+              - generic [ref=e327] [box=0,96,240,895]:
+                - generic [ref=e329] [box=8,104,224,24]
+                - generic [ref=e332] [box=0,0,0,0]
+                - slider "Resize handle" [ref=e335] [box=0,989,240,8]
+            - slider "Resize handle" [ref=e336] [box=238,0,8,991]
+      - dialog [active] [ref=e337] [box=0,0,1920,991]:
+        - generic [ref=e340] [box=600,196,720,600]:
+          - generic [ref=e341] [box=600,196,720,56]:
+            - generic [ref=e344] [box=616,208,660,32]:
+              - img [ref=e346] [box=620,212,24,24]
+              - searchbox "Search templates" [ref=e348] [box=648,208,628,32]
+            - button "Close" [ref=e350] [box=1280,212,24,24]:
+              - generic [box=1280,212,24,24]:
+                - img [box=1280,212,24,24]
+          - generic [ref=e351] [box=600,252,720,544]:
+            - generic [ref=e353] [box=616,260,688,58]:
+              - button "Start from scratch" [ref=e354] [cursor=pointer] [box=616,260,336,58]:
+                - generic [box=633,277,24,24]
+                - generic [box=669,273,97,32]
+              - button "Start with an outline" [ref=e355] [cursor=pointer] [box=968,260,336,58]:
+                - generic [box=985,277,24,24]
+                - generic [box=1021,273,143,32]
+            - generic [ref=e356] [box=616,326,688,1678]:
+              - generic [ref=e357] [box=616,326,688,158]:
+                - heading "Basic" [level=2] [ref=e360] [box=608,334,37,16]
+                - grid [ref=e361] [box=616,366,688,118]
+              - generic [ref=e369] [box=616,500,688,288]:
+                - button "Vibes" [ref=e371] [box=608,500,62,32]
+                - grid [ref=e372] [box=616,540,688,248]
+              - generic [ref=e391] [box=616,804,688,288]:
+                - heading "Product" [level=2] [ref=e394] [box=608,812,50,16]
+                - grid [ref=e395] [box=616,844,688,248]
+              - generic [ref=e410] [box=616,1108,688,288]:
+                - button "Design & Research" [ref=e412] [box=608,1108,132,32]
+                - grid [ref=e413] [box=616,1148,688,248]
+              - generic [ref=e432] [box=616,1412,688,288]:
+                - button "Brand & Marketing" [ref=e434] [box=608,1412,130,32]
+                - grid [ref=e435] [box=616,1452,688,248]
+              - generic [ref=e454] [box=616,1716,688,288]:
+                - button "Pitches & Talks" [ref=e456] [box=608,1716,113,32]
+                - grid [ref=e457] [box=616,1756,688,248]
+      - generic [box=0,0,1920,0]:
+        - generic [box=0,0,0,0]:
+          - region "Right sidebar" [box=0,0,0,0]:
+            - generic [ref=e477] [box=1679,0,241,991]:
+              - generic [ref=e479] [box=1679,0,241,991]:
+                - generic [ref=e481] [box=1680,0,240,48]
+                - generic [ref=e496] [box=1680,48,240,33]
+              - slider "Resize handle" [ref=e516] [box=1673,0,8,991]
+      - region "Speaker notes" [ref=e518] [box=0,0,0,0]:
+        - generic [box=240,793,1439,126]:
+          - separator "Resize presenter notes" [ref=e521] [box=928,806,64,4]:
+            - generic [box=960,808,0,0]:
+              - paragraph [box=960,808,0,0]: Show presenter notes
+          - generic [ref=e527] [box=276,843,1367,56]:
+            - region "Presenter Notes" [ref=e528] [box=276,843,1367,56]:
+              - button "Press Enter to edit presenter notes" [ref=e529] [box=256,823,1407,96]
+              - textbox [ref=e530] [box=276,843,1367,56]:
+                - paragraph [ref=e531] [box=276,843,1367,17]
+            - generic [box=256,823,1407,57]: Add presenter notes…
+    - region "Help/zoom toolbar" [ref=e221] [box=0,0,0,0]:
+      - toolbar "Help/zoom toolbar" [ref=e223] [box=1864,939,32,32]:
+        - button "Help" [ref=e225] [box=1864,939,32,32]:
+          - img [box=1865,939,30,32]
+  - generic [box=0,0,1920,0]:
+    - status [box=0,0,1920,0]
+    - group [ref=e227] [box=944,1930,32,40]:
+      - alert [ref=e229] [box=952,1942,16,16]
+      - alert [ref=e231] [box=952,1942,16,16]

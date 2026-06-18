@@ -1,244 +1,268 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Plus,
   Tv,
-  ChevronDown,
   Trash2,
-  Settings2,
-  Image as ImageIcon,
-  Type,
-  Presentation,
   Play,
   HelpCircle,
+  FileText,
+  Layers,
+  MousePointer2,
+  Type,
+  Image as ImageIcon,
+  Square,
+  Zap,
+  MessageSquare,
+  Sparkles,
+  Package,
+  ChevronDown,
 } from 'lucide-react';
 import { WorkspaceProps } from '../shared/workspaceTypes';
 import { WorkspaceCanvas } from '../shared/WorkspaceCanvas';
 import { WorkspaceOverlays } from '../shared/WorkspaceOverlays';
-import { useFlowStore } from '@/store';
-import { useWorkspaceDocumentActions } from '@/store/documentHooks';
-import { useAuth } from '@/contexts/AuthContext';
+import {
+  useWorkspaceDocument,
+  useWorkspaceUser,
+  useWorkspacePanelState,
+} from '../shared/hooks';
 
 export default function SlidesWorkspace(props: WorkspaceProps): React.ReactElement {
+  const { docName, isEditingDocName, docNameInput, startEditDocName, setDocNameInput, saveDocName } =
+    useWorkspaceDocument();
+  const { username, avatarUrl } = useWorkspaceUser();
+  const { leftSidebarOpen, setLeftSidebarOpen } = useWorkspacePanelState();
+
   const [transition, setTransition] = useState('fade');
   const [duration, setDuration] = useState('0.5s');
   const [slideBg, setSlideBg] = useState('#1e1e1e');
-  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true);
-
-  // Document states from store
-  const activeDocument = useFlowStore((state) =>
-    state.documents.find((doc) => doc.id === state.activeDocumentId)
-  );
-  const docName = activeDocument?.name || 'Untitled';
-  const [isEditingDocName, setIsEditingDocName] = useState(false);
-  const [docNameInput, setDocNameInput] = useState(docName);
-  const { renameDocument } = useWorkspaceDocumentActions();
-
-  const { user } = useAuth();
-  const username = user?.email ? user.email.split('@')[0] : 'rocxman';
-  const avatarUrl = user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
-
-  useEffect(() => {
-    setDocNameInput(docName);
-  }, [docName]);
-
-  function handleDocNameSave() {
-    setIsEditingDocName(false);
-    if (activeDocument && docNameInput.trim()) {
-      renameDocument(activeDocument.id, docNameInput.trim());
-    }
-  }
+  const [speakerNotesOpen, setSpeakerNotesOpen] = useState(true);
+  const [speakerNotes, setSpeakerNotes] = useState('');
+  const [activeTool, setActiveTool] = useState<'move' | 'text' | 'image' | 'shape' | 'interaction' | 'comment'>('move');
+  const [rightTab, setRightTab] = useState<'design' | 'animate'>('design');
 
   return (
-    <div className="relative flex h-screen w-screen overflow-hidden bg-[#1e1e1e] text-slate-200 font-sans select-none">
-      {/* Leftmost Thin Rail */}
-      <nav className="w-14 shrink-0 bg-[#2c2c2c] border-r border-[#1e1e1e] flex flex-col items-center py-3.5 gap-5 z-20">
-        {/* Meanwhile Logo */}
+    <div className="relative flex h-screen w-screen overflow-hidden bg-[#1e1e1e] font-sans text-slate-200 select-none">
+      {/* Left Navigation Bar - 56px wide, Figma Slides style */}
+      <nav className="z-20 flex w-14 shrink-0 flex-col items-center border-r border-[#333333] bg-[#2c2c2c] py-3 gap-4">
+        {/* MNWHILE Logo / Home */}
         <button
           type="button"
           onClick={props.topNav.onGoHome}
-          className="h-8 w-8 flex items-center justify-center text-slate-200 hover:text-white hover:bg-[#3e3e3e] rounded-lg transition-colors cursor-pointer mb-1"
+          className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-200 transition-colors hover:bg-[#3e3e3e] hover:text-white cursor-pointer"
           title="Go to Dashboard"
         >
-          <svg className="w-5 h-5" viewBox="0 0 9144 7789.32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="h-5 w-5" viewBox="0 0 9144 7789.32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill="currentColor" d="M3008.52 3828.91l-10.02 -2220.07 -1476.14 0.12 -0.22 6154.48 1400.99 -2.12 1612.4 -3775.19 -5.38 3775.81 1543.65 1.59 1522.8 -3734.4 -6.77 3731.05 1522.29 2.42 1.64 -7728.18 -1483.83 1.12 -1549.34 3677.44 -21.48 -3681.36 -1498.94 -5.83 -1551.65 3803.12zm-2978.28 -2209.71l1492.03 -10.41 -3.85 -1474.92 -1487.08 4.88 -1.1 1480.45z"/>
           </svg>
         </button>
 
-        {/* Slides Tab */}
+        <div className="h-px w-4 bg-[#3e3e3e]" />
+
+        {/* File button */}
         <button
           type="button"
           onClick={() => setLeftSidebarOpen(!leftSidebarOpen)}
-          className="flex flex-col items-center gap-1 w-full text-slate-200 cursor-pointer group"
-          title="Toggle Slides Panel"
+          className="group flex w-full flex-col items-center gap-1 cursor-pointer"
         >
-          <div className={`p-2 rounded-lg transition-all shadow-sm ${leftSidebarOpen ? 'bg-orange-600 text-white' : 'text-slate-400 group-hover:bg-[#3e3e3e] group-hover:text-slate-200'}`}>
-            <Presentation className="w-4 h-4" />
+          <div className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all ${leftSidebarOpen ? 'bg-[#0c8ce9] text-white shadow-sm shadow-[#0c8ce9]/25' : 'text-slate-400 group-hover:bg-[#3e3e3e] group-hover:text-slate-200'}`}>
+            <FileText className="h-4 w-4" />
           </div>
-          <span className={`text-[9px] font-medium font-outfit transition-colors ${leftSidebarOpen ? 'text-orange-500' : 'text-slate-500 group-hover:text-slate-300'}`}>Slides</span>
+          <span className={`text-[10px] font-medium ${leftSidebarOpen ? 'text-[#0c8ce9]' : 'text-slate-500'}`}>File</span>
         </button>
 
-        {/* Insert Tab */}
+        {/* Slides button */}
         <button
           type="button"
-          onClick={() => props.toolbar.onAddTextNode({ x: 100, y: 100 })}
-          className="flex flex-col items-center gap-1 w-full text-slate-400 hover:text-slate-200 cursor-pointer group"
-          title="Insert Element"
+          className="group flex w-full flex-col items-center gap-1 cursor-pointer"
         >
-          <div className="p-2 rounded-lg group-hover:bg-[#3e3e3e] transition-all">
-            <Plus className="w-4 h-4" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all group-hover:bg-[#3e3e3e] group-hover:text-slate-200">
+            <Layers className="h-4 w-4" />
           </div>
-          <span className="text-[9px] font-medium font-outfit text-slate-500 group-hover:text-slate-300 transition-colors">Insert</span>
+          <span className="text-[10px] font-medium text-slate-500">Slides</span>
+        </button>
+
+        <div className="h-px w-4 bg-[#3e3e3e]" />
+
+        {/* Assets button */}
+        <button
+          type="button"
+          className="group flex w-full flex-col items-center gap-1 cursor-pointer"
+        >
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all group-hover:bg-[#3e3e3e] group-hover:text-slate-200">
+            <Package className="h-4 w-4" />
+          </div>
+          <span className="text-[10px] font-medium text-slate-500">Assets</span>
         </button>
       </nav>
 
-      {/* Left Sidebar: Slide thumbnails */}
-      <aside
-        className={`bg-[#1e1e1e] border-r border-[#2c2c2c] flex flex-col min-h-0 z-10 transition-all duration-300 ${
-          leftSidebarOpen ? 'w-60' : 'w-0 border-r-0 overflow-hidden'
-        }`}
-      >
-        {/* Sidebar Header */}
-        <div className="px-3 pt-3.5 pb-2 border-b border-[#2c2c2c] shrink-0">
-          <div className="flex items-center justify-between min-w-0">
-            {isEditingDocName ? (
-              <input
-                type="text"
-                value={docNameInput}
-                onChange={(e) => setDocNameInput(e.target.value)}
-                onBlur={handleDocNameSave}
-                onKeyDown={(e) => e.key === 'Enter' && handleDocNameSave()}
-                className="bg-[#2c2c2c] text-white px-2 py-0.5 rounded border border-orange-500 text-xs focus:outline-none w-36 font-semibold"
-                autoFocus
-              />
-            ) : (
-              <button
-                type="button"
-                onClick={() => {
-                  setDocNameInput(docName);
-                  setIsEditingDocName(true);
-                }}
-                className="text-xs font-bold text-white hover:bg-[#2c2c2c] px-1.5 py-1 rounded flex items-center gap-1 transition-colors truncate font-outfit max-w-[80%]"
-                title="Rename Document"
-              >
-                <span className="truncate">{docName}</span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-              </button>
-            )}
+      {/* Left Panel - 240px (Slides list) */}
+      {leftSidebarOpen && (
+        <aside className="z-10 flex w-60 shrink-0 flex-col border-r border-[#333333] bg-[#2c2c2c] min-h-0">
+          {/* Header - Doc name + breadcrumb */}
+          <div className="shrink-0 border-b border-[#333333] px-3 py-2">
+            <div className="flex items-center justify-between gap-2">
+              {isEditingDocName ? (
+                <input
+                  type="text"
+                  value={docNameInput}
+                  onChange={(e) => setDocNameInput(e.target.value)}
+                  onBlur={saveDocName}
+                  onKeyDown={(e) => e.key === 'Enter' && saveDocName()}
+                  className="h-7 min-w-0 flex-1 rounded border border-[#0c8ce9] bg-[#383838] px-2 text-xs font-medium text-white outline-none"
+                  autoFocus
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={startEditDocName}
+                  className="flex min-w-0 items-center gap-1.5 rounded px-1 py-1 text-left text-xs font-medium text-white transition-colors hover:bg-[#3e3e3e]"
+                  title="Rename document"
+                >
+                  <span className="truncate">{docName}</span>
+                  <ChevronDown className="h-3 w-3 shrink-0 text-slate-500" />
+                </button>
+              )}
+            </div>
+            <div className="mt-1 flex items-center gap-1.5 px-1">
+              <span className="text-[10px] text-slate-500">Team project</span>
+              <span className="rounded border border-slate-600 bg-slate-700/50 px-1 text-[8px] font-medium text-slate-400">Free</span>
+            </div>
+          </div>
 
+          {/* Slides header with add button */}
+          <div className="flex shrink-0 items-center justify-between px-3 py-2 border-b border-[#333333]">
+            <span className="text-[11px] font-semibold text-slate-300">Slides</span>
             <button
               type="button"
-              onClick={() => setLeftSidebarOpen(false)}
-              className="p-1 hover:bg-[#2c2c2c] rounded text-slate-400 hover:text-white transition-colors cursor-pointer shrink-0"
-              title="Collapse Sidebar"
+              onClick={props.topNav.onAddPage}
+              className="flex h-6 w-6 items-center justify-center rounded text-slate-400 transition-colors hover:bg-[#3e3e3e] hover:text-white"
+              title="Add Slide"
             >
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="2" width="12" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M6 2V14" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
+              <Plus className="h-3.5 w-3.5" />
             </button>
           </div>
 
-          <div className="flex items-center gap-1.5 mt-1 px-1.5">
-            <span className="text-[10px] text-slate-500 font-medium font-outfit truncate">Team project</span>
-            <span className="rounded bg-orange-500/10 text-orange-500 border border-orange-500/20 px-1.5 py-0.5 text-[8px] font-bold tracking-wide select-none">
-              Free
-            </span>
-          </div>
-        </div>
-
-        {/* Slides Header */}
-        <div className="flex items-center justify-between px-3 pt-3 pb-1 shrink-0">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Slides</span>
-          <button
-            type="button"
-            onClick={props.topNav.onAddPage}
-            className="flex items-center justify-center p-1 rounded-lg bg-orange-600 hover:bg-orange-500 text-white transition-all duration-200 cursor-pointer shadow-sm hover:scale-105 active:scale-95"
-            title="Add New Slide"
-          >
-            <Plus className="w-3.5 h-3.5" />
-          </button>
-        </div>
-
-        {/* Slide List */}
-        <div className="flex-1 overflow-y-auto p-2 space-y-2.5 custom-scrollbar">
-          {props.pages.map((page, index) => {
-            const isActive = page.id === props.activePageId;
-            return (
-              <div
-                key={page.id}
-                onClick={() => props.topNav.onSwitchPage(page.id)}
-                className={`group relative flex flex-col rounded-xl overflow-hidden border cursor-pointer transition-all duration-200 ${
-                  isActive
-                    ? 'border-orange-500 ring-2 ring-orange-500/20 bg-orange-500/5 shadow-md'
-                    : 'border-[#2c2c2c] bg-[#1e1e1e] hover:border-slate-500'
-                }`}
-              >
-                {/* Thumbnail area */}
-                <div className="h-24 w-full bg-[#151515] relative flex items-center justify-center border-b border-[#2c2c2c] overflow-hidden">
-                  <span className="absolute top-2 left-2 text-[10px] font-bold text-slate-500">
+          {/* Slide thumbnails */}
+          <div className="custom-scrollbar flex-1 overflow-y-auto p-2 space-y-1.5">
+            {props.pages.map((page, index) => {
+              const isActive = page.id === props.activePageId;
+              return (
+                <div
+                  key={page.id}
+                  onClick={() => props.topNav.onSwitchPage(page.id)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      props.topNav.onSwitchPage(page.id);
+                    }
+                  }}
+                  className={`group relative flex gap-2 rounded-lg p-1.5 cursor-pointer transition-colors ${
+                    isActive ? 'bg-[#0c8ce9]/15 ring-1 ring-[#0c8ce9]/50' : 'hover:bg-[#383838]'
+                  }`}
+                >
+                  {/* Slide number */}
+                  <span className={`mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded text-[9px] font-bold ${
+                    isActive ? 'text-[#0c8ce9]' : 'text-slate-500'
+                  }`}>
                     {index + 1}
                   </span>
-                  <div className="scale-75 opacity-60 flex flex-col items-center">
-                    <Tv className="w-7 h-7 text-slate-500 mb-1" />
-                    <span className="text-[9px] text-slate-400 font-medium truncate max-w-[120px]">
-                      {page.name}
-                    </span>
-                  </div>
-                </div>
 
-                {/* Actions footer */}
-                <div className="p-1.5 flex items-center justify-between bg-[#1c1c1c] text-[10px] font-semibold text-slate-400">
-                  <span className="truncate max-w-[120px]">{page.name}</span>
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        props.topNav.onClosePage(page.id);
-                      }}
-                      className="p-0.5 hover:bg-[#2c2c2c] rounded text-slate-500 hover:text-red-400"
-                      title="Delete Slide"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
+                  {/* Slide preview */}
+                  <div className="flex-1 min-w-0">
+                    <div className="relative aspect-video overflow-hidden rounded border border-white/10 bg-[#1e1e1e]">
+                      <div className="absolute inset-2 rounded-sm border border-white/5 bg-[#252525]" />
+                      <div className="absolute left-3 top-3 h-1.5 w-8 rounded-full bg-[#0c8ce9]/60" />
+                      <div className="absolute left-3 top-6 h-1 w-12 rounded-full bg-white/10" />
+                      {isActive && (
+                        <div className="absolute bottom-1 right-1">
+                          <Tv className="h-3 w-3 text-[#0c8ce9]/50" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="mt-1 flex items-center justify-between">
+                      <span className={`truncate text-[10px] ${isActive ? 'text-white font-medium' : 'text-slate-400'}`}>
+                        {page.name}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          props.topNav.onClosePage(page.id);
+                        }}
+                        className="flex h-4 w-4 items-center justify-center rounded text-slate-500 opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-400"
+                        title="Delete slide"
+                      >
+                        <Trash2 className="h-2.5 w-2.5" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+        </aside>
+      )}
+
+      {/* Main Canvas Area */}
+      <main className="relative flex min-w-0 flex-1 flex-col bg-[#1e1e1e]">
+        {/* Canvas */}
+        <div className="relative flex-1 min-h-0">
+          <WorkspaceCanvas canvas={props.canvas} />
         </div>
-      </aside>
 
-      {/* Center Presentation canvas */}
-      <WorkspaceCanvas canvas={props.canvas} />
-
-      {/* Right Sidebar: Settings */}
-      <aside className="w-64 shrink-0 bg-[#1e1e1e] border-l border-[#2c2c2c] flex flex-col min-h-0 z-10">
-        {/* Top Row: User avatar, Play, Share */}
-        <div className="h-12 border-b border-[#2c2c2c] flex items-center justify-between px-3 shrink-0">
-          {avatarUrl ? (
-            <img src={avatarUrl} alt={username} className="h-7 w-7 rounded-full object-cover border border-[#3e3e3e]" />
-          ) : (
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-orange-500 text-xs font-bold text-white uppercase select-none">
-              {username[0]}
+        {/* Speaker Notes Area */}
+        {speakerNotesOpen && (
+          <div className="h-28 shrink-0 border-t border-[#333333] bg-[#2c2c2c] px-4 py-2">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[10px] font-medium text-slate-500">Speaker Notes</span>
+              <button
+                type="button"
+                onClick={() => setSpeakerNotesOpen(false)}
+                className="text-slate-500 hover:text-white text-[10px]"
+              >
+                Hide
+              </button>
             </div>
-          )}
+            <textarea
+              value={speakerNotes}
+              onChange={(e) => setSpeakerNotes(e.target.value)}
+              placeholder="Add presenter notes…"
+              className="h-16 w-full resize-none rounded border border-[#333333] bg-[#1e1e1e] px-2 py-1 text-xs text-slate-300 placeholder-slate-600 outline-none focus:border-[#0c8ce9]/50"
+            />
+          </div>
+        )}
+      </main>
 
-          <div className="flex items-center gap-1.5">
+      {/* Right Panel - 241px (Properties) */}
+      <aside className="z-10 flex w-[241px] shrink-0 flex-col border-l border-[#333333] bg-[#2c2c2c] min-h-0">
+        {/* Top bar: Multiplayer + zoom */}
+        <div className="flex h-12 shrink-0 items-center justify-between border-b border-[#333333] px-3">
+          <div className="flex items-center gap-1">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt={username} className="h-6 w-6 rounded-full border border-white/10 object-cover" />
+            ) : (
+              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-[#0c8ce9] to-blue-600 text-[9px] font-bold uppercase text-white">
+                {username[0]}
+              </div>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={props.topNav.onPlay}
-              className="flex items-center justify-center rounded-lg p-1.5 text-slate-400 hover:text-white hover:bg-[#2c2c2c] transition-colors cursor-pointer"
+              className="flex h-7 items-center gap-1.5 rounded-md bg-[#0c8ce9] px-2.5 text-[10px] font-semibold text-white transition-colors hover:bg-[#0a7dd4]"
               title="Present Slides"
             >
-              <Play className="w-3.5 h-3.5 fill-slate-400 hover:fill-white" />
+              <Play className="h-3 w-3 fill-white" />
+              Play
             </button>
-
             {props.onShare && (
               <button
                 type="button"
                 onClick={props.onShare}
-                className="rounded-lg bg-orange-600 hover:bg-orange-500 active:scale-98 text-white px-3 py-1.5 text-xs font-semibold shadow transition-all cursor-pointer"
+                className="rounded-md border border-[#444] bg-[#383838] px-2 py-1 text-[10px] font-medium text-white transition-colors hover:bg-[#3e3e3e]"
               >
                 Share
               </button>
@@ -246,100 +270,258 @@ export default function SlidesWorkspace(props: WorkspaceProps): React.ReactEleme
           </div>
         </div>
 
-        {/* Settings Header */}
-        <div className="h-10 border-b border-[#2c2c2c] flex items-center px-3 shrink-0">
-          <div className="flex items-center gap-2">
-            <Settings2 className="w-3.5 h-3.5 text-orange-500" />
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-300">Slide Settings</span>
+        {/* Tabs: Design / Animate */}
+        <div className="flex h-8 shrink-0 items-center justify-between border-b border-[#333333] px-2">
+          <div className="flex gap-0.5">
+            <button
+              type="button"
+              onClick={() => setRightTab('design')}
+              className={`rounded px-2 py-1 text-[11px] font-medium transition-colors ${
+                rightTab === 'design' ? 'bg-[#383838] text-white' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Design
+            </button>
+            <button
+              type="button"
+              onClick={() => setRightTab('animate')}
+              className={`rounded px-2 py-1 text-[11px] font-medium transition-colors ${
+                rightTab === 'animate' ? 'bg-[#383838] text-white' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Animate
+            </button>
           </div>
+          <span className="text-[10px] text-slate-500">100%</span>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-5 custom-scrollbar">
-          {/* Slide Background Color */}
-          <div className="space-y-2">
-            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Background</label>
-            <div className="flex items-center gap-2 bg-[#2c2c2c]/40 p-2 rounded-lg border border-[#2c2c2c]">
-              <input
-                type="color"
-                value={slideBg}
-                onChange={(e) => setSlideBg(e.target.value)}
-                className="w-6 h-6 rounded border-0 bg-transparent cursor-pointer"
-              />
-              <span className="text-xs font-semibold text-white uppercase">{slideBg}</span>
-            </div>
-          </div>
+        {/* Properties content */}
+        <div className="custom-scrollbar flex-1 overflow-y-auto p-3 space-y-4">
+          {rightTab === 'design' ? (
+            <>
+              {/* Slide settings */}
+              <section className="space-y-2">
+                <label className="text-[10px] font-medium text-slate-500">Background</label>
+                <div className="flex items-center gap-2 rounded-lg border border-[#444] bg-[#383838] p-2">
+                  <input
+                    type="color"
+                    value={slideBg}
+                    onChange={(e) => setSlideBg(e.target.value)}
+                    className="h-6 w-6 cursor-pointer rounded border-0 bg-transparent p-0"
+                  />
+                  <span className="text-[11px] text-white">{slideBg}</span>
+                </div>
+              </section>
 
-          {/* Slide Transition Selection */}
-          <div className="space-y-2">
-            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Transition Effect</label>
-            <div className="relative">
-              <select
-                value={transition}
-                onChange={(e) => setTransition(e.target.value)}
-                className="w-full bg-[#2c2c2c] border border-[#3e3e3e] text-white rounded-lg p-2 text-xs font-semibold focus:outline-none appearance-none cursor-pointer"
-              >
-                <option value="none">None</option>
-                <option value="fade">Fade</option>
-                <option value="slide">Slide</option>
-                <option value="zoom">Zoom</option>
-              </select>
-              <ChevronDown className="absolute right-2.5 top-2.5 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
-            </div>
-          </div>
+              <section className="space-y-2">
+                <label className="text-[10px] font-medium text-slate-500">Layout</label>
+                <div className="grid grid-cols-3 gap-1">
+                  {['Title', 'Content', 'Split'].map((layout) => (
+                    <button
+                      key={layout}
+                      type="button"
+                      className="rounded-lg border border-[#444] bg-[#383838] py-2 text-[10px] font-medium text-slate-400 transition-colors hover:border-[#0c8ce9]/50 hover:text-white"
+                    >
+                      {layout}
+                    </button>
+                  ))}
+                </div>
+              </section>
 
-          {/* Slide Transition Duration */}
-          <div className="space-y-2">
-            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Duration</label>
-            <div className="relative">
-              <select
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                className="w-full bg-[#2c2c2c] border border-[#3e3e3e] text-white rounded-lg p-2 text-xs font-semibold focus:outline-none appearance-none cursor-pointer"
-              >
-                <option value="0.2s">Fast (0.2s)</option>
-                <option value="0.5s">Medium (0.5s)</option>
-                <option value="1.0s">Slow (1.0s)</option>
-              </select>
-              <ChevronDown className="absolute right-2.5 top-2.5 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
-            </div>
-          </div>
+              <section className="space-y-2">
+                <label className="text-[10px] font-medium text-slate-500">Insert</label>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {[
+                    { icon: Type, label: 'Text' },
+                    { icon: ImageIcon, label: 'Image' },
+                    { icon: Square, label: 'Shape' },
+                    { icon: Tv, label: 'Embed' },
+                  ].map(({ icon: Icon, label }) => (
+                    <button
+                      key={label}
+                      type="button"
+                      onClick={() => props.toolbar.onAddTextNode({ x: 100, y: 100 })}
+                      className="flex flex-col items-center gap-1.5 rounded-lg border border-[#444] bg-[#383838] p-3 text-[10px] font-medium text-slate-400 transition-colors hover:border-[#0c8ce9]/50 hover:text-white"
+                    >
+                      <Icon className="h-4 w-4" />
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </section>
+            </>
+          ) : (
+            <>
+              {/* Animate tab */}
+              <section className="space-y-2">
+                <label className="text-[10px] font-medium text-slate-500">Transition</label>
+                <div className="relative">
+                  <select
+                    value={transition}
+                    onChange={(e) => setTransition(e.target.value)}
+                    className="h-8 w-full appearance-none rounded-lg border border-[#444] bg-[#383838] px-2 pr-7 text-[11px] text-white outline-none focus:border-[#0c8ce9]/50"
+                  >
+                    <option value="none">None</option>
+                    <option value="fade">Fade</option>
+                    <option value="slide">Slide</option>
+                    <option value="zoom">Zoom</option>
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-2 top-2.5 h-3 w-3 text-slate-500" />
+                </div>
+              </section>
 
-          <div className="border-t border-[#2c2c2c]" />
+              <section className="space-y-2">
+                <label className="text-[10px] font-medium text-slate-500">Duration</label>
+                <div className="relative">
+                  <select
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
+                    className="h-8 w-full appearance-none rounded-lg border border-[#444] bg-[#383838] px-2 pr-7 text-[11px] text-white outline-none focus:border-[#0c8ce9]/50"
+                  >
+                    <option value="0.2s">Fast (0.2s)</option>
+                    <option value="0.5s">Medium (0.5s)</option>
+                    <option value="1.0s">Slow (1.0s)</option>
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-2 top-2.5 h-3 w-3 text-slate-500" />
+                </div>
+              </section>
 
-          {/* Quick Insertion Panel */}
-          <div className="space-y-3">
-            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Insert Elements</label>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => props.toolbar.onAddTextNode({ x: 100, y: 100 })}
-                className="flex flex-col items-center justify-center p-3 rounded-lg border border-[#2c2c2c] hover:border-orange-500 bg-[#2c2c2c]/20 hover:bg-[#2c2c2c]/40 transition-colors text-[10px] font-semibold gap-1 text-slate-400 hover:text-white cursor-pointer"
-              >
-                <Type className="w-4 h-4 text-orange-500" />
-                <span>Title Text</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => props.toolbar.onAddShape('rectangle', { x: 100, y: 100 })}
-                className="flex flex-col items-center justify-center p-3 rounded-lg border border-[#2c2c2c] hover:border-orange-500 bg-[#2c2c2c]/20 hover:bg-[#2c2c2c]/40 transition-colors text-[10px] font-semibold gap-1 text-slate-400 hover:text-white cursor-pointer"
-              >
-                <ImageIcon className="w-4 h-4 text-orange-500" />
-                <span>Media Block</span>
-              </button>
-            </div>
-          </div>
+              <section className="space-y-2">
+                <label className="text-[10px] font-medium text-slate-500">Build Order</label>
+                <div className="rounded-lg border border-[#444] bg-[#383838] p-2">
+                  <div className="flex items-center gap-2 text-[10px] text-slate-400">
+                    <Sparkles className="h-3 w-3" />
+                    Click to add build animations
+                  </div>
+                </div>
+              </section>
+            </>
+          )}
         </div>
       </aside>
 
-      {/* Floating help button */}
-      <div className="absolute bottom-4 right-4 z-40">
+      {/* Bottom Toolbar - centered, Figma Slides style */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 flex justify-center pb-3">
+        <div className="pointer-events-auto flex items-center gap-1 rounded-xl border border-[#444] bg-[#2c2c2c] px-2 py-1.5 shadow-xl shadow-black/40">
+          {/* Move */}
+          <button
+            type="button"
+            onClick={() => setActiveTool('move')}
+            className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+              activeTool === 'move' ? 'bg-[#383838] text-white' : 'text-slate-400 hover:bg-[#383838] hover:text-white'
+            }`}
+            title="Move (V)"
+          >
+            <MousePointer2 className="h-4 w-4" />
+          </button>
+
+          {/* Text */}
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTool('text');
+              props.toolbar.onAddTextNode({ x: 100, y: 100 });
+            }}
+            className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+              activeTool === 'text' ? 'bg-[#383838] text-white' : 'text-slate-400 hover:bg-[#383838] hover:text-white'
+            }`}
+            title="Text (T)"
+          >
+            <Type className="h-4 w-4" />
+          </button>
+
+          {/* Image */}
+          <button
+            type="button"
+            onClick={() => setActiveTool('image')}
+            className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+              activeTool === 'image' ? 'bg-[#383838] text-white' : 'text-slate-400 hover:bg-[#383838] hover:text-white'
+            }`}
+            title="Image"
+          >
+            <ImageIcon className="h-4 w-4" />
+          </button>
+
+          {/* Shapes */}
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTool('shape');
+              props.toolbar.onAddShape('rectangle', { x: 100, y: 100 });
+            }}
+            className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+              activeTool === 'shape' ? 'bg-[#383838] text-white' : 'text-slate-400 hover:bg-[#383838] hover:text-white'
+            }`}
+            title="Shapes (R)"
+          >
+            <Square className="h-4 w-4" />
+          </button>
+
+          {/* Live Interaction */}
+          <button
+            type="button"
+            onClick={() => setActiveTool('interaction')}
+            className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+              activeTool === 'interaction' ? 'bg-[#383838] text-white' : 'text-slate-400 hover:bg-[#383838] hover:text-white'
+            }`}
+            title="Live interaction"
+          >
+            <Zap className="h-4 w-4" />
+          </button>
+
+          {/* Comment */}
+          <button
+            type="button"
+            onClick={() => setActiveTool('comment')}
+            className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+              activeTool === 'comment' ? 'bg-[#383838] text-white' : 'text-slate-400 hover:bg-[#383838] hover:text-white'
+            }`}
+            title="Comment (C)"
+          >
+            <MessageSquare className="h-4 w-4" />
+          </button>
+
+          <div className="mx-1 h-5 w-px bg-[#444]" />
+
+          {/* Actions */}
+          <button
+            type="button"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-[#383838] hover:text-white"
+            title="Actions"
+          >
+            <Sparkles className="h-4 w-4" />
+          </button>
+
+          {/* Assets */}
+          <button
+            type="button"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-[#383838] hover:text-white"
+            title="Assets"
+          >
+            <Package className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* Speaker Notes toggle (if hidden) */}
+      {!speakerNotesOpen && (
         <button
           type="button"
-          onClick={() => window.open('https://mnwhile-flowkit.com/docs', '_blank')}
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-[#2c2c2c] border border-[#3e3e3e] text-slate-400 hover:text-white hover:bg-[#3e3e3e] shadow-lg transition-all cursor-pointer font-bold text-sm"
-          title="Help & Resources"
+          onClick={() => setSpeakerNotesOpen(true)}
+          className="absolute bottom-14 left-1/2 z-20 -translate-x-1/2 rounded-t-lg border border-b-0 border-[#444] bg-[#2c2c2c] px-3 py-1 text-[10px] text-slate-400 transition-colors hover:text-white"
         >
-          <HelpCircle className="w-4 h-4" />
+          Show presenter notes
+        </button>
+      )}
+
+      {/* Help button - bottom right */}
+      <div className="absolute bottom-3 right-3 z-40">
+        <button
+          type="button"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#444] bg-[#2c2c2c] text-slate-500 transition-colors hover:bg-[#383838] hover:text-white"
+          title="Help"
+        >
+          <HelpCircle className="h-4 w-4" />
         </button>
       </div>
 

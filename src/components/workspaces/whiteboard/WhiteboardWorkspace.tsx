@@ -13,10 +13,10 @@ const Whiteboard = lazy(() =>
 
 function WhiteboardLoading() {
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-[#1e1e1e]">
+    <div className="flex h-screen w-screen items-center justify-center bg-[#1a1a1a]">
       <div className="text-center">
         <div className="animate-spin rounded-full h-8 w-8 border-2 border-pink-500 border-t-transparent mx-auto mb-3" />
-        <p className="text-xs text-slate-400">Loading whiteboard...</p>
+        <p className="text-xs text-slate-400 font-medium">Loading whiteboard...</p>
       </div>
     </div>
   );
@@ -154,40 +154,38 @@ export function WhiteboardWorkspace() {
   };
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden bg-[#1e1e1e] text-slate-200 select-none">
+    <div className="flex h-screen w-screen flex-col overflow-hidden bg-[#1a1a1a] text-slate-200 select-none">
       {/* Header Bar */}
-      <header className="h-12 shrink-0 bg-[#2c2c2c] border-b border-[#1e1e1e] flex items-center justify-between px-3 z-50">
+      <header className="h-12 shrink-0 bg-[#2c2c2c] border-b border-[#3e3e3e] flex items-center justify-between px-4 z-50">
+        {/* Left: MNWHILE Logo + Doc Name */}
         <div className="flex items-center gap-3 min-w-0">
-          {/* Logo + Doc Name */}
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded bg-gradient-to-br from-pink-500 to-violet-500 text-white shadow-md">
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="flex h-7 w-7 items-center justify-center rounded bg-gradient-to-br from-pink-500 via-fuchsia-500 to-violet-500 text-white shadow-md shadow-pink-500/20">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="10" />
                 <path d="M8 12h8" />
                 <path d="M12 8v8" />
               </svg>
             </div>
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="text-xs font-bold text-white truncate">{docName}</span>
-              <span className="rounded bg-pink-500/10 text-pink-400 border border-pink-500/20 px-1.5 py-0.5 text-[8px] font-bold tracking-wide select-none">
-                Whiteboard
-              </span>
-              {saveStatus === 'saving' && (
-                <span className="text-[9px] text-slate-500 font-medium">Saving...</span>
-              )}
-              {saveStatus === 'saved' && (
-                <span className="text-[9px] text-emerald-500 font-medium">Saved</span>
-              )}
-            </div>
+            <span className="text-[10px] font-black tracking-[0.22em] text-white/90 hidden sm:inline">
+              MNWHILE
+            </span>
+          </div>
+          <div className="h-4 w-px bg-[#454545] hidden sm:block" />
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="text-sm font-bold text-white truncate">{docName}</span>
+            <span className="rounded-full bg-gradient-to-r from-pink-500/20 to-violet-500/20 text-pink-300 border border-pink-500/30 px-2 py-0.5 text-[8px] font-bold tracking-widest uppercase select-none shadow-sm shadow-pink-500/10">
+              Whiteboard
+            </span>
           </div>
         </div>
 
-        {/* Actions */}
+        {/* Right: Actions */}
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={handleClear}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-semibold text-slate-400 hover:text-white hover:bg-[#3e3e3e] transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-semibold text-slate-400 hover:text-white hover:bg-red-500/10 hover:border-red-500/30 border border-transparent transition-all cursor-pointer"
             title="Clear whiteboard"
           >
             Clear
@@ -196,7 +194,7 @@ export function WhiteboardWorkspace() {
           <button
             type="button"
             onClick={handleExportPNG}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-semibold text-slate-400 hover:text-white hover:bg-[#3e3e3e] transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-semibold text-slate-400 hover:text-white hover:bg-[#3e3e3e] hover:shadow-sm hover:shadow-pink-500/10 transition-all cursor-pointer"
             title="Export as PNG"
           >
             PNG
@@ -204,13 +202,21 @@ export function WhiteboardWorkspace() {
           <button
             type="button"
             onClick={handleExportSVG}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-semibold text-slate-400 hover:text-white hover:bg-[#3e3e3e] transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-semibold text-slate-400 hover:text-white hover:bg-[#3e3e3e] hover:shadow-sm hover:shadow-violet-500/10 transition-all cursor-pointer"
             title="Export as SVG"
           >
             SVG
           </button>
+          <div className="hidden sm:flex items-center gap-1.5 pl-1 text-[9px] text-slate-500 font-medium">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/70" />
+            <span>
+              {saveStatus === 'saving' && 'Saving...'}
+              {saveStatus === 'saved' && 'Saved'}
+              {saveStatus === 'idle' && 'Autosaved'}
+            </span>
+          </div>
           {user && (
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-violet-500 text-xs font-bold text-white uppercase select-none ml-1">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 via-fuchsia-500 to-violet-500 text-xs font-bold text-white uppercase select-none ml-1 shadow-md shadow-pink-500/20 ring-1 ring-white/10">
               {user.email?.[0] || '?'}
             </div>
           )}
@@ -230,9 +236,9 @@ export function WhiteboardWorkspace() {
           <WhiteboardLoading />
         )}
 
-        {/* Floating info badge */}
-        <div className="absolute bottom-3 left-3 z-30 bg-[#2c2c2c]/80 border border-[#3e3e3e] rounded-lg px-2.5 py-1 text-[10px] text-slate-500 font-medium backdrop-blur-md select-none pointer-events-none">
-          {elements.length} element{elements.length !== 1 ? 's' : ''} · Autosaved locally
+        {/* Floating element count badge */}
+        <div className="absolute bottom-3 left-3 z-30 bg-[#2c2c2c]/90 border border-[#3e3e3e]/80 rounded-xl px-3 py-1.5 text-[10px] text-slate-500 font-medium backdrop-blur-md select-none pointer-events-none shadow-lg">
+          <span className="text-slate-300 font-bold">{elements.length}</span> element{elements.length !== 1 ? 's' : ''}
         </div>
       </div>
     </div>

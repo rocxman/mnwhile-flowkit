@@ -1,0 +1,75 @@
+- generic [ref=e1] [box=0,0,1920,991]:
+  - generic [ref=e5] [box=0,0,1920,991]:
+    - generic [ref=e6] [box=0,0,1920,991]:
+      - generic [ref=e376] [box=0,0,1920,991]:
+        - generic [ref=e409] [box=0,0,1920,991]:
+          - application "Figma Design" [active] [ref=e418] [box=0,-200,1,16]
+          - status [ref=e419] [box=0,0,1,1]: Screenreader support for the board is currently disabled. To enable it via Accessibility settings, press Ctrl+K, type Accessibility Settings, and press Enter. To see available keyboard shortcuts, enter Ctrl+Shift+Question mark .
+          - generic [box=298,0,1381,991]:
+            - generic [box=0,0,0,0]:
+              - generic [box=0,0,0,0]:
+                - region "Comments on canvas" [box=0,0,0,0]
+          - region "Left sidebar" [ref=e421] [box=0,0,0,0]:
+            - toolbar "Navigation Bar" [ref=e422] [box=0,0,57,991]:
+              - generic [ref=e423] [box=0,8,56,232]:
+                - button "Main menu" [ref=e424] [box=12,8,32,32]
+                - separator [ref=e425] [box=20,48,16,1]
+                - button "File" [expanded] [ref=e426] [box=0,56,56,56]
+                - button "Assets" [ref=e427] [box=0,112,56,56]
+                - separator [ref=e428] [box=20,176,16,1]
+                - button "Variables" [ref=e429] [box=0,184,56,56]
+              - generic [ref=e430] [box=27,974,1,1]:
+                - status [box=27,974,1,0]
+            - generic [ref=e431] [box=57,0,240,991]:
+              - generic [ref=e432] [box=57,0,241,991]:
+                - generic [ref=e433] [box=57,0,240,65]
+                - generic [ref=e452] [box=57,65,240,926]
+              - slider "Resize handle" [ref=e501] [box=295,0,8,991]
+          - generic [box=0,991,1920,0]:
+            - generic [box=0,0,0,0]:
+              - region "Right sidebar" [box=0,0,0,0]:
+                - generic [ref=e502] [box=1679,0,241,991]
+        - generic [box=0,931,1920,48]:
+          - generic [box=0,0,0,0]:
+            - generic [box=0,0,0,0]:
+              - region "Application toolbar" [box=0,0,0,0]:
+                - toolbar "Editor" [ref=e585] [box=719,931,482,48]
+      - region "Help/zoom toolbar" [ref=e395] [box=0,0,0,0]:
+        - toolbar "Help/zoom toolbar" [ref=e397] [box=1864,939,32,32]:
+          - button "Help" [ref=e399] [box=1864,939,32,32]:
+            - img [box=1865,939,30,32]
+    - group [ref=e401] [box=944,1930,32,40]:
+      - alert [ref=e403] [box=952,1942,16,16]
+      - alert [ref=e405] [box=952,1942,16,16]
+  - iframe [ref=e634] [box=1560,514,360,477]:
+    - iframe [ref=f11e1] [box=0,0,360,477]:
+      - generic [ref=f14e4] [box=15,17,330,445]:
+        - generic [ref=f14e7] [box=32,28,296,423]:
+          - heading "👋 Hi there. Which of the following activities do you do regularly in Figma Design?" [level=1] [ref=f14e10] [box=32,28,255,72]
+          - group [ref=f14e12] [box=32,121,296,272]:
+            - generic [ref=f14e14] [cursor=pointer] [box=32,121,296,48]:
+              - checkbox "Use an existing design system to create or update designs" [ref=f14e15] [box=34,137,16,16]
+              - generic [ref=f14e16] [box=71,121,257,48]: Use an existing design system to create or update designs
+            - generic [ref=f14e18] [cursor=pointer] [box=32,169,296,32]:
+              - checkbox "Implement designs to code" [ref=f14e19] [box=34,177,16,16]
+              - generic [ref=f14e20] [box=71,169,257,32]: Implement designs to code
+            - generic [ref=f14e22] [cursor=pointer] [box=32,201,296,32]:
+              - checkbox "Create branding or graphic design assets" [ref=f14e23] [box=34,209,16,16]
+              - generic [ref=f14e24] [box=71,201,257,32]: Create branding or graphic design assets
+            - generic [ref=f14e26] [cursor=pointer] [box=32,233,296,32]:
+              - checkbox "Make or update prototypes" [ref=f14e27] [box=34,241,16,16]
+              - generic [ref=f14e28] [box=71,233,257,32]: Make or update prototypes
+            - generic [ref=f14e30] [cursor=pointer] [box=32,265,296,32]:
+              - checkbox "Make high fidelity designs or layouts" [ref=f14e31] [box=34,273,16,16]
+              - generic [ref=f14e32] [box=71,265,257,32]: Make high fidelity designs or layouts
+            - generic [ref=f14e34] [cursor=pointer] [box=32,297,296,32]:
+              - checkbox "Maintain or create a design system" [ref=f14e35] [box=34,305,16,16]
+              - generic [ref=f14e36] [box=71,297,257,32]: Maintain or create a design system
+            - generic [ref=f14e38] [cursor=pointer] [box=32,329,296,32]:
+              - checkbox "Make wireframes or low fidelity designs" [ref=f14e39] [box=34,337,16,16]
+              - generic [ref=f14e40] [box=71,329,257,32]: Make wireframes or low fidelity designs
+            - generic [ref=f14e42] [cursor=pointer] [box=32,361,296,32]:
+              - checkbox "None of the above" [ref=f14e43] [box=34,369,16,16]
+              - generic [ref=f14e44] [box=71,361,257,32]: None of the above
+          - button "Next" [disabled] [ref=f14e47] [box=279,421,49,30]
+        - button "Close button" [ref=f14e48] [cursor=pointer] [box=304,26,32,32]

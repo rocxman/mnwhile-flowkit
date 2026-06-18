@@ -1,0 +1,113 @@
+- generic [ref=e5] [box=0,0,1920,991]:
+  - generic [ref=e6] [box=0,0,1920,991]:
+    - generic [ref=e376] [box=0,0,1920,991]:
+      - generic [ref=e409] [box=0,0,1920,991]:
+        - application [ref=e635] [box=0,-200,1,16]
+        - status [ref=e419] [box=0,0,1,1]: Screenreader support for the board is currently disabled. To enable it via Accessibility settings, press Ctrl+K, type Accessibility Settings, and press Enter. To see available keyboard shortcuts, enter Ctrl+Shift+Question mark .
+        - generic [box=298,0,1381,991]:
+          - generic [box=0,0,0,0]:
+            - generic [box=0,0,0,0]:
+              - region "Comments on canvas" [box=0,0,0,0]:
+                - button "Create new comment" [box=998,491,0,0]
+        - region "Left sidebar" [ref=e421] [box=0,0,0,0]:
+          - toolbar "Navigation Bar" [ref=e422] [box=0,0,57,991]:
+            - generic [ref=e423] [box=0,8,56,232]:
+              - button "Main menu" [ref=e424] [box=12,8,32,32]:
+                - img [box=16,12,24,24]
+              - separator [ref=e425] [box=20,48,16,1]
+              - button "File" [expanded] [ref=e426] [box=0,56,56,56]:
+                - generic [box=12,60,32,32]:
+                  - img [box=16,64,24,24]
+                - generic [box=8,94,40,14]: File
+              - button "Assets" [ref=e427] [box=0,112,56,56]:
+                - generic [box=12,116,32,32]:
+                  - img [box=16,120,24,24]
+                - generic [box=8,150,40,14]: Assets
+              - separator [ref=e428] [box=20,176,16,1]
+              - button "Variables" [ref=e429] [box=0,184,56,56]:
+                - generic [box=12,188,32,32]:
+                  - img [box=16,192,24,24]
+                - generic [box=8,222,40,14]: Variables
+            - generic [ref=e430] [box=27,974,1,1]:
+              - status [box=27,974,1,0]
+          - generic [ref=e431] [box=57,0,240,991]:
+            - generic [ref=e432] [box=57,0,241,991]:
+              - generic [ref=e433] [box=57,0,240,65]:
+                - generic [ref=e434] [box=73,8,216,32]:
+                  - generic [ref=e436] [box=69,8,184,32]:
+                    - generic [ref=e438] [box=69,12,60,24]
+                    - button "Edit file menu" [ref=e444] [box=130,12,24,24]
+                  - button "Minimize UI" [ref=e445] [box=257,8,32,32]:
+                    - generic [box=257,8,32,32]
+                - generic [ref=e446] [box=69,40,216,16]:
+                  - link "Team project" [ref=e448] [box=69,40,77,16]:
+                    - /url: https://www.figma.com/files/team/1624150724662290624/project/584717236
+                  - button "Free" [ref=e450] [box=150,40,31,16]:
+                    - generic [ref=e451] [box=150,40,31,16]: Free
+              - generic [ref=e452] [box=57,65,240,926]:
+                - generic [ref=e454] [box=57,65,240,152]:
+                  - heading "Pages Find Add new page" [level=2] [ref=e455] [box=57,65,240,40]:
+                    - generic [ref=e456] [box=57,65,240,40]
+                  - generic [ref=e465] [box=57,105,240,112]:
+                    - generic [ref=e469] [box=57,105,240,104]
+                    - slider "Resize handle" [ref=e488] [box=57,215,240,8]
+                - heading "Layers" [level=2] [ref=e491] [box=57,218,240,40]:
+                  - button "Layers" [expanded] [ref=e493] [box=57,218,232,40]:
+                    - generic [box=73,230,35,16]: Layers
+            - slider "Resize handle" [ref=e501] [box=295,0,8,991]
+        - generic [box=0,991,1920,0]:
+          - generic [box=0,0,0,0]:
+            - region "Right sidebar" [box=0,0,0,0]:
+              - generic [ref=e502] [box=1679,0,241,991]:
+                - generic [ref=e504] [box=1679,0,241,991]:
+                  - generic [ref=e506] [box=1680,0,240,48]:
+                    - button "Multiplayer tools" [ref=e510] [box=1692,12,42,24]
+                    - generic [ref=e516] [box=1804,0,116,48]
+                  - generic [ref=e522] [box=1680,48,240,33]:
+                    - tablist [ref=e524] [box=1688,48,126,24]
+                    - button "100%" [ref=e532] [box=1852,48,60,24]
+                  - generic [ref=e538] [box=1680,81,240,867]:
+                    - generic [ref=e541] [box=1680,81,240,72]
+                    - generic [ref=e568] [box=1680,166,240,40]
+                    - generic [ref=e576] [box=1688,207,224,40]
+                - slider "Resize handle" [ref=e582] [box=1673,0,8,991]
+      - generic [box=0,931,1920,48]:
+        - generic [box=0,0,0,0]:
+          - generic [box=0,0,0,0]:
+            - region "Application toolbar" [box=0,0,0,0]:
+              - toolbar "Editor" [ref=e585] [box=719,931,482,48]:
+                - generic [ref=e591] [box=727,939,357,32]:
+                  - group "Move" [ref=e592] [box=727,939,49,32]:
+                    - button "Move" [pressed] [ref=e593] [box=727,939,32,32]
+                    - button "Move tools" [ref=e594] [box=760,939,16,32]
+                  - group "Frame" [ref=e595] [box=784,939,49,32]:
+                    - button "Frame" [ref=e596] [box=784,939,32,32]
+                    - button "Region tools" [ref=e597] [box=817,939,16,32]
+                  - group "Rectangle" [ref=e598] [box=841,939,49,32]:
+                    - button "Rectangle" [ref=e599] [box=841,939,32,32]
+                    - button "Shape tools" [ref=e600] [box=874,939,16,32]
+                  - group "Pen" [ref=e601] [box=898,939,49,32]:
+                    - button "Pen" [ref=e602] [box=898,939,32,32]
+                    - button "Creation tools" [ref=e603] [box=931,939,16,32]
+                  - group "Text" [ref=e604] [box=955,939,49,32]:
+                    - button "Text" [ref=e605] [box=955,939,32,32]
+                    - button "Type tools" [ref=e606] [box=988,939,16,32]
+                  - button "Comment" [ref=e607] [box=1012,939,32,32]:
+                    - img [box=1016,943,24,24]
+                  - button "Actions" [ref=e608] [box=1052,939,32,32]:
+                    - img [box=1056,943,24,24]
+                - radiogroup "Toolbelt Mode" [ref=e612] [box=1101,939,92,32]:
+                  - generic [ref=e613] [box=1102,940,1,1]: Toolbelt Mode
+                  - generic [ref=e614] [box=1103,941,88,28]:
+                    - generic [ref=e616] [box=1103,941,28,28]
+                    - generic [ref=e622] [box=1133,941,28,28]
+                    - generic [ref=e628] [box=1163,941,28,28]
+    - region "Help/zoom toolbar" [ref=e395] [box=0,0,0,0]:
+      - toolbar "Help/zoom toolbar" [ref=e397] [box=1864,939,32,32]:
+        - button "Help" [ref=e399] [box=1864,939,32,32]:
+          - img [box=1865,939,30,32]
+  - generic [box=0,0,1920,0]:
+    - status [box=0,0,1920,0]
+    - group [ref=e401] [box=944,1930,32,40]:
+      - alert [ref=e403] [box=952,1942,16,16]
+      - alert [ref=e405] [box=952,1942,16,16]

@@ -1,0 +1,101 @@
+- generic [ref=e5] [box=0,0,1920,991]:
+  - generic [ref=e6] [box=0,0,1920,991]:
+    - generic [ref=e8] [box=0,0,1920,991]:
+      - navigation "Sidebar" [ref=e9] [box=0,0,241,991]:
+        - generic [ref=e10] [box=0,0,240,991]:
+          - generic [ref=e11] [box=0,0,240,88]:
+            - generic [ref=e12] [box=8,0,224,40]:
+              - button "Account dropdown for rocxman" [ref=e13] [box=8,8,110,32]:
+                - generic [box=12,12,86,24]
+                - img [box=98,16,16,16]
+              - generic [ref=e15] [box=200,8,32,32]:
+                - generic [ref=e16] [box=199,7,1,1]
+                - button "Notifications" [ref=e17] [box=200,8,32,32]
+            - generic [ref=e22] [box=8,48,224,32]:
+              - img [ref=e24] [box=14,52,24,24]
+              - combobox "Search" [ref=e27] [box=42,56,152,16]
+          - generic [ref=e33] [box=0,88,240,729]:
+            - list [ref=e34] [box=0,88,240,64]:
+              - listitem [ref=e35] [box=0,88,240,32]:
+                - button "Recents" [ref=e36] [box=0,88,240,32]
+              - button "Community" [ref=e37] [box=0,120,240,32]:
+                - generic [box=8,122,224,28]
+            - generic [ref=e40] [box=0,171,232,32]:
+              - 'button "Plan: rocxxman''s team" [ref=e41] [box=8,171,165,32]':
+                - generic [box=12,175,137,24]
+                - img [box=149,175,24,24]
+              - button "Change plan. rocxxman's team currently on Free plan" [ref=e43] [box=177,179,35,16]:
+                - generic [ref=e44] [box=177,179,35,16]: Free
+            - list [ref=e45] [box=0,205,240,128]:
+              - listitem [ref=e47] [box=0,205,240,32]:
+                - generic [ref=e48] [box=0,205,240,32]
+              - listitem [ref=e53] [box=0,237,240,32]:
+                - button "All projects" [ref=e54] [box=0,237,240,32]
+              - button "Resources" [ref=e55] [box=0,269,240,32]:
+                - generic [box=8,271,224,28]
+              - listitem [ref=e56] [box=0,301,240,32]:
+                - button "Trash" [ref=e57] [box=0,301,240,32]
+            - button "See what’s included Your plan and usage" [ref=e59] [cursor=pointer] [box=12,341,216,58]:
+              - generic [box=25,354,107,32]:
+                - generic [box=25,354,107,16]: See what’s included
+                - generic [box=25,370,107,16]: Your plan and usage
+              - img [box=195,358,24,24]
+            - button "Starred" [active] [ref=e65] [box=0,424,240,32]:
+              - generic [box=0,432,16,16]:
+                - img [box=0,432,16,16]
+              - generic [box=16,432,40,16]: Starred
+          - generic [ref=e81] [box=16,829,208,152]:
+            - img [ref=e82] [box=108,845,24,24]
+            - paragraph [ref=e85] [box=32,881,176,48]: Ready to go beyond this free plan? Upgrade for premium features.
+            - button "View plans" [ref=e86] [box=32,941,176,24]:
+              - generic [box=32,941,176,24]:
+                - generic [box=32,941,176,24]
+      - generic [ref=e87] [box=241,0,1679,991]:
+        - generic [ref=e91] [box=273,0,1600,48]:
+          - heading "Recents" [level=1] [ref=e93] [box=273,13,49,22]
+          - generic [ref=e96] [box=1282,8,591,32]:
+            - button "New Design file" [ref=e98] [box=1282,8,91,32]:
+              - generic [box=1282,8,91,32]:
+                - generic [box=1282,8,91,32]
+            - button "New FigJam file" [ref=e100] [box=1381,8,93,32]:
+              - generic [box=1381,8,93,32]:
+                - generic [box=1381,8,93,32]
+            - button "New Slides file" [ref=e102] [box=1482,8,87,32]:
+              - generic [box=1482,8,87,32]:
+                - generic [box=1482,8,87,32]
+            - button "New Make file" [ref=e104] [box=1577,8,84,32]:
+              - generic [box=1577,8,84,32]:
+                - generic [box=1577,8,84,32]
+            - button "New Buzz file" [ref=e106] [box=1669,8,81,32]:
+              - generic [box=1669,8,81,32]:
+                - generic [box=1669,8,81,32]
+            - button "New Site file" [ref=e108] [box=1758,8,75,32]:
+              - generic [box=1758,8,75,32]:
+                - generic [box=1758,8,75,32]
+            - button "Import" [ref=e109] [box=1841,8,32,32]:
+              - generic [box=1841,8,32,32]:
+                - generic [box=1841,8,32,32]
+        - generic [box=241,49,1664,64]:
+          - generic [box=273,49,1598,64]:
+            - generic [box=273,49,1598,64]:
+              - tablist [ref=e111] [box=273,69,291,24]:
+                - tab "Recently viewed" [selected] [ref=e112] [box=273,69,104,24]
+                - tab "Shared files" [ref=e115] [box=381,69,79,24]
+                - tab "Shared projects" [ref=e118] [box=464,69,100,24]
+              - generic [ref=e121] [box=1534,69,337,24]:
+                - generic [ref=e122] [box=1534,69,185,24]
+                - generic [ref=e127] [box=1728,69,143,24]
+        - main [ref=e149] [box=241,113,1664,878]:
+          - tabpanel "Recently viewed" [ref=e150] [box=241,113,1664,259]:
+            - list [ref=e156] [box=243,115,1660,257]:
+              - group "E-Commerce UI/UX Workflow Board" [ref=e159] [box=275,115,294,225]:
+                - button "E-Commerce UI/UX Workflow Board" [ref=e160] [box=275,115,294,225]
+                - generic [box=275,115,294,225]
+    - toolbar "Help/zoom toolbar" [ref=e182] [box=1864,939,32,32]:
+      - button "Help" [ref=e184] [box=1864,939,32,32]:
+        - img [box=1865,939,30,32]
+  - generic [box=0,0,1920,0]:
+    - status [box=0,0,1920,0]
+    - group [ref=e187] [box=1064,1942,32,40]:
+      - alert [ref=e189] [box=1072,1954,16,16]
+      - alert [ref=e191] [box=1072,1954,16,16]
